@@ -6,7 +6,6 @@ const CommandLineUsage = require('command-line-usage');
 const File = require('ruby-nice/file');
 
 var RvmCliTools = require('./../_tools');
-var RvmCliCurrent = require('./_current');
 const {execSync} = require("child_process");
 
 const octokit_rest = new Octokit({

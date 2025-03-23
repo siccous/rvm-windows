@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const Fs = require('fs');
 const File = require('ruby-nice/file');
 const FileUtils = require('ruby-nice/file-utils');
 const { execSync } = require('child_process');

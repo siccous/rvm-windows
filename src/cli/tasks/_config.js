@@ -1,12 +1,7 @@
 #!/usr/bin/env node
-const {execSync} = require('child_process');
-const Fs = require('fs');
-const File = require('ruby-nice/file');
 
 var RvmCliTools = require('./../_tools');
 const Chalk = require("chalk");
-const RvmCliUse = require("./_use");
-const RvmCliFix = require("./_fix");
 
 class RvmCliConfig {
     static runConfig() {

@@ -1,10 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const https = require('https');
 const File = require('ruby-nice/file');
 const FileUtils = require('ruby-nice/file-utils');
-const Path = require("path");
 const {execSync} = require('child_process');
 const {finished} = require('stream/promises');
 const {Readable} = require('stream');

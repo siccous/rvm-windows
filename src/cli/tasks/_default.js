@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-const Chalk = require('chalk');
-
 var RvmCliUse = require('./_use');
 
 class RvmCliDefault {

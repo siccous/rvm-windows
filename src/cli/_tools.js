@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const Chalk = require('chalk');
-const CommandLineUsage = require('command-line-usage');
 const { execSync } = require('child_process');
 const Prompt = require('prompt-sync')();
 const Path = require('path');
@@ -9,10 +8,8 @@ const Fs = require('fs');
 const Fse = require('fs-extra');
 const RvmCliVersion = require('./tasks/_version');
 const File = require('ruby-nice/file');
-const Dir = require('ruby-nice/dir');
-const System = require('ruby-nice/system');
 const Typifier = require('typifier');
-const {fetch, ProxyAgent} = require("undici");
+// const {fetch, ProxyAgent} = require("undici");
 
 class RvmCliTools {
 
@@ -459,23 +456,23 @@ class RvmCliTools {
         return string.replace(/[$+.*?^(){}|[\]\\]/g, '\\$&');
     }
 
-    static fetchWithProxy(url, opts) {
-        const self = RvmCliTools;
-        let final_opts = {};
-        if(RvmCliTools.config().proxy?.enabled && RvmCliTools.config().proxy?.hostname) {
-            final_opts = {
-                ...opts,
-                dispatcher: new ProxyAgent({
-                    uri: process.env.HTTPS_PROXY || self.config().proxy.hostname,
-                    keepAliveTimeout: 10,
-                    keepAliveMaxTimeout: 10,
-                }),
-            };
-        } else {
-            final_opts = opts;
-        }
-        return fetch(url, final_opts);
-    }
+    // static fetchWithProxy(url, opts) {
+    //     const self = RvmCliTools;
+    //     let final_opts = {};
+    //     if(RvmCliTools.config().proxy?.enabled && RvmCliTools.config().proxy?.hostname) {
+    //         final_opts = {
+    //             ...opts,
+    //             dispatcher: new ProxyAgent({
+    //                 uri: process.env.HTTPS_PROXY || self.config().proxy.hostname,
+    //                 keepAliveTimeout: 10,
+    //                 keepAliveMaxTimeout: 10,
+    //             }),
+    //         };
+    //     } else {
+    //         final_opts = opts;
+    //     }
+    //     return fetch(url, final_opts);
+    // }
 
     /**
      * Sorting string version in format 1.2.3

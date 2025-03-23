@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
 const File = require('ruby-nice/file');
 
-var RvmCliTools = require('./../_tools');
 
 class RvmCliVersion {
     static runVersion() {

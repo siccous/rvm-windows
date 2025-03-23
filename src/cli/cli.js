@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const commandLineArgs = require('command-line-args');
-const chalk = require('chalk');
 
 const RvmCliTools = require('./_tools');
 const RvmCliHelp = require('./tasks/_help');

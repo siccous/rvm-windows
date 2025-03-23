@@ -1,14 +1,9 @@
 #!/usr/bin/env node
 
-const FileUtils = require('ruby-nice/file-utils');
 const Chalk = require('chalk');
 
 const RvmCliTools = require('./../_tools');
-const RvmCliUninstall = require('./_uninstall');
 const RvmCliInstall = require('./_install');
-const Dir = require("ruby-nice/dir");
-const File = require("ruby-nice/file");
-const RvmCliUse = require("./_use");
 const RvmCliList = require("./_list");
 
 

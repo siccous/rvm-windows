@@ -1,8 +1,6 @@
 const File = require("ruby-nice/file");
 
 const RvmCliTools = require('./_tools');
-const RvmCliUse = require('./tasks/_use');
-const RvmCliList = require('./tasks/_list');
 
 class Wrapper {
     /**
