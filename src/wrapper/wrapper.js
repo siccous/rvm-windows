@@ -40,15 +40,8 @@ try {
     })
     console.log(stdout.trim());
 } catch (err) {
-    if (err.code) {
-        // Spawning child process failed
-        console.error(err.code);
-    } else {
-        // Child was spawned but exited with non-zero exit code
-        // Error contains any stdout and stderr from the child
-        const { stdout, stderr } = err;
-        console.error({ stdout, stderr });
-    }
+    console.log(err.stderr.trim());
+    process.exit(err.status);
 }
 
 // Refresh wrapper files after installing gems, to ensure new commands are available

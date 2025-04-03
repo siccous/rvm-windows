@@ -16,10 +16,12 @@
     "node": ">=18.0.0"
   },
   "os": [
-    "win32","win64"
+    "win32",
+    "win64"
   ],
   "cpu": [
-    "x64","!arm"
+    "x64",
+    "!arm"
   ],
   "scripts": {
     "cli": "node src/cli/cli.js",
@@ -51,6 +53,7 @@
     "jasmine": "^5.1.0",
     "jasmine-core": "^3.10.1",
     "lucky-case": "^1.1.8",
+    "ncc": "^0.3.6",
     "node-fetch": "^2.7.0",
     "prompt-sync": "^4.2.0",
     "ruby-nice": "^0.3.2",

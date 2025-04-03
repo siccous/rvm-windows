@@ -1,1 +1,13100 @@
-#!/usr/bin/env node(()=>{var __webpack_modules__={5597:e=>{"use strict";e.exports=e=>{e=Object.assign({onlyFirst:false},e);const t=["[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)","(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))"].join("|");return new RegExp(t,e.onlyFirst?undefined:"g")}},6916:(e,t,n)=>{"use strict";e=n.nmd(e);const wrapAnsi16=(e,t)=>(...n)=>{const i=e(...n);return`[${i+t}m`};const wrapAnsi256=(e,t)=>(...n)=>{const i=e(...n);return`[${38+t};5;${i}m`};const wrapAnsi16m=(e,t)=>(...n)=>{const i=e(...n);return`[${38+t};2;${i[0]};${i[1]};${i[2]}m`};const ansi2ansi=e=>e;const rgb2rgb=(e,t,n)=>[e,t,n];const setLazyProperty=(e,t,n)=>{Object.defineProperty(e,t,{get:()=>{const i=n();Object.defineProperty(e,t,{value:i,enumerable:true,configurable:true});return i},enumerable:true,configurable:true})};let i;const makeDynamicStyles=(e,t,r,a)=>{if(i===undefined){i=n(9329)}const o=a?10:0;const c={};for(const[n,a]of Object.entries(i)){const i=n==="ansi16"?"ansi":n;if(n===t){c[i]=e(r,o)}else if(typeof a==="object"){c[i]=e(a[t],o)}}return c};function assembleStyles(){const e=new Map;const t={modifier:{reset:[0,0],bold:[1,22],dim:[2,22],italic:[3,23],underline:[4,24],inverse:[7,27],hidden:[8,28],strikethrough:[9,29]},color:{black:[30,39],red:[31,39],green:[32,39],yellow:[33,39],blue:[34,39],magenta:[35,39],cyan:[36,39],white:[37,39],blackBright:[90,39],redBright:[91,39],greenBright:[92,39],yellowBright:[93,39],blueBright:[94,39],magentaBright:[95,39],cyanBright:[96,39],whiteBright:[97,39]},bgColor:{bgBlack:[40,49],bgRed:[41,49],bgGreen:[42,49],bgYellow:[43,49],bgBlue:[44,49],bgMagenta:[45,49],bgCyan:[46,49],bgWhite:[47,49],bgBlackBright:[100,49],bgRedBright:[101,49],bgGreenBright:[102,49],bgYellowBright:[103,49],bgBlueBright:[104,49],bgMagentaBright:[105,49],bgCyanBright:[106,49],bgWhiteBright:[107,49]}};t.color.gray=t.color.blackBright;t.bgColor.bgGray=t.bgColor.bgBlackBright;t.color.grey=t.color.blackBright;t.bgColor.bgGrey=t.bgColor.bgBlackBright;for(const[n,i]of Object.entries(t)){for(const[n,r]of Object.entries(i)){t[n]={open:`[${r[0]}m`,close:`[${r[1]}m`};i[n]=t[n];e.set(r[0],r[1])}Object.defineProperty(t,n,{value:i,enumerable:false})}Object.defineProperty(t,"codes",{value:e,enumerable:false});t.color.close="[39m";t.bgColor.close="[49m";setLazyProperty(t.color,"ansi",(()=>makeDynamicStyles(wrapAnsi16,"ansi16",ansi2ansi,false)));setLazyProperty(t.color,"ansi256",(()=>makeDynamicStyles(wrapAnsi256,"ansi256",ansi2ansi,false)));setLazyProperty(t.color,"ansi16m",(()=>makeDynamicStyles(wrapAnsi16m,"rgb",rgb2rgb,false)));setLazyProperty(t.bgColor,"ansi",(()=>makeDynamicStyles(wrapAnsi16,"ansi16",ansi2ansi,true)));setLazyProperty(t.bgColor,"ansi256",(()=>makeDynamicStyles(wrapAnsi256,"ansi256",ansi2ansi,true)));setLazyProperty(t.bgColor,"ansi16m",(()=>makeDynamicStyles(wrapAnsi16m,"rgb",rgb2rgb,true)));return t}Object.defineProperty(e,"exports",{enumerable:true,get:assembleStyles})},7644:e=>{"use strict";e.exports=balanced;function balanced(e,t,n){if(e instanceof RegExp)e=maybeMatch(e,n);if(t instanceof RegExp)t=maybeMatch(t,n);var i=range(e,t,n);return i&&{start:i[0],end:i[1],pre:n.slice(0,i[0]),body:n.slice(i[0]+e.length,i[1]),post:n.slice(i[1]+t.length)}}function maybeMatch(e,t){var n=t.match(e);return n?n[0]:null}balanced.range=range;function range(e,t,n){var i,r,a,o,c;var l=n.indexOf(e);var u=n.indexOf(t,l+1);var p=l;if(l>=0&&u>0){if(e===t){return[l,u]}i=[];a=n.length;while(p>=0&&!c){if(p==l){i.push(p);l=n.indexOf(e,p+1)}else if(i.length==1){c=[i.pop(),u]}else{r=i.pop();if(r<a){a=r;o=u}u=n.indexOf(t,p+1)}p=l<u&&l>=0?l:u}if(i.length){c=[a,o]}}return c}},2041:(e,t,n)=>{"use strict";const i=n(6916);const{stdout:r,stderr:a}=n(7010);const{stringReplaceAll:o,stringEncaseCRLFWithFirstIndex:c}=n(3089);const{isArray:l}=Array;const u=["ansi","ansi","ansi256","ansi16m"];const p=Object.create(null);const applyOptions=(e,t={})=>{if(t.level&&!(Number.isInteger(t.level)&&t.level>=0&&t.level<=3)){throw new Error("The `level` option should be an integer from 0 to 3")}const n=r?r.level:0;e.level=t.level===undefined?n:t.level};class ChalkClass{constructor(e){return chalkFactory(e)}}const chalkFactory=e=>{const t={};applyOptions(t,e);t.template=(...e)=>chalkTag(t.template,...e);Object.setPrototypeOf(t,Chalk.prototype);Object.setPrototypeOf(t.template,t);t.template.constructor=()=>{throw new Error("`chalk.constructor()` is deprecated. Use `new chalk.Instance()` instead.")};t.template.Instance=ChalkClass;return t.template};function Chalk(e){return chalkFactory(e)}for(const[e,t]of Object.entries(i)){p[e]={get(){const n=createBuilder(this,createStyler(t.open,t.close,this._styler),this._isEmpty);Object.defineProperty(this,e,{value:n});return n}}}p.visible={get(){const e=createBuilder(this,this._styler,true);Object.defineProperty(this,"visible",{value:e});return e}};const d=["rgb","hex","keyword","hsl","hsv","hwb","ansi","ansi256"];for(const e of d){p[e]={get(){const{level:t}=this;return function(...n){const r=createStyler(i.color[u[t]][e](...n),i.color.close,this._styler);return createBuilder(this,r,this._isEmpty)}}}}for(const e of d){const t="bg"+e[0].toUpperCase()+e.slice(1);p[t]={get(){const{level:t}=this;return function(...n){const r=createStyler(i.bgColor[u[t]][e](...n),i.bgColor.close,this._styler);return createBuilder(this,r,this._isEmpty)}}}}const h=Object.defineProperties((()=>{}),{...p,level:{enumerable:true,get(){return this._generator.level},set(e){this._generator.level=e}}});const createStyler=(e,t,n)=>{let i;let r;if(n===undefined){i=e;r=t}else{i=n.openAll+e;r=t+n.closeAll}return{open:e,close:t,openAll:i,closeAll:r,parent:n}};const createBuilder=(e,t,n)=>{const builder=(...e)=>{if(l(e[0])&&l(e[0].raw)){return applyStyle(builder,chalkTag(builder,...e))}return applyStyle(builder,e.length===1?""+e[0]:e.join(" "))};Object.setPrototypeOf(builder,h);builder._generator=e;builder._styler=t;builder._isEmpty=n;return builder};const applyStyle=(e,t)=>{if(e.level<=0||!t){return e._isEmpty?"":t}let n=e._styler;if(n===undefined){return t}const{openAll:i,closeAll:r}=n;if(t.indexOf("")!==-1){while(n!==undefined){t=o(t,n.close,n.open);n=n.parent}}const a=t.indexOf("\n");if(a!==-1){t=c(t,r,i,a)}return i+t+r};let v;const chalkTag=(e,...t)=>{const[i]=t;if(!l(i)||!l(i.raw)){return t.join(" ")}const r=t.slice(1);const a=[i.raw[0]];for(let e=1;e<i.length;e++){a.push(String(r[e-1]).replace(/[{}\\]/g,"\\$&"),String(i.raw[e]))}if(v===undefined){v=n(2598)}return v(e,a.join(""))};Object.defineProperties(Chalk.prototype,p);const g=Chalk();g.supportsColor=r;g.stderr=Chalk({level:a?a.level:0});g.stderr.supportsColor=a;e.exports=g},2598:e=>{"use strict";const t=/(?:\\(u(?:[a-f\d]{4}|\{[a-f\d]{1,6}\})|x[a-f\d]{2}|.))|(?:\{(~)?(\w+(?:\([^)]*\))?(?:\.\w+(?:\([^)]*\))?)*)(?:[ \t]|(?=\r?\n)))|(\})|((?:.|[\r\n\f])+?)/gi;const n=/(?:^|\.)(\w+)(?:\(([^)]*)\))?/g;const i=/^(['"])((?:\\.|(?!\1)[^\\])*)\1$/;const r=/\\(u(?:[a-f\d]{4}|{[a-f\d]{1,6}})|x[a-f\d]{2}|.)|([^\\])/gi;const a=new Map([["n","\n"],["r","\r"],["t","\t"],["b","\b"],["f","\f"],["v","\v"],["0","\0"],["\\","\\"],["e",""],["a",""]]);function unescape(e){const t=e[0]==="u";const n=e[1]==="{";if(t&&!n&&e.length===5||e[0]==="x"&&e.length===3){return String.fromCharCode(parseInt(e.slice(1),16))}if(t&&n){return String.fromCodePoint(parseInt(e.slice(2,-1),16))}return a.get(e)||e}function parseArguments(e,t){const n=[];const a=t.trim().split(/\s*,\s*/g);let o;for(const t of a){const a=Number(t);if(!Number.isNaN(a)){n.push(a)}else if(o=t.match(i)){n.push(o[2].replace(r,((e,t,n)=>t?unescape(t):n)))}else{throw new Error(`Invalid Chalk template style argument: ${t} (in style '${e}')`)}}return n}function parseStyle(e){n.lastIndex=0;const t=[];let i;while((i=n.exec(e))!==null){const e=i[1];if(i[2]){const n=parseArguments(e,i[2]);t.push([e].concat(n))}else{t.push([e])}}return t}function buildStyle(e,t){const n={};for(const e of t){for(const t of e.styles){n[t[0]]=e.inverse?null:t.slice(1)}}let i=e;for(const[e,t]of Object.entries(n)){if(!Array.isArray(t)){continue}if(!(e in i)){throw new Error(`Unknown Chalk style: ${e}`)}i=t.length>0?i[e](...t):i[e]}return i}e.exports=(e,n)=>{const i=[];const r=[];let a=[];n.replace(t,((t,n,o,c,l,u)=>{if(n){a.push(unescape(n))}else if(c){const t=a.join("");a=[];r.push(i.length===0?t:buildStyle(e,i)(t));i.push({inverse:o,styles:parseStyle(c)})}else if(l){if(i.length===0){throw new Error("Found extraneous } in Chalk template literal")}r.push(buildStyle(e,i)(a.join("")));a=[];i.pop()}else{a.push(u)}}));r.push(a.join(""));if(i.length>0){const e=`Chalk template literal is missing ${i.length} closing bracket${i.length===1?"":"s"} (\`}\`)`;throw new Error(e)}return r.join("")}},3089:e=>{"use strict";const stringReplaceAll=(e,t,n)=>{let i=e.indexOf(t);if(i===-1){return e}const r=t.length;let a=0;let o="";do{o+=e.substr(a,i-a)+t+n;a=i+r;i=e.indexOf(t,a)}while(i!==-1);o+=e.substr(a);return o};const stringEncaseCRLFWithFirstIndex=(e,t,n,i)=>{let r=0;let a="";do{const o=e[i-1]==="\r";a+=e.substr(r,(o?i-1:i)-r)+t+(o?"\r\n":"\n")+n;r=i+1;i=e.indexOf("\n",r)}while(i!==-1);a+=e.substr(r);return a};e.exports={stringReplaceAll:stringReplaceAll,stringEncaseCRLFWithFirstIndex:stringEncaseCRLFWithFirstIndex}},4128:(e,t,n)=>{const i=n(8209);const r={};for(const e of Object.keys(i)){r[i[e]]=e}const a={rgb:{channels:3,labels:"rgb"},hsl:{channels:3,labels:"hsl"},hsv:{channels:3,labels:"hsv"},hwb:{channels:3,labels:"hwb"},cmyk:{channels:4,labels:"cmyk"},xyz:{channels:3,labels:"xyz"},lab:{channels:3,labels:"lab"},lch:{channels:3,labels:"lch"},hex:{channels:1,labels:["hex"]},keyword:{channels:1,labels:["keyword"]},ansi16:{channels:1,labels:["ansi16"]},ansi256:{channels:1,labels:["ansi256"]},hcg:{channels:3,labels:["h","c","g"]},apple:{channels:3,labels:["r16","g16","b16"]},gray:{channels:1,labels:["gray"]}};e.exports=a;for(const e of Object.keys(a)){if(!("channels"in a[e])){throw new Error("missing channels property: "+e)}if(!("labels"in a[e])){throw new Error("missing channel labels property: "+e)}if(a[e].labels.length!==a[e].channels){throw new Error("channel and label counts mismatch: "+e)}const{channels:t,labels:n}=a[e];delete a[e].channels;delete a[e].labels;Object.defineProperty(a[e],"channels",{value:t});Object.defineProperty(a[e],"labels",{value:n})}a.rgb.hsl=function(e){const t=e[0]/255;const n=e[1]/255;const i=e[2]/255;const r=Math.min(t,n,i);const a=Math.max(t,n,i);const o=a-r;let c;let l;if(a===r){c=0}else if(t===a){c=(n-i)/o}else if(n===a){c=2+(i-t)/o}else if(i===a){c=4+(t-n)/o}c=Math.min(c*60,360);if(c<0){c+=360}const u=(r+a)/2;if(a===r){l=0}else if(u<=.5){l=o/(a+r)}else{l=o/(2-a-r)}return[c,l*100,u*100]};a.rgb.hsv=function(e){let t;let n;let i;let r;let a;const o=e[0]/255;const c=e[1]/255;const l=e[2]/255;const u=Math.max(o,c,l);const p=u-Math.min(o,c,l);const diffc=function(e){return(u-e)/6/p+1/2};if(p===0){r=0;a=0}else{a=p/u;t=diffc(o);n=diffc(c);i=diffc(l);if(o===u){r=i-n}else if(c===u){r=1/3+t-i}else if(l===u){r=2/3+n-t}if(r<0){r+=1}else if(r>1){r-=1}}return[r*360,a*100,u*100]};a.rgb.hwb=function(e){const t=e[0];const n=e[1];let i=e[2];const r=a.rgb.hsl(e)[0];const o=1/255*Math.min(t,Math.min(n,i));i=1-1/255*Math.max(t,Math.max(n,i));return[r,o*100,i*100]};a.rgb.cmyk=function(e){const t=e[0]/255;const n=e[1]/255;const i=e[2]/255;const r=Math.min(1-t,1-n,1-i);const a=(1-t-r)/(1-r)||0;const o=(1-n-r)/(1-r)||0;const c=(1-i-r)/(1-r)||0;return[a*100,o*100,c*100,r*100]};function comparativeDistance(e,t){return(e[0]-t[0])**2+(e[1]-t[1])**2+(e[2]-t[2])**2}a.rgb.keyword=function(e){const t=r[e];if(t){return t}let n=Infinity;let a;for(const t of Object.keys(i)){const r=i[t];const o=comparativeDistance(e,r);if(o<n){n=o;a=t}}return a};a.keyword.rgb=function(e){return i[e]};a.rgb.xyz=function(e){let t=e[0]/255;let n=e[1]/255;let i=e[2]/255;t=t>.04045?((t+.055)/1.055)**2.4:t/12.92;n=n>.04045?((n+.055)/1.055)**2.4:n/12.92;i=i>.04045?((i+.055)/1.055)**2.4:i/12.92;const r=t*.4124+n*.3576+i*.1805;const a=t*.2126+n*.7152+i*.0722;const o=t*.0193+n*.1192+i*.9505;return[r*100,a*100,o*100]};a.rgb.lab=function(e){const t=a.rgb.xyz(e);let n=t[0];let i=t[1];let r=t[2];n/=95.047;i/=100;r/=108.883;n=n>.008856?n**(1/3):7.787*n+16/116;i=i>.008856?i**(1/3):7.787*i+16/116;r=r>.008856?r**(1/3):7.787*r+16/116;const o=116*i-16;const c=500*(n-i);const l=200*(i-r);return[o,c,l]};a.hsl.rgb=function(e){const t=e[0]/360;const n=e[1]/100;const i=e[2]/100;let r;let a;let o;if(n===0){o=i*255;return[o,o,o]}if(i<.5){r=i*(1+n)}else{r=i+n-i*n}const c=2*i-r;const l=[0,0,0];for(let e=0;e<3;e++){a=t+1/3*-(e-1);if(a<0){a++}if(a>1){a--}if(6*a<1){o=c+(r-c)*6*a}else if(2*a<1){o=r}else if(3*a<2){o=c+(r-c)*(2/3-a)*6}else{o=c}l[e]=o*255}return l};a.hsl.hsv=function(e){const t=e[0];let n=e[1]/100;let i=e[2]/100;let r=n;const a=Math.max(i,.01);i*=2;n*=i<=1?i:2-i;r*=a<=1?a:2-a;const o=(i+n)/2;const c=i===0?2*r/(a+r):2*n/(i+n);return[t,c*100,o*100]};a.hsv.rgb=function(e){const t=e[0]/60;const n=e[1]/100;let i=e[2]/100;const r=Math.floor(t)%6;const a=t-Math.floor(t);const o=255*i*(1-n);const c=255*i*(1-n*a);const l=255*i*(1-n*(1-a));i*=255;switch(r){case 0:return[i,l,o];case 1:return[c,i,o];case 2:return[o,i,l];case 3:return[o,c,i];case 4:return[l,o,i];case 5:return[i,o,c]}};a.hsv.hsl=function(e){const t=e[0];const n=e[1]/100;const i=e[2]/100;const r=Math.max(i,.01);let a;let o;o=(2-n)*i;const c=(2-n)*r;a=n*r;a/=c<=1?c:2-c;a=a||0;o/=2;return[t,a*100,o*100]};a.hwb.rgb=function(e){const t=e[0]/360;let n=e[1]/100;let i=e[2]/100;const r=n+i;let a;if(r>1){n/=r;i/=r}const o=Math.floor(6*t);const c=1-i;a=6*t-o;if((o&1)!==0){a=1-a}const l=n+a*(c-n);let u;let p;let d;switch(o){default:case 6:case 0:u=c;p=l;d=n;break;case 1:u=l;p=c;d=n;break;case 2:u=n;p=c;d=l;break;case 3:u=n;p=l;d=c;break;case 4:u=l;p=n;d=c;break;case 5:u=c;p=n;d=l;break}return[u*255,p*255,d*255]};a.cmyk.rgb=function(e){const t=e[0]/100;const n=e[1]/100;const i=e[2]/100;const r=e[3]/100;const a=1-Math.min(1,t*(1-r)+r);const o=1-Math.min(1,n*(1-r)+r);const c=1-Math.min(1,i*(1-r)+r);return[a*255,o*255,c*255]};a.xyz.rgb=function(e){const t=e[0]/100;const n=e[1]/100;const i=e[2]/100;let r;let a;let o;r=t*3.2406+n*-1.5372+i*-.4986;a=t*-.9689+n*1.8758+i*.0415;o=t*.0557+n*-.204+i*1.057;r=r>.0031308?1.055*r**(1/2.4)-.055:r*12.92;a=a>.0031308?1.055*a**(1/2.4)-.055:a*12.92;o=o>.0031308?1.055*o**(1/2.4)-.055:o*12.92;r=Math.min(Math.max(0,r),1);a=Math.min(Math.max(0,a),1);o=Math.min(Math.max(0,o),1);return[r*255,a*255,o*255]};a.xyz.lab=function(e){let t=e[0];let n=e[1];let i=e[2];t/=95.047;n/=100;i/=108.883;t=t>.008856?t**(1/3):7.787*t+16/116;n=n>.008856?n**(1/3):7.787*n+16/116;i=i>.008856?i**(1/3):7.787*i+16/116;const r=116*n-16;const a=500*(t-n);const o=200*(n-i);return[r,a,o]};a.lab.xyz=function(e){const t=e[0];const n=e[1];const i=e[2];let r;let a;let o;a=(t+16)/116;r=n/500+a;o=a-i/200;const c=a**3;const l=r**3;const u=o**3;a=c>.008856?c:(a-16/116)/7.787;r=l>.008856?l:(r-16/116)/7.787;o=u>.008856?u:(o-16/116)/7.787;r*=95.047;a*=100;o*=108.883;return[r,a,o]};a.lab.lch=function(e){const t=e[0];const n=e[1];const i=e[2];let r;const a=Math.atan2(i,n);r=a*360/2/Math.PI;if(r<0){r+=360}const o=Math.sqrt(n*n+i*i);return[t,o,r]};a.lch.lab=function(e){const t=e[0];const n=e[1];const i=e[2];const r=i/360*2*Math.PI;const a=n*Math.cos(r);const o=n*Math.sin(r);return[t,a,o]};a.rgb.ansi16=function(e,t=null){const[n,i,r]=e;let o=t===null?a.rgb.hsv(e)[2]:t;o=Math.round(o/50);if(o===0){return 30}let c=30+(Math.round(r/255)<<2|Math.round(i/255)<<1|Math.round(n/255));if(o===2){c+=60}return c};a.hsv.ansi16=function(e){return a.rgb.ansi16(a.hsv.rgb(e),e[2])};a.rgb.ansi256=function(e){const t=e[0];const n=e[1];const i=e[2];if(t===n&&n===i){if(t<8){return 16}if(t>248){return 231}return Math.round((t-8)/247*24)+232}const r=16+36*Math.round(t/255*5)+6*Math.round(n/255*5)+Math.round(i/255*5);return r};a.ansi16.rgb=function(e){let t=e%10;if(t===0||t===7){if(e>50){t+=3.5}t=t/10.5*255;return[t,t,t]}const n=(~~(e>50)+1)*.5;const i=(t&1)*n*255;const r=(t>>1&1)*n*255;const a=(t>>2&1)*n*255;return[i,r,a]};a.ansi256.rgb=function(e){if(e>=232){const t=(e-232)*10+8;return[t,t,t]}e-=16;let t;const n=Math.floor(e/36)/5*255;const i=Math.floor((t=e%36)/6)/5*255;const r=t%6/5*255;return[n,i,r]};a.rgb.hex=function(e){const t=((Math.round(e[0])&255)<<16)+((Math.round(e[1])&255)<<8)+(Math.round(e[2])&255);const n=t.toString(16).toUpperCase();return"000000".substring(n.length)+n};a.hex.rgb=function(e){const t=e.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);if(!t){return[0,0,0]}let n=t[0];if(t[0].length===3){n=n.split("").map((e=>e+e)).join("")}const i=parseInt(n,16);const r=i>>16&255;const a=i>>8&255;const o=i&255;return[r,a,o]};a.rgb.hcg=function(e){const t=e[0]/255;const n=e[1]/255;const i=e[2]/255;const r=Math.max(Math.max(t,n),i);const a=Math.min(Math.min(t,n),i);const o=r-a;let c;let l;if(o<1){c=a/(1-o)}else{c=0}if(o<=0){l=0}else if(r===t){l=(n-i)/o%6}else if(r===n){l=2+(i-t)/o}else{l=4+(t-n)/o}l/=6;l%=1;return[l*360,o*100,c*100]};a.hsl.hcg=function(e){const t=e[1]/100;const n=e[2]/100;const i=n<.5?2*t*n:2*t*(1-n);let r=0;if(i<1){r=(n-.5*i)/(1-i)}return[e[0],i*100,r*100]};a.hsv.hcg=function(e){const t=e[1]/100;const n=e[2]/100;const i=t*n;let r=0;if(i<1){r=(n-i)/(1-i)}return[e[0],i*100,r*100]};a.hcg.rgb=function(e){const t=e[0]/360;const n=e[1]/100;const i=e[2]/100;if(n===0){return[i*255,i*255,i*255]}const r=[0,0,0];const a=t%1*6;const o=a%1;const c=1-o;let l=0;switch(Math.floor(a)){case 0:r[0]=1;r[1]=o;r[2]=0;break;case 1:r[0]=c;r[1]=1;r[2]=0;break;case 2:r[0]=0;r[1]=1;r[2]=o;break;case 3:r[0]=0;r[1]=c;r[2]=1;break;case 4:r[0]=o;r[1]=0;r[2]=1;break;default:r[0]=1;r[1]=0;r[2]=c}l=(1-n)*i;return[(n*r[0]+l)*255,(n*r[1]+l)*255,(n*r[2]+l)*255]};a.hcg.hsv=function(e){const t=e[1]/100;const n=e[2]/100;const i=t+n*(1-t);let r=0;if(i>0){r=t/i}return[e[0],r*100,i*100]};a.hcg.hsl=function(e){const t=e[1]/100;const n=e[2]/100;const i=n*(1-t)+.5*t;let r=0;if(i>0&&i<.5){r=t/(2*i)}else if(i>=.5&&i<1){r=t/(2*(1-i))}return[e[0],r*100,i*100]};a.hcg.hwb=function(e){const t=e[1]/100;const n=e[2]/100;const i=t+n*(1-t);return[e[0],(i-t)*100,(1-i)*100]};a.hwb.hcg=function(e){const t=e[1]/100;const n=e[2]/100;const i=1-n;const r=i-t;let a=0;if(r<1){a=(i-r)/(1-r)}return[e[0],r*100,a*100]};a.apple.rgb=function(e){return[e[0]/65535*255,e[1]/65535*255,e[2]/65535*255]};a.rgb.apple=function(e){return[e[0]/255*65535,e[1]/255*65535,e[2]/255*65535]};a.gray.rgb=function(e){return[e[0]/100*255,e[0]/100*255,e[0]/100*255]};a.gray.hsl=function(e){return[0,0,e[0]]};a.gray.hsv=a.gray.hsl;a.gray.hwb=function(e){return[0,100,e[0]]};a.gray.cmyk=function(e){return[0,0,0,e[0]]};a.gray.lab=function(e){return[e[0],0,0]};a.gray.hex=function(e){const t=Math.round(e[0]/100*255)&255;const n=(t<<16)+(t<<8)+t;const i=n.toString(16).toUpperCase();return"000000".substring(i.length)+i};a.rgb.gray=function(e){const t=(e[0]+e[1]+e[2])/3;return[t/255*100]}},9329:(e,t,n)=>{const i=n(4128);const r=n(480);const a={};const o=Object.keys(i);function wrapRaw(e){const wrappedFn=function(...t){const n=t[0];if(n===undefined||n===null){return n}if(n.length>1){t=n}return e(t)};if("conversion"in e){wrappedFn.conversion=e.conversion}return wrappedFn}function wrapRounded(e){const wrappedFn=function(...t){const n=t[0];if(n===undefined||n===null){return n}if(n.length>1){t=n}const i=e(t);if(typeof i==="object"){for(let e=i.length,t=0;t<e;t++){i[t]=Math.round(i[t])}}return i};if("conversion"in e){wrappedFn.conversion=e.conversion}return wrappedFn}o.forEach((e=>{a[e]={};Object.defineProperty(a[e],"channels",{value:i[e].channels});Object.defineProperty(a[e],"labels",{value:i[e].labels});const t=r(e);const n=Object.keys(t);n.forEach((n=>{const i=t[n];a[e][n]=wrapRounded(i);a[e][n].raw=wrapRaw(i)}))}));e.exports=a},480:(e,t,n)=>{const i=n(4128);function buildGraph(){const e={};const t=Object.keys(i);for(let n=t.length,i=0;i<n;i++){e[t[i]]={distance:-1,parent:null}}return e}function deriveBFS(e){const t=buildGraph();const n=[e];t[e].distance=0;while(n.length){const e=n.pop();const r=Object.keys(i[e]);for(let i=r.length,a=0;a<i;a++){const i=r[a];const o=t[i];if(o.distance===-1){o.distance=t[e].distance+1;o.parent=e;n.unshift(i)}}}return t}function link(e,t){return function(n){return t(e(n))}}function wrapConversion(e,t){const n=[t[e].parent,e];let r=i[t[e].parent][e];let a=t[e].parent;while(t[a].parent){n.unshift(t[a].parent);r=link(i[t[a].parent][a],r);a=t[a].parent}r.conversion=n;return r}e.exports=function(e){const t=deriveBFS(e);const n={};const i=Object.keys(t);for(let e=i.length,r=0;r<e;r++){const e=i[r];const a=t[e];if(a.parent===null){continue}n[e]=wrapConversion(e,t)}return n}},8209:e=>{"use strict";e.exports={aliceblue:[240,248,255],antiquewhite:[250,235,215],aqua:[0,255,255],aquamarine:[127,255,212],azure:[240,255,255],beige:[245,245,220],bisque:[255,228,196],black:[0,0,0],blanchedalmond:[255,235,205],blue:[0,0,255],blueviolet:[138,43,226],brown:[165,42,42],burlywood:[222,184,135],cadetblue:[95,158,160],chartreuse:[127,255,0],chocolate:[210,105,30],coral:[255,127,80],cornflowerblue:[100,149,237],cornsilk:[255,248,220],crimson:[220,20,60],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgoldenrod:[184,134,11],darkgray:[169,169,169],darkgreen:[0,100,0],darkgrey:[169,169,169],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkseagreen:[143,188,143],darkslateblue:[72,61,139],darkslategray:[47,79,79],darkslategrey:[47,79,79],darkturquoise:[0,206,209],darkviolet:[148,0,211],deeppink:[255,20,147],deepskyblue:[0,191,255],dimgray:[105,105,105],dimgrey:[105,105,105],dodgerblue:[30,144,255],firebrick:[178,34,34],floralwhite:[255,250,240],forestgreen:[34,139,34],fuchsia:[255,0,255],gainsboro:[220,220,220],ghostwhite:[248,248,255],gold:[255,215,0],goldenrod:[218,165,32],gray:[128,128,128],green:[0,128,0],greenyellow:[173,255,47],grey:[128,128,128],honeydew:[240,255,240],hotpink:[255,105,180],indianred:[205,92,92],indigo:[75,0,130],ivory:[255,255,240],khaki:[240,230,140],lavender:[230,230,250],lavenderblush:[255,240,245],lawngreen:[124,252,0],lemonchiffon:[255,250,205],lightblue:[173,216,230],lightcoral:[240,128,128],lightcyan:[224,255,255],lightgoldenrodyellow:[250,250,210],lightgray:[211,211,211],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightsalmon:[255,160,122],lightseagreen:[32,178,170],lightskyblue:[135,206,250],lightslategray:[119,136,153],lightslategrey:[119,136,153],lightsteelblue:[176,196,222],lightyellow:[255,255,224],lime:[0,255,0],limegreen:[50,205,50],linen:[250,240,230],magenta:[255,0,255],maroon:[128,0,0],mediumaquamarine:[102,205,170],mediumblue:[0,0,205],mediumorchid:[186,85,211],mediumpurple:[147,112,219],mediumseagreen:[60,179,113],mediumslateblue:[123,104,238],mediumspringgreen:[0,250,154],mediumturquoise:[72,209,204],mediumvioletred:[199,21,133],midnightblue:[25,25,112],mintcream:[245,255,250],mistyrose:[255,228,225],moccasin:[255,228,181],navajowhite:[255,222,173],navy:[0,0,128],oldlace:[253,245,230],olive:[128,128,0],olivedrab:[107,142,35],orange:[255,165,0],orangered:[255,69,0],orchid:[218,112,214],palegoldenrod:[238,232,170],palegreen:[152,251,152],paleturquoise:[175,238,238],palevioletred:[219,112,147],papayawhip:[255,239,213],peachpuff:[255,218,185],peru:[205,133,63],pink:[255,192,203],plum:[221,160,221],powderblue:[176,224,230],purple:[128,0,128],rebeccapurple:[102,51,153],red:[255,0,0],rosybrown:[188,143,143],royalblue:[65,105,225],saddlebrown:[139,69,19],salmon:[250,128,114],sandybrown:[244,164,96],seagreen:[46,139,87],seashell:[255,245,238],sienna:[160,82,45],silver:[192,192,192],skyblue:[135,206,235],slateblue:[106,90,205],slategray:[112,128,144],slategrey:[112,128,144],snow:[255,250,250],springgreen:[0,255,127],steelblue:[70,130,180],tan:[210,180,140],teal:[0,128,128],thistle:[216,191,216],tomato:[255,99,71],turquoise:[64,224,208],violet:[238,130,238],wheat:[245,222,179],white:[255,255,255],whitesmoke:[245,245,245],yellow:[255,255,0],yellowgreen:[154,205,50]}},1455:(e,t,n)=>{"use strict";const i=n(3944);const r=n(6928);const a=n(4377).mkdirsSync;const o=n(334).utimesMillisSync;const c=n(2655);function copySync(e,t,n){if(typeof n==="function"){n={filter:n}}n=n||{};n.clobber="clobber"in n?!!n.clobber:true;n.overwrite="overwrite"in n?!!n.overwrite:n.clobber;if(n.preserveTimestamps&&process.arch==="ia32"){process.emitWarning("Using the preserveTimestamps option in 32-bit node is not recommended;\n\n"+"\tsee https://github.com/jprichardson/node-fs-extra/issues/269","Warning","fs-extra-WARN0002")}const{srcStat:i,destStat:r}=c.checkPathsSync(e,t,"copy",n);c.checkParentPathsSync(e,i,t,"copy");return handleFilterAndCopy(r,e,t,n)}function handleFilterAndCopy(e,t,n,o){if(o.filter&&!o.filter(t,n))return;const c=r.dirname(n);if(!i.existsSync(c))a(c);return getStats(e,t,n,o)}function startCopy(e,t,n,i){if(i.filter&&!i.filter(t,n))return;return getStats(e,t,n,i)}function getStats(e,t,n,r){const a=r.dereference?i.statSync:i.lstatSync;const o=a(t);if(o.isDirectory())return onDir(o,e,t,n,r);else if(o.isFile()||o.isCharacterDevice()||o.isBlockDevice())return onFile(o,e,t,n,r);else if(o.isSymbolicLink())return onLink(e,t,n,r);else if(o.isSocket())throw new Error(`Cannot copy a socket file: ${t}`);else if(o.isFIFO())throw new Error(`Cannot copy a FIFO pipe: ${t}`);throw new Error(`Unknown file: ${t}`)}function onFile(e,t,n,i,r){if(!t)return copyFile(e,n,i,r);return mayCopyFile(e,n,i,r)}function mayCopyFile(e,t,n,r){if(r.overwrite){i.unlinkSync(n);return copyFile(e,t,n,r)}else if(r.errorOnExist){throw new Error(`'${n}' already exists`)}}function copyFile(e,t,n,r){i.copyFileSync(t,n);if(r.preserveTimestamps)handleTimestamps(e.mode,t,n);return setDestMode(n,e.mode)}function handleTimestamps(e,t,n){if(fileIsNotWritable(e))makeFileWritable(n,e);return setDestTimestamps(t,n)}function fileIsNotWritable(e){return(e&128)===0}function makeFileWritable(e,t){return setDestMode(e,t|128)}function setDestMode(e,t){return i.chmodSync(e,t)}function setDestTimestamps(e,t){const n=i.statSync(e);return o(t,n.atime,n.mtime)}function onDir(e,t,n,i,r){if(!t)return mkDirAndCopy(e.mode,n,i,r);return copyDir(n,i,r)}function mkDirAndCopy(e,t,n,r){i.mkdirSync(n);copyDir(t,n,r);return setDestMode(n,e)}function copyDir(e,t,n){i.readdirSync(e).forEach((i=>copyDirItem(i,e,t,n)))}function copyDirItem(e,t,n,i){const a=r.join(t,e);const o=r.join(n,e);const{destStat:l}=c.checkPathsSync(a,o,"copy",i);return startCopy(l,a,o,i)}function onLink(e,t,n,a){let o=i.readlinkSync(t);if(a.dereference){o=r.resolve(process.cwd(),o)}if(!e){return i.symlinkSync(o,n)}else{let e;try{e=i.readlinkSync(n)}catch(e){if(e.code==="EINVAL"||e.code==="UNKNOWN")return i.symlinkSync(o,n);throw e}if(a.dereference){e=r.resolve(process.cwd(),e)}if(c.isSrcSubdir(o,e)){throw new Error(`Cannot copy '${o}' to a subdirectory of itself, '${e}'.`)}if(i.statSync(n).isDirectory()&&c.isSrcSubdir(e,o)){throw new Error(`Cannot overwrite '${e}' with '${o}'.`)}return copyLink(o,n)}}function copyLink(e,t){i.unlinkSync(t);return i.symlinkSync(e,t)}e.exports=copySync},5111:(e,t,n)=>{"use strict";const i=n(3944);const r=n(6928);const a=n(4377).mkdirs;const o=n(985).pathExists;const c=n(334).utimesMillis;const l=n(2655);function copy(e,t,n,i){if(typeof n==="function"&&!i){i=n;n={}}else if(typeof n==="function"){n={filter:n}}i=i||function(){};n=n||{};n.clobber="clobber"in n?!!n.clobber:true;n.overwrite="overwrite"in n?!!n.overwrite:n.clobber;if(n.preserveTimestamps&&process.arch==="ia32"){process.emitWarning("Using the preserveTimestamps option in 32-bit node is not recommended;\n\n"+"\tsee https://github.com/jprichardson/node-fs-extra/issues/269","Warning","fs-extra-WARN0001")}l.checkPaths(e,t,"copy",n,((r,a)=>{if(r)return i(r);const{srcStat:o,destStat:c}=a;l.checkParentPaths(e,o,t,"copy",(r=>{if(r)return i(r);if(n.filter)return handleFilter(checkParentDir,c,e,t,n,i);return checkParentDir(c,e,t,n,i)}))}))}function checkParentDir(e,t,n,i,c){const l=r.dirname(n);o(l,((r,o)=>{if(r)return c(r);if(o)return getStats(e,t,n,i,c);a(l,(r=>{if(r)return c(r);return getStats(e,t,n,i,c)}))}))}function handleFilter(e,t,n,i,r,a){Promise.resolve(r.filter(n,i)).then((o=>{if(o)return e(t,n,i,r,a);return a()}),(e=>a(e)))}function startCopy(e,t,n,i,r){if(i.filter)return handleFilter(getStats,e,t,n,i,r);return getStats(e,t,n,i,r)}function getStats(e,t,n,r,a){const o=r.dereference?i.stat:i.lstat;o(t,((i,o)=>{if(i)return a(i);if(o.isDirectory())return onDir(o,e,t,n,r,a);else if(o.isFile()||o.isCharacterDevice()||o.isBlockDevice())return onFile(o,e,t,n,r,a);else if(o.isSymbolicLink())return onLink(e,t,n,r,a);else if(o.isSocket())return a(new Error(`Cannot copy a socket file: ${t}`));else if(o.isFIFO())return a(new Error(`Cannot copy a FIFO pipe: ${t}`));return a(new Error(`Unknown file: ${t}`))}))}function onFile(e,t,n,i,r,a){if(!t)return copyFile(e,n,i,r,a);return mayCopyFile(e,n,i,r,a)}function mayCopyFile(e,t,n,r,a){if(r.overwrite){i.unlink(n,(i=>{if(i)return a(i);return copyFile(e,t,n,r,a)}))}else if(r.errorOnExist){return a(new Error(`'${n}' already exists`))}else return a()}function copyFile(e,t,n,r,a){i.copyFile(t,n,(i=>{if(i)return a(i);if(r.preserveTimestamps)return handleTimestampsAndMode(e.mode,t,n,a);return setDestMode(n,e.mode,a)}))}function handleTimestampsAndMode(e,t,n,i){if(fileIsNotWritable(e)){return makeFileWritable(n,e,(r=>{if(r)return i(r);return setDestTimestampsAndMode(e,t,n,i)}))}return setDestTimestampsAndMode(e,t,n,i)}function fileIsNotWritable(e){return(e&128)===0}function makeFileWritable(e,t,n){return setDestMode(e,t|128,n)}function setDestTimestampsAndMode(e,t,n,i){setDestTimestamps(t,n,(t=>{if(t)return i(t);return setDestMode(n,e,i)}))}function setDestMode(e,t,n){return i.chmod(e,t,n)}function setDestTimestamps(e,t,n){i.stat(e,((e,i)=>{if(e)return n(e);return c(t,i.atime,i.mtime,n)}))}function onDir(e,t,n,i,r,a){if(!t)return mkDirAndCopy(e.mode,n,i,r,a);return copyDir(n,i,r,a)}function mkDirAndCopy(e,t,n,r,a){i.mkdir(n,(i=>{if(i)return a(i);copyDir(t,n,r,(t=>{if(t)return a(t);return setDestMode(n,e,a)}))}))}function copyDir(e,t,n,r){i.readdir(e,((i,a)=>{if(i)return r(i);return copyDirItems(a,e,t,n,r)}))}function copyDirItems(e,t,n,i,r){const a=e.pop();if(!a)return r();return copyDirItem(e,a,t,n,i,r)}function copyDirItem(e,t,n,i,a,o){const c=r.join(n,t);const u=r.join(i,t);l.checkPaths(c,u,"copy",a,((t,r)=>{if(t)return o(t);const{destStat:l}=r;startCopy(l,c,u,a,(t=>{if(t)return o(t);return copyDirItems(e,n,i,a,o)}))}))}function onLink(e,t,n,a,o){i.readlink(t,((t,c)=>{if(t)return o(t);if(a.dereference){c=r.resolve(process.cwd(),c)}if(!e){return i.symlink(c,n,o)}else{i.readlink(n,((t,u)=>{if(t){if(t.code==="EINVAL"||t.code==="UNKNOWN")return i.symlink(c,n,o);return o(t)}if(a.dereference){u=r.resolve(process.cwd(),u)}if(l.isSrcSubdir(c,u)){return o(new Error(`Cannot copy '${c}' to a subdirectory of itself, '${u}'.`))}if(e.isDirectory()&&l.isSrcSubdir(u,c)){return o(new Error(`Cannot overwrite '${u}' with '${c}'.`))}return copyLink(c,n,o)}))}}))}function copyLink(e,t,n){i.unlink(t,(r=>{if(r)return n(r);return i.symlink(e,t,n)}))}e.exports=copy},2236:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;e.exports={copy:i(n(5111)),copySync:n(1455)}},9410:(e,t,n)=>{"use strict";const i=n(3981).fromPromise;const r=n(4602);const a=n(6928);const o=n(4377);const c=n(4293);const l=i((async function emptyDir(e){let t;try{t=await r.readdir(e)}catch{return o.mkdirs(e)}return Promise.all(t.map((t=>c.remove(a.join(e,t)))))}));function emptyDirSync(e){let t;try{t=r.readdirSync(e)}catch{return o.mkdirsSync(e)}t.forEach((t=>{t=a.join(e,t);c.removeSync(t)}))}e.exports={emptyDirSync:emptyDirSync,emptydirSync:emptyDirSync,emptyDir:l,emptydir:l}},7873:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;const r=n(6928);const a=n(3944);const o=n(4377);function createFile(e,t){function makeFile(){a.writeFile(e,"",(e=>{if(e)return t(e);t()}))}a.stat(e,((n,i)=>{if(!n&&i.isFile())return t();const c=r.dirname(e);a.stat(c,((e,n)=>{if(e){if(e.code==="ENOENT"){return o.mkdirs(c,(e=>{if(e)return t(e);makeFile()}))}return t(e)}if(n.isDirectory())makeFile();else{a.readdir(c,(e=>{if(e)return t(e)}))}}))}))}function createFileSync(e){let t;try{t=a.statSync(e)}catch{}if(t&&t.isFile())return;const n=r.dirname(e);try{if(!a.statSync(n).isDirectory()){a.readdirSync(n)}}catch(e){if(e&&e.code==="ENOENT")o.mkdirsSync(n);else throw e}a.writeFileSync(e,"")}e.exports={createFile:i(createFile),createFileSync:createFileSync}},7899:(e,t,n)=>{"use strict";const{createFile:i,createFileSync:r}=n(7873);const{createLink:a,createLinkSync:o}=n(103);const{createSymlink:c,createSymlinkSync:l}=n(5976);e.exports={createFile:i,createFileSync:r,ensureFile:i,ensureFileSync:r,createLink:a,createLinkSync:o,ensureLink:a,ensureLinkSync:o,createSymlink:c,createSymlinkSync:l,ensureSymlink:c,ensureSymlinkSync:l}},103:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;const r=n(6928);const a=n(3944);const o=n(4377);const c=n(985).pathExists;const{areIdentical:l}=n(2655);function createLink(e,t,n){function makeLink(e,t){a.link(e,t,(e=>{if(e)return n(e);n(null)}))}a.lstat(t,((i,u)=>{a.lstat(e,((i,a)=>{if(i){i.message=i.message.replace("lstat","ensureLink");return n(i)}if(u&&l(a,u))return n(null);const p=r.dirname(t);c(p,((i,r)=>{if(i)return n(i);if(r)return makeLink(e,t);o.mkdirs(p,(i=>{if(i)return n(i);makeLink(e,t)}))}))}))}))}function createLinkSync(e,t){let n;try{n=a.lstatSync(t)}catch{}try{const t=a.lstatSync(e);if(n&&l(t,n))return}catch(e){e.message=e.message.replace("lstat","ensureLink");throw e}const i=r.dirname(t);const c=a.existsSync(i);if(c)return a.linkSync(e,t);o.mkdirsSync(i);return a.linkSync(e,t)}e.exports={createLink:i(createLink),createLinkSync:createLinkSync}},4793:(e,t,n)=>{"use strict";const i=n(6928);const r=n(3944);const a=n(985).pathExists;function symlinkPaths(e,t,n){if(i.isAbsolute(e)){return r.lstat(e,(t=>{if(t){t.message=t.message.replace("lstat","ensureSymlink");return n(t)}return n(null,{toCwd:e,toDst:e})}))}else{const o=i.dirname(t);const c=i.join(o,e);return a(c,((t,a)=>{if(t)return n(t);if(a){return n(null,{toCwd:c,toDst:e})}else{return r.lstat(e,(t=>{if(t){t.message=t.message.replace("lstat","ensureSymlink");return n(t)}return n(null,{toCwd:e,toDst:i.relative(o,e)})}))}}))}}function symlinkPathsSync(e,t){let n;if(i.isAbsolute(e)){n=r.existsSync(e);if(!n)throw new Error("absolute srcpath does not exist");return{toCwd:e,toDst:e}}else{const a=i.dirname(t);const o=i.join(a,e);n=r.existsSync(o);if(n){return{toCwd:o,toDst:e}}else{n=r.existsSync(e);if(!n)throw new Error("relative srcpath does not exist");return{toCwd:e,toDst:i.relative(a,e)}}}}e.exports={symlinkPaths:symlinkPaths,symlinkPathsSync:symlinkPathsSync}},3165:(e,t,n)=>{"use strict";const i=n(3944);function symlinkType(e,t,n){n=typeof t==="function"?t:n;t=typeof t==="function"?false:t;if(t)return n(null,t);i.lstat(e,((e,i)=>{if(e)return n(null,"file");t=i&&i.isDirectory()?"dir":"file";n(null,t)}))}function symlinkTypeSync(e,t){let n;if(t)return t;try{n=i.lstatSync(e)}catch{return"file"}return n&&n.isDirectory()?"dir":"file"}e.exports={symlinkType:symlinkType,symlinkTypeSync:symlinkTypeSync}},5976:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;const r=n(6928);const a=n(4602);const o=n(4377);const c=o.mkdirs;const l=o.mkdirsSync;const u=n(4793);const p=u.symlinkPaths;const d=u.symlinkPathsSync;const h=n(3165);const v=h.symlinkType;const g=h.symlinkTypeSync;const y=n(985).pathExists;const{areIdentical:x}=n(2655);function createSymlink(e,t,n,i){i=typeof n==="function"?n:i;n=typeof n==="function"?false:n;a.lstat(t,((r,o)=>{if(!r&&o.isSymbolicLink()){Promise.all([a.stat(e),a.stat(t)]).then((([r,a])=>{if(x(r,a))return i(null);_createSymlink(e,t,n,i)}))}else _createSymlink(e,t,n,i)}))}function _createSymlink(e,t,n,i){p(e,t,((o,l)=>{if(o)return i(o);e=l.toDst;v(l.toCwd,n,((n,o)=>{if(n)return i(n);const l=r.dirname(t);y(l,((n,r)=>{if(n)return i(n);if(r)return a.symlink(e,t,o,i);c(l,(n=>{if(n)return i(n);a.symlink(e,t,o,i)}))}))}))}))}function createSymlinkSync(e,t,n){let i;try{i=a.lstatSync(t)}catch{}if(i&&i.isSymbolicLink()){const n=a.statSync(e);const i=a.statSync(t);if(x(n,i))return}const o=d(e,t);e=o.toDst;n=g(o.toCwd,n);const c=r.dirname(t);const u=a.existsSync(c);if(u)return a.symlinkSync(e,t,n);l(c);return a.symlinkSync(e,t,n)}e.exports={createSymlink:i(createSymlink),createSymlinkSync:createSymlinkSync}},4602:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;const r=n(3944);const a=["access","appendFile","chmod","chown","close","copyFile","fchmod","fchown","fdatasync","fstat","fsync","ftruncate","futimes","lchmod","lchown","link","lstat","mkdir","mkdtemp","open","opendir","readdir","readFile","readlink","realpath","rename","rm","rmdir","stat","symlink","truncate","unlink","utimes","writeFile"].filter((e=>typeof r[e]==="function"));Object.assign(t,r);a.forEach((e=>{t[e]=i(r[e])}));t.exists=function(e,t){if(typeof t==="function"){return r.exists(e,t)}return new Promise((t=>r.exists(e,t)))};t.read=function(e,t,n,i,a,o){if(typeof o==="function"){return r.read(e,t,n,i,a,o)}return new Promise(((o,c)=>{r.read(e,t,n,i,a,((e,t,n)=>{if(e)return c(e);o({bytesRead:t,buffer:n})}))}))};t.write=function(e,t,...n){if(typeof n[n.length-1]==="function"){return r.write(e,t,...n)}return new Promise(((i,a)=>{r.write(e,t,...n,((e,t,n)=>{if(e)return a(e);i({bytesWritten:t,buffer:n})}))}))};if(typeof r.writev==="function"){t.writev=function(e,t,...n){if(typeof n[n.length-1]==="function"){return r.writev(e,t,...n)}return new Promise(((i,a)=>{r.writev(e,t,...n,((e,t,n)=>{if(e)return a(e);i({bytesWritten:t,buffers:n})}))}))}}if(typeof r.realpath.native==="function"){t.realpath.native=i(r.realpath.native)}else{process.emitWarning("fs.realpath.native is not a function. Is fs being monkey-patched?","Warning","fs-extra-WARN0003")}},3488:(e,t,n)=>{"use strict";e.exports={...n(4602),...n(2236),...n(9410),...n(7899),...n(7151),...n(4377),...n(2932),...n(1109),...n(985),...n(4293)}},7151:(e,t,n)=>{"use strict";const i=n(3981).fromPromise;const r=n(759);r.outputJson=i(n(2625));r.outputJsonSync=n(3713);r.outputJSON=r.outputJson;r.outputJSONSync=r.outputJsonSync;r.writeJSON=r.writeJson;r.writeJSONSync=r.writeJsonSync;r.readJSON=r.readJson;r.readJSONSync=r.readJsonSync;e.exports=r},759:(e,t,n)=>{"use strict";const i=n(9832);e.exports={readJson:i.readFile,readJsonSync:i.readFileSync,writeJson:i.writeFile,writeJsonSync:i.writeFileSync}},3713:(e,t,n)=>{"use strict";const{stringify:i}=n(3617);const{outputFileSync:r}=n(1109);function outputJsonSync(e,t,n){const a=i(t,n);r(e,a,n)}e.exports=outputJsonSync},2625:(e,t,n)=>{"use strict";const{stringify:i}=n(3617);const{outputFile:r}=n(1109);async function outputJson(e,t,n={}){const a=i(t,n);await r(e,a,n)}e.exports=outputJson},4377:(e,t,n)=>{"use strict";const i=n(3981).fromPromise;const{makeDir:r,makeDirSync:a}=n(4753);const o=i(r);e.exports={mkdirs:o,mkdirsSync:a,mkdirp:o,mkdirpSync:a,ensureDir:o,ensureDirSync:a}},4753:(e,t,n)=>{"use strict";const i=n(4602);const{checkPath:r}=n(6388);const getMode=e=>{const t={mode:511};if(typeof e==="number")return e;return{...t,...e}.mode};e.exports.makeDir=async(e,t)=>{r(e);return i.mkdir(e,{mode:getMode(t),recursive:true})};e.exports.makeDirSync=(e,t)=>{r(e);return i.mkdirSync(e,{mode:getMode(t),recursive:true})}},6388:(e,t,n)=>{"use strict";const i=n(6928);e.exports.checkPath=function checkPath(e){if(process.platform==="win32"){const t=/[<>:"|?*]/.test(e.replace(i.parse(e).root,""));if(t){const t=new Error(`Path contains invalid characters: ${e}`);t.code="EINVAL";throw t}}}},2932:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;e.exports={move:i(n(1311)),moveSync:n(8247)}},8247:(e,t,n)=>{"use strict";const i=n(3944);const r=n(6928);const a=n(2236).copySync;const o=n(4293).removeSync;const c=n(4377).mkdirpSync;const l=n(2655);function moveSync(e,t,n){n=n||{};const i=n.overwrite||n.clobber||false;const{srcStat:a,isChangingCase:o=false}=l.checkPathsSync(e,t,"move",n);l.checkParentPathsSync(e,a,t,"move");if(!isParentRoot(t))c(r.dirname(t));return doRename(e,t,i,o)}function isParentRoot(e){const t=r.dirname(e);const n=r.parse(t);return n.root===t}function doRename(e,t,n,r){if(r)return rename(e,t,n);if(n){o(t);return rename(e,t,n)}if(i.existsSync(t))throw new Error("dest already exists.");return rename(e,t,n)}function rename(e,t,n){try{i.renameSync(e,t)}catch(i){if(i.code!=="EXDEV")throw i;return moveAcrossDevice(e,t,n)}}function moveAcrossDevice(e,t,n){const i={overwrite:n,errorOnExist:true};a(e,t,i);return o(e)}e.exports=moveSync},1311:(e,t,n)=>{"use strict";const i=n(3944);const r=n(6928);const a=n(2236).copy;const o=n(4293).remove;const c=n(4377).mkdirp;const l=n(985).pathExists;const u=n(2655);function move(e,t,n,i){if(typeof n==="function"){i=n;n={}}n=n||{};const a=n.overwrite||n.clobber||false;u.checkPaths(e,t,"move",n,((n,o)=>{if(n)return i(n);const{srcStat:l,isChangingCase:p=false}=o;u.checkParentPaths(e,l,t,"move",(n=>{if(n)return i(n);if(isParentRoot(t))return doRename(e,t,a,p,i);c(r.dirname(t),(n=>{if(n)return i(n);return doRename(e,t,a,p,i)}))}))}))}function isParentRoot(e){const t=r.dirname(e);const n=r.parse(t);return n.root===t}function doRename(e,t,n,i,r){if(i)return rename(e,t,n,r);if(n){return o(t,(i=>{if(i)return r(i);return rename(e,t,n,r)}))}l(t,((i,a)=>{if(i)return r(i);if(a)return r(new Error("dest already exists."));return rename(e,t,n,r)}))}function rename(e,t,n,r){i.rename(e,t,(i=>{if(!i)return r();if(i.code!=="EXDEV")return r(i);return moveAcrossDevice(e,t,n,r)}))}function moveAcrossDevice(e,t,n,i){const r={overwrite:n,errorOnExist:true};a(e,t,r,(t=>{if(t)return i(t);return o(e,i)}))}e.exports=move},1109:(e,t,n)=>{"use strict";const i=n(3981).fromCallback;const r=n(3944);const a=n(6928);const o=n(4377);const c=n(985).pathExists;function outputFile(e,t,n,i){if(typeof n==="function"){i=n;n="utf8"}const l=a.dirname(e);c(l,((a,c)=>{if(a)return i(a);if(c)return r.writeFile(e,t,n,i);o.mkdirs(l,(a=>{if(a)return i(a);r.writeFile(e,t,n,i)}))}))}function outputFileSync(e,...t){const n=a.dirname(e);if(r.existsSync(n)){return r.writeFileSync(e,...t)}o.mkdirsSync(n);r.writeFileSync(e,...t)}e.exports={outputFile:i(outputFile),outputFileSync:outputFileSync}},985:(e,t,n)=>{"use strict";const i=n(3981).fromPromise;const r=n(4602);function pathExists(e){return r.access(e).then((()=>true)).catch((()=>false))}e.exports={pathExists:i(pathExists),pathExistsSync:r.existsSync}},4293:(e,t,n)=>{"use strict";const i=n(3944);const r=n(3981).fromCallback;const a=n(9984);function remove(e,t){if(i.rm)return i.rm(e,{recursive:true,force:true},t);a(e,t)}function removeSync(e){if(i.rmSync)return i.rmSync(e,{recursive:true,force:true});a.sync(e)}e.exports={remove:r(remove),removeSync:removeSync}},9984:(e,t,n)=>{"use strict";const i=n(3944);const r=n(6928);const a=n(2613);const o=process.platform==="win32";function defaults(e){const t=["unlink","chmod","stat","lstat","rmdir","readdir"];t.forEach((t=>{e[t]=e[t]||i[t];t=t+"Sync";e[t]=e[t]||i[t]}));e.maxBusyTries=e.maxBusyTries||3}function rimraf(e,t,n){let i=0;if(typeof t==="function"){n=t;t={}}a(e,"rimraf: missing path");a.strictEqual(typeof e,"string","rimraf: path should be a string");a.strictEqual(typeof n,"function","rimraf: callback function required");a(t,"rimraf: invalid options argument provided");a.strictEqual(typeof t,"object","rimraf: options should be object");defaults(t);rimraf_(e,t,(function CB(r){if(r){if((r.code==="EBUSY"||r.code==="ENOTEMPTY"||r.code==="EPERM")&&i<t.maxBusyTries){i++;const n=i*100;return setTimeout((()=>rimraf_(e,t,CB)),n)}if(r.code==="ENOENT")r=null}n(r)}))}function rimraf_(e,t,n){a(e);a(t);a(typeof n==="function");t.lstat(e,((i,r)=>{if(i&&i.code==="ENOENT"){return n(null)}if(i&&i.code==="EPERM"&&o){return fixWinEPERM(e,t,i,n)}if(r&&r.isDirectory()){return rmdir(e,t,i,n)}t.unlink(e,(i=>{if(i){if(i.code==="ENOENT"){return n(null)}if(i.code==="EPERM"){return o?fixWinEPERM(e,t,i,n):rmdir(e,t,i,n)}if(i.code==="EISDIR"){return rmdir(e,t,i,n)}}return n(i)}))}))}function fixWinEPERM(e,t,n,i){a(e);a(t);a(typeof i==="function");t.chmod(e,438,(r=>{if(r){i(r.code==="ENOENT"?null:n)}else{t.stat(e,((r,a)=>{if(r){i(r.code==="ENOENT"?null:n)}else if(a.isDirectory()){rmdir(e,t,n,i)}else{t.unlink(e,i)}}))}}))}function fixWinEPERMSync(e,t,n){let i;a(e);a(t);try{t.chmodSync(e,438)}catch(e){if(e.code==="ENOENT"){return}else{throw n}}try{i=t.statSync(e)}catch(e){if(e.code==="ENOENT"){return}else{throw n}}if(i.isDirectory()){rmdirSync(e,t,n)}else{t.unlinkSync(e)}}function rmdir(e,t,n,i){a(e);a(t);a(typeof i==="function");t.rmdir(e,(r=>{if(r&&(r.code==="ENOTEMPTY"||r.code==="EEXIST"||r.code==="EPERM")){rmkids(e,t,i)}else if(r&&r.code==="ENOTDIR"){i(n)}else{i(r)}}))}function rmkids(e,t,n){a(e);a(t);a(typeof n==="function");t.readdir(e,((i,a)=>{if(i)return n(i);let o=a.length;let c;if(o===0)return t.rmdir(e,n);a.forEach((i=>{rimraf(r.join(e,i),t,(i=>{if(c){return}if(i)return n(c=i);if(--o===0){t.rmdir(e,n)}}))}))}))}function rimrafSync(e,t){let n;t=t||{};defaults(t);a(e,"rimraf: missing path");a.strictEqual(typeof e,"string","rimraf: path should be a string");a(t,"rimraf: missing options");a.strictEqual(typeof t,"object","rimraf: options should be object");try{n=t.lstatSync(e)}catch(n){if(n.code==="ENOENT"){return}if(n.code==="EPERM"&&o){fixWinEPERMSync(e,t,n)}}try{if(n&&n.isDirectory()){rmdirSync(e,t,null)}else{t.unlinkSync(e)}}catch(n){if(n.code==="ENOENT"){return}else if(n.code==="EPERM"){return o?fixWinEPERMSync(e,t,n):rmdirSync(e,t,n)}else if(n.code!=="EISDIR"){throw n}rmdirSync(e,t,n)}}function rmdirSync(e,t,n){a(e);a(t);try{t.rmdirSync(e)}catch(i){if(i.code==="ENOTDIR"){throw n}else if(i.code==="ENOTEMPTY"||i.code==="EEXIST"||i.code==="EPERM"){rmkidsSync(e,t)}else if(i.code!=="ENOENT"){throw i}}}function rmkidsSync(e,t){a(e);a(t);t.readdirSync(e).forEach((n=>rimrafSync(r.join(e,n),t)));if(o){const n=Date.now();do{try{const n=t.rmdirSync(e,t);return n}catch{}}while(Date.now()-n<500)}else{const n=t.rmdirSync(e,t);return n}}e.exports=rimraf;rimraf.sync=rimrafSync},2655:(e,t,n)=>{"use strict";const i=n(4602);const r=n(6928);const a=n(9023);function getStats(e,t,n){const r=n.dereference?e=>i.stat(e,{bigint:true}):e=>i.lstat(e,{bigint:true});return Promise.all([r(e),r(t).catch((e=>{if(e.code==="ENOENT")return null;throw e}))]).then((([e,t])=>({srcStat:e,destStat:t})))}function getStatsSync(e,t,n){let r;const a=n.dereference?e=>i.statSync(e,{bigint:true}):e=>i.lstatSync(e,{bigint:true});const o=a(e);try{r=a(t)}catch(e){if(e.code==="ENOENT")return{srcStat:o,destStat:null};throw e}return{srcStat:o,destStat:r}}function checkPaths(e,t,n,i,o){a.callbackify(getStats)(e,t,i,((i,a)=>{if(i)return o(i);const{srcStat:c,destStat:l}=a;if(l){if(areIdentical(c,l)){const i=r.basename(e);const a=r.basename(t);if(n==="move"&&i!==a&&i.toLowerCase()===a.toLowerCase()){return o(null,{srcStat:c,destStat:l,isChangingCase:true})}return o(new Error("Source and destination must not be the same."))}if(c.isDirectory()&&!l.isDirectory()){return o(new Error(`Cannot overwrite non-directory '${t}' with directory '${e}'.`))}if(!c.isDirectory()&&l.isDirectory()){return o(new Error(`Cannot overwrite directory '${t}' with non-directory '${e}'.`))}}if(c.isDirectory()&&isSrcSubdir(e,t)){return o(new Error(errMsg(e,t,n)))}return o(null,{srcStat:c,destStat:l})}))}function checkPathsSync(e,t,n,i){const{srcStat:a,destStat:o}=getStatsSync(e,t,i);if(o){if(areIdentical(a,o)){const i=r.basename(e);const c=r.basename(t);if(n==="move"&&i!==c&&i.toLowerCase()===c.toLowerCase()){return{srcStat:a,destStat:o,isChangingCase:true}}throw new Error("Source and destination must not be the same.")}if(a.isDirectory()&&!o.isDirectory()){throw new Error(`Cannot overwrite non-directory '${t}' with directory '${e}'.`)}if(!a.isDirectory()&&o.isDirectory()){throw new Error(`Cannot overwrite directory '${t}' with non-directory '${e}'.`)}}if(a.isDirectory()&&isSrcSubdir(e,t)){throw new Error(errMsg(e,t,n))}return{srcStat:a,destStat:o}}function checkParentPaths(e,t,n,a,o){const c=r.resolve(r.dirname(e));const l=r.resolve(r.dirname(n));if(l===c||l===r.parse(l).root)return o();i.stat(l,{bigint:true},((i,r)=>{if(i){if(i.code==="ENOENT")return o();return o(i)}if(areIdentical(t,r)){return o(new Error(errMsg(e,n,a)))}return checkParentPaths(e,t,l,a,o)}))}function checkParentPathsSync(e,t,n,a){const o=r.resolve(r.dirname(e));const c=r.resolve(r.dirname(n));if(c===o||c===r.parse(c).root)return;let l;try{l=i.statSync(c,{bigint:true})}catch(e){if(e.code==="ENOENT")return;throw e}if(areIdentical(t,l)){throw new Error(errMsg(e,n,a))}return checkParentPathsSync(e,t,c,a)}function areIdentical(e,t){return t.ino&&t.dev&&t.ino===e.ino&&t.dev===e.dev}function isSrcSubdir(e,t){const n=r.resolve(e).split(r.sep).filter((e=>e));const i=r.resolve(t).split(r.sep).filter((e=>e));return n.reduce(((e,t,n)=>e&&i[n]===t),true)}function errMsg(e,t,n){return`Cannot ${n} '${e}' to a subdirectory of itself, '${t}'.`}e.exports={checkPaths:checkPaths,checkPathsSync:checkPathsSync,checkParentPaths:checkParentPaths,checkParentPathsSync:checkParentPathsSync,isSrcSubdir:isSrcSubdir,areIdentical:areIdentical}},334:(e,t,n)=>{"use strict";const i=n(3944);function utimesMillis(e,t,n,r){i.open(e,"r+",((e,a)=>{if(e)return r(e);i.futimes(a,t,n,(e=>{i.close(a,(t=>{if(r)r(e||t)}))}))}))}function utimesMillisSync(e,t,n){const r=i.openSync(e,"r+");i.futimesSync(r,t,n);return i.closeSync(r)}e.exports={utimesMillis:utimesMillis,utimesMillisSync:utimesMillisSync}},5048:(e,t,n)=>{e.exports=realpath;realpath.realpath=realpath;realpath.sync=realpathSync;realpath.realpathSync=realpathSync;realpath.monkeypatch=monkeypatch;realpath.unmonkeypatch=unmonkeypatch;var i=n(9896);var r=i.realpath;var a=i.realpathSync;var o=process.version;var c=/^v[0-5]\./.test(o);var l=n(937);function newError(e){return e&&e.syscall==="realpath"&&(e.code==="ELOOP"||e.code==="ENOMEM"||e.code==="ENAMETOOLONG")}function realpath(e,t,n){if(c){return r(e,t,n)}if(typeof t==="function"){n=t;t=null}r(e,t,(function(i,r){if(newError(i)){l.realpath(e,t,n)}else{n(i,r)}}))}function realpathSync(e,t){if(c){return a(e,t)}try{return a(e,t)}catch(n){if(newError(n)){return l.realpathSync(e,t)}else{throw n}}}function monkeypatch(){i.realpath=realpath;i.realpathSync=realpathSync}function unmonkeypatch(){i.realpath=r;i.realpathSync=a}},937:(e,t,n)=>{var i=n(6928);var r=process.platform==="win32";var a=n(9896);var o=process.env.NODE_DEBUG&&/fs/.test(process.env.NODE_DEBUG);function rethrow(){var e;if(o){var t=new Error;e=debugCallback}else e=missingCallback;return e;function debugCallback(e){if(e){t.message=e.message;e=t;missingCallback(e)}}function missingCallback(e){if(e){if(process.throwDeprecation)throw e;else if(!process.noDeprecation){var t="fs: missing callback "+(e.stack||e.message);if(process.traceDeprecation)console.trace(t);else console.error(t)}}}}function maybeCallback(e){return typeof e==="function"?e:rethrow()}var c=i.normalize;if(r){var l=/(.*?)(?:[\/\\]+|$)/g}else{var l=/(.*?)(?:[\/]+|$)/g}if(r){var u=/^(?:[a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/][^\\\/]+)?[\\\/]*/}else{var u=/^[\/]*/}t.realpathSync=function realpathSync(e,t){e=i.resolve(e);if(t&&Object.prototype.hasOwnProperty.call(t,e)){return t[e]}var n=e,o={},c={};var p;var d;var h;var v;start();function start(){var t=u.exec(e);p=t[0].length;d=t[0];h=t[0];v="";if(r&&!c[h]){a.lstatSync(h);c[h]=true}}while(p<e.length){l.lastIndex=p;var g=l.exec(e);v=d;d+=g[0];h=v+g[1];p=l.lastIndex;if(c[h]||t&&t[h]===h){continue}var y;if(t&&Object.prototype.hasOwnProperty.call(t,h)){y=t[h]}else{var x=a.lstatSync(h);if(!x.isSymbolicLink()){c[h]=true;if(t)t[h]=h;continue}var b=null;if(!r){var E=x.dev.toString(32)+":"+x.ino.toString(32);if(o.hasOwnProperty(E)){b=o[E]}}if(b===null){a.statSync(h);b=a.readlinkSync(h)}y=i.resolve(v,b);if(t)t[h]=y;if(!r)o[E]=b}e=i.resolve(y,e.slice(p));start()}if(t)t[n]=e;return e};t.realpath=function realpath(e,t,n){if(typeof n!=="function"){n=maybeCallback(t);t=null}e=i.resolve(e);if(t&&Object.prototype.hasOwnProperty.call(t,e)){return process.nextTick(n.bind(null,null,t[e]))}var o=e,c={},p={};var d;var h;var v;var g;start();function start(){var t=u.exec(e);d=t[0].length;h=t[0];v=t[0];g="";if(r&&!p[v]){a.lstat(v,(function(e){if(e)return n(e);p[v]=true;LOOP()}))}else{process.nextTick(LOOP)}}function LOOP(){if(d>=e.length){if(t)t[o]=e;return n(null,e)}l.lastIndex=d;var i=l.exec(e);g=h;h+=i[0];v=g+i[1];d=l.lastIndex;if(p[v]||t&&t[v]===v){return process.nextTick(LOOP)}if(t&&Object.prototype.hasOwnProperty.call(t,v)){return gotResolvedLink(t[v])}return a.lstat(v,gotStat)}function gotStat(e,i){if(e)return n(e);if(!i.isSymbolicLink()){p[v]=true;if(t)t[v]=v;return process.nextTick(LOOP)}if(!r){var o=i.dev.toString(32)+":"+i.ino.toString(32);if(c.hasOwnProperty(o)){return gotTarget(null,c[o],v)}}a.stat(v,(function(e){if(e)return n(e);a.readlink(v,(function(e,t){if(!r)c[o]=t;gotTarget(e,t)}))}))}function gotTarget(e,r,a){if(e)return n(e);var o=i.resolve(g,r);if(t)t[a]=o;gotResolvedLink(o)}function gotResolvedLink(t){e=i.resolve(t,e.slice(d));start()}}},4900:e=>{"use strict";e.exports=clone;var t=Object.getPrototypeOf||function(e){return e.__proto__};function clone(e){if(e===null||typeof e!=="object")return e;if(e instanceof Object)var n={__proto__:t(e)};else var n=Object.create(null);Object.getOwnPropertyNames(e).forEach((function(t){Object.defineProperty(n,t,Object.getOwnPropertyDescriptor(e,t))}));return n}},3944:(e,t,n)=>{var i=n(9896);var r=n(1013);var a=n(7158);var o=n(4900);var c=n(9023);var l;var u;if(typeof Symbol==="function"&&typeof Symbol.for==="function"){l=Symbol.for("graceful-fs.queue");u=Symbol.for("graceful-fs.previous")}else{l="___graceful-fs.queue";u="___graceful-fs.previous"}function noop(){}function publishQueue(e,t){Object.defineProperty(e,l,{get:function(){return t}})}var p=noop;if(c.debuglog)p=c.debuglog("gfs4");else if(/\bgfs4\b/i.test(process.env.NODE_DEBUG||""))p=function(){var e=c.format.apply(c,arguments);e="GFS4: "+e.split(/\n/).join("\nGFS4: ");console.error(e)};if(!i[l]){var d=global[l]||[];publishQueue(i,d);i.close=function(e){function close(t,n){return e.call(i,t,(function(e){if(!e){resetQueue()}if(typeof n==="function")n.apply(this,arguments)}))}Object.defineProperty(close,u,{value:e});return close}(i.close);i.closeSync=function(e){function closeSync(t){e.apply(i,arguments);resetQueue()}Object.defineProperty(closeSync,u,{value:e});return closeSync}(i.closeSync);if(/\bgfs4\b/i.test(process.env.NODE_DEBUG||"")){process.on("exit",(function(){p(i[l]);n(2613).equal(i[l].length,0)}))}}if(!global[l]){publishQueue(global,i[l])}e.exports=patch(o(i));if(process.env.TEST_GRACEFUL_FS_GLOBAL_PATCH&&!i.__patched){e.exports=patch(i);i.__patched=true}function patch(e){r(e);e.gracefulify=patch;e.createReadStream=createReadStream;e.createWriteStream=createWriteStream;var t=e.readFile;e.readFile=readFile;function readFile(e,n,i){if(typeof n==="function")i=n,n=null;return go$readFile(e,n,i);function go$readFile(e,n,i,r){return t(e,n,(function(t){if(t&&(t.code==="EMFILE"||t.code==="ENFILE"))enqueue([go$readFile,[e,n,i],t,r||Date.now(),Date.now()]);else{if(typeof i==="function")i.apply(this,arguments)}}))}}var n=e.writeFile;e.writeFile=writeFile;function writeFile(e,t,i,r){if(typeof i==="function")r=i,i=null;return go$writeFile(e,t,i,r);function go$writeFile(e,t,i,r,a){return n(e,t,i,(function(n){if(n&&(n.code==="EMFILE"||n.code==="ENFILE"))enqueue([go$writeFile,[e,t,i,r],n,a||Date.now(),Date.now()]);else{if(typeof r==="function")r.apply(this,arguments)}}))}}var i=e.appendFile;if(i)e.appendFile=appendFile;function appendFile(e,t,n,r){if(typeof n==="function")r=n,n=null;return go$appendFile(e,t,n,r);function go$appendFile(e,t,n,r,a){return i(e,t,n,(function(i){if(i&&(i.code==="EMFILE"||i.code==="ENFILE"))enqueue([go$appendFile,[e,t,n,r],i,a||Date.now(),Date.now()]);else{if(typeof r==="function")r.apply(this,arguments)}}))}}var o=e.copyFile;if(o)e.copyFile=copyFile;function copyFile(e,t,n,i){if(typeof n==="function"){i=n;n=0}return go$copyFile(e,t,n,i);function go$copyFile(e,t,n,i,r){return o(e,t,n,(function(a){if(a&&(a.code==="EMFILE"||a.code==="ENFILE"))enqueue([go$copyFile,[e,t,n,i],a,r||Date.now(),Date.now()]);else{if(typeof i==="function")i.apply(this,arguments)}}))}}var c=e.readdir;e.readdir=readdir;var l=/^v[0-5]\./;function readdir(e,t,n){if(typeof t==="function")n=t,t=null;var i=l.test(process.version)?function go$readdir(e,t,n,i){return c(e,fs$readdirCallback(e,t,n,i))}:function go$readdir(e,t,n,i){return c(e,t,fs$readdirCallback(e,t,n,i))};return i(e,t,n);function fs$readdirCallback(e,t,n,r){return function(a,o){if(a&&(a.code==="EMFILE"||a.code==="ENFILE"))enqueue([i,[e,t,n],a,r||Date.now(),Date.now()]);else{if(o&&o.sort)o.sort();if(typeof n==="function")n.call(this,a,o)}}}}if(process.version.substr(0,4)==="v0.8"){var u=a(e);ReadStream=u.ReadStream;WriteStream=u.WriteStream}var p=e.ReadStream;if(p){ReadStream.prototype=Object.create(p.prototype);ReadStream.prototype.open=ReadStream$open}var d=e.WriteStream;if(d){WriteStream.prototype=Object.create(d.prototype);WriteStream.prototype.open=WriteStream$open}Object.defineProperty(e,"ReadStream",{get:function(){return ReadStream},set:function(e){ReadStream=e},enumerable:true,configurable:true});Object.defineProperty(e,"WriteStream",{get:function(){return WriteStream},set:function(e){WriteStream=e},enumerable:true,configurable:true});var h=ReadStream;Object.defineProperty(e,"FileReadStream",{get:function(){return h},set:function(e){h=e},enumerable:true,configurable:true});var v=WriteStream;Object.defineProperty(e,"FileWriteStream",{get:function(){return v},set:function(e){v=e},enumerable:true,configurable:true});function ReadStream(e,t){if(this instanceof ReadStream)return p.apply(this,arguments),this;else return ReadStream.apply(Object.create(ReadStream.prototype),arguments)}function ReadStream$open(){var e=this;open(e.path,e.flags,e.mode,(function(t,n){if(t){if(e.autoClose)e.destroy();e.emit("error",t)}else{e.fd=n;e.emit("open",n);e.read()}}))}function WriteStream(e,t){if(this instanceof WriteStream)return d.apply(this,arguments),this;else return WriteStream.apply(Object.create(WriteStream.prototype),arguments)}function WriteStream$open(){var e=this;open(e.path,e.flags,e.mode,(function(t,n){if(t){e.destroy();e.emit("error",t)}else{e.fd=n;e.emit("open",n)}}))}function createReadStream(t,n){return new e.ReadStream(t,n)}function createWriteStream(t,n){return new e.WriteStream(t,n)}var g=e.open;e.open=open;function open(e,t,n,i){if(typeof n==="function")i=n,n=null;return go$open(e,t,n,i);function go$open(e,t,n,i,r){return g(e,t,n,(function(a,o){if(a&&(a.code==="EMFILE"||a.code==="ENFILE"))enqueue([go$open,[e,t,n,i],a,r||Date.now(),Date.now()]);else{if(typeof i==="function")i.apply(this,arguments)}}))}}return e}function enqueue(e){p("ENQUEUE",e[0].name,e[1]);i[l].push(e);retry()}var h;function resetQueue(){var e=Date.now();for(var t=0;t<i[l].length;++t){if(i[l][t].length>2){i[l][t][3]=e;i[l][t][4]=e}}retry()}function retry(){clearTimeout(h);h=undefined;if(i[l].length===0)return;var e=i[l].shift();var t=e[0];var n=e[1];var r=e[2];var a=e[3];var o=e[4];if(a===undefined){p("RETRY",t.name,n);t.apply(null,n)}else if(Date.now()-a>=6e4){p("TIMEOUT",t.name,n);var c=n.pop();if(typeof c==="function")c.call(null,r)}else{var u=Date.now()-o;var d=Math.max(o-a,1);var v=Math.min(d*1.2,100);if(u>=v){p("RETRY",t.name,n);t.apply(null,n.concat([a]))}else{i[l].push(e)}}if(h===undefined){h=setTimeout(retry,0)}}},7158:(e,t,n)=>{var i=n(2203).Stream;e.exports=legacy;function legacy(e){return{ReadStream:ReadStream,WriteStream:WriteStream};function ReadStream(t,n){if(!(this instanceof ReadStream))return new ReadStream(t,n);i.call(this);var r=this;this.path=t;this.fd=null;this.readable=true;this.paused=false;this.flags="r";this.mode=438;this.bufferSize=64*1024;n=n||{};var a=Object.keys(n);for(var o=0,c=a.length;o<c;o++){var l=a[o];this[l]=n[l]}if(this.encoding)this.setEncoding(this.encoding);if(this.start!==undefined){if("number"!==typeof this.start){throw TypeError("start must be a Number")}if(this.end===undefined){this.end=Infinity}else if("number"!==typeof this.end){throw TypeError("end must be a Number")}if(this.start>this.end){throw new Error("start must be <= end")}this.pos=this.start}if(this.fd!==null){process.nextTick((function(){r._read()}));return}e.open(this.path,this.flags,this.mode,(function(e,t){if(e){r.emit("error",e);r.readable=false;return}r.fd=t;r.emit("open",t);r._read()}))}function WriteStream(t,n){if(!(this instanceof WriteStream))return new WriteStream(t,n);i.call(this);this.path=t;this.fd=null;this.writable=true;this.flags="w";this.encoding="binary";this.mode=438;this.bytesWritten=0;n=n||{};var r=Object.keys(n);for(var a=0,o=r.length;a<o;a++){var c=r[a];this[c]=n[c]}if(this.start!==undefined){if("number"!==typeof this.start){throw TypeError("start must be a Number")}if(this.start<0){throw new Error("start must be >= zero")}this.pos=this.start}this.busy=false;this._queue=[];if(this.fd===null){this._open=e.open;this._queue.push([this._open,this.path,this.flags,this.mode,undefined]);this.flush()}}}},1013:(e,t,n)=>{var i=n(9140);var r=process.cwd;var a=null;var o=process.env.GRACEFUL_FS_PLATFORM||process.platform;process.cwd=function(){if(!a)a=r.call(process);return a};try{process.cwd()}catch(e){}if(typeof process.chdir==="function"){var c=process.chdir;process.chdir=function(e){a=null;c.call(process,e)};if(Object.setPrototypeOf)Object.setPrototypeOf(process.chdir,c)}e.exports=patch;function patch(e){if(i.hasOwnProperty("O_SYMLINK")&&process.version.match(/^v0\.6\.[0-2]|^v0\.5\./)){patchLchmod(e)}if(!e.lutimes){patchLutimes(e)}e.chown=chownFix(e.chown);e.fchown=chownFix(e.fchown);e.lchown=chownFix(e.lchown);e.chmod=chmodFix(e.chmod);e.fchmod=chmodFix(e.fchmod);e.lchmod=chmodFix(e.lchmod);e.chownSync=chownFixSync(e.chownSync);e.fchownSync=chownFixSync(e.fchownSync);e.lchownSync=chownFixSync(e.lchownSync);e.chmodSync=chmodFixSync(e.chmodSync);e.fchmodSync=chmodFixSync(e.fchmodSync);e.lchmodSync=chmodFixSync(e.lchmodSync);e.stat=statFix(e.stat);e.fstat=statFix(e.fstat);e.lstat=statFix(e.lstat);e.statSync=statFixSync(e.statSync);e.fstatSync=statFixSync(e.fstatSync);e.lstatSync=statFixSync(e.lstatSync);if(e.chmod&&!e.lchmod){e.lchmod=function(e,t,n){if(n)process.nextTick(n)};e.lchmodSync=function(){}}if(e.chown&&!e.lchown){e.lchown=function(e,t,n,i){if(i)process.nextTick(i)};e.lchownSync=function(){}}if(o==="win32"){e.rename=typeof e.rename!=="function"?e.rename:function(t){function rename(n,i,r){var a=Date.now();var o=0;t(n,i,(function CB(c){if(c&&(c.code==="EACCES"||c.code==="EPERM"||c.code==="EBUSY")&&Date.now()-a<6e4){setTimeout((function(){e.stat(i,(function(e,a){if(e&&e.code==="ENOENT")t(n,i,CB);else r(c)}))}),o);if(o<100)o+=10;return}if(r)r(c)}))}if(Object.setPrototypeOf)Object.setPrototypeOf(rename,t);return rename}(e.rename)}e.read=typeof e.read!=="function"?e.read:function(t){function read(n,i,r,a,o,c){var l;if(c&&typeof c==="function"){var u=0;l=function(p,d,h){if(p&&p.code==="EAGAIN"&&u<10){u++;return t.call(e,n,i,r,a,o,l)}c.apply(this,arguments)}}return t.call(e,n,i,r,a,o,l)}if(Object.setPrototypeOf)Object.setPrototypeOf(read,t);return read}(e.read);e.readSync=typeof e.readSync!=="function"?e.readSync:function(t){return function(n,i,r,a,o){var c=0;while(true){try{return t.call(e,n,i,r,a,o)}catch(e){if(e.code==="EAGAIN"&&c<10){c++;continue}throw e}}}}(e.readSync);function patchLchmod(e){e.lchmod=function(t,n,r){e.open(t,i.O_WRONLY|i.O_SYMLINK,n,(function(t,i){if(t){if(r)r(t);return}e.fchmod(i,n,(function(t){e.close(i,(function(e){if(r)r(t||e)}))}))}))};e.lchmodSync=function(t,n){var r=e.openSync(t,i.O_WRONLY|i.O_SYMLINK,n);var a=true;var o;try{o=e.fchmodSync(r,n);a=false}finally{if(a){try{e.closeSync(r)}catch(e){}}else{e.closeSync(r)}}return o}}function patchLutimes(e){if(i.hasOwnProperty("O_SYMLINK")&&e.futimes){e.lutimes=function(t,n,r,a){e.open(t,i.O_SYMLINK,(function(t,i){if(t){if(a)a(t);return}e.futimes(i,n,r,(function(t){e.close(i,(function(e){if(a)a(t||e)}))}))}))};e.lutimesSync=function(t,n,r){var a=e.openSync(t,i.O_SYMLINK);var o;var c=true;try{o=e.futimesSync(a,n,r);c=false}finally{if(c){try{e.closeSync(a)}catch(e){}}else{e.closeSync(a)}}return o}}else if(e.futimes){e.lutimes=function(e,t,n,i){if(i)process.nextTick(i)};e.lutimesSync=function(){}}}function chmodFix(t){if(!t)return t;return function(n,i,r){return t.call(e,n,i,(function(e){if(chownErOk(e))e=null;if(r)r.apply(this,arguments)}))}}function chmodFixSync(t){if(!t)return t;return function(n,i){try{return t.call(e,n,i)}catch(e){if(!chownErOk(e))throw e}}}function chownFix(t){if(!t)return t;return function(n,i,r,a){return t.call(e,n,i,r,(function(e){if(chownErOk(e))e=null;if(a)a.apply(this,arguments)}))}}function chownFixSync(t){if(!t)return t;return function(n,i,r){try{return t.call(e,n,i,r)}catch(e){if(!chownErOk(e))throw e}}}function statFix(t){if(!t)return t;return function(n,i,r){if(typeof i==="function"){r=i;i=null}function callback(e,t){if(t){if(t.uid<0)t.uid+=4294967296;if(t.gid<0)t.gid+=4294967296}if(r)r.apply(this,arguments)}return i?t.call(e,n,i,callback):t.call(e,n,callback)}}function statFixSync(t){if(!t)return t;return function(n,i){var r=i?t.call(e,n,i):t.call(e,n);if(r){if(r.uid<0)r.uid+=4294967296;if(r.gid<0)r.gid+=4294967296}return r}}function chownErOk(e){if(!e)return true;if(e.code==="ENOSYS")return true;var t=!process.getuid||process.getuid()!==0;if(t){if(e.code==="EINVAL"||e.code==="EPERM")return true}return false}}},3085:e=>{"use strict";e.exports=(e,t=process.argv)=>{const n=e.startsWith("-")?"":e.length===1?"-":"--";const i=t.indexOf(n+e);const r=t.indexOf("--");return i!==-1&&(r===-1||i<r)}},5536:(e,t,n)=>{var i=n(9808);var r=Object.create(null);var a=n(6144);e.exports=i(inflight);function inflight(e,t){if(r[e]){r[e].push(t);return null}else{r[e]=[t];return makeres(e)}}function makeres(e){return a((function RES(){var t=r[e];var n=t.length;var i=slice(arguments);try{for(var a=0;a<n;a++){t[a].apply(null,i)}}finally{if(t.length>n){t.splice(0,n);process.nextTick((function(){RES.apply(null,i)}))}else{delete r[e]}}}))}function slice(e){var t=e.length;var n=[];for(var i=0;i<t;i++)n[i]=e[i];return n}},8870:(e,t,n)=>{try{var i=n(9023);if(typeof i.inherits!=="function")throw"";e.exports=i.inherits}catch(t){e.exports=n(3189)}},3189:e=>{if(typeof Object.create==="function"){e.exports=function inherits(e,t){if(t){e.super_=t;e.prototype=Object.create(t.prototype,{constructor:{value:e,enumerable:false,writable:true,configurable:true}})}}}else{e.exports=function inherits(e,t){if(t){e.super_=t;var TempCtor=function(){};TempCtor.prototype=t.prototype;e.prototype=new TempCtor;e.prototype.constructor=e}}}},9832:(e,t,n)=>{let i;try{i=n(3944)}catch(e){i=n(9896)}const r=n(3981);const{stringify:a,stripBom:o}=n(3617);async function _readFile(e,t={}){if(typeof t==="string"){t={encoding:t}}const n=t.fs||i;const a="throws"in t?t.throws:true;let c=await r.fromCallback(n.readFile)(e,t);c=o(c);let l;try{l=JSON.parse(c,t?t.reviver:null)}catch(t){if(a){t.message=`${e}: ${t.message}`;throw t}else{return null}}return l}const c=r.fromPromise(_readFile);function readFileSync(e,t={}){if(typeof t==="string"){t={encoding:t}}const n=t.fs||i;const r="throws"in t?t.throws:true;try{let i=n.readFileSync(e,t);i=o(i);return JSON.parse(i,t.reviver)}catch(t){if(r){t.message=`${e}: ${t.message}`;throw t}else{return null}}}async function _writeFile(e,t,n={}){const o=n.fs||i;const c=a(t,n);await r.fromCallback(o.writeFile)(e,c,n)}const l=r.fromPromise(_writeFile);function writeFileSync(e,t,n={}){const r=n.fs||i;const o=a(t,n);return r.writeFileSync(e,o,n)}const u={readFile:c,readFileSync:readFileSync,writeFile:l,writeFileSync:writeFileSync};e.exports=u},3617:e=>{function stringify(e,{EOL:t="\n",finalEOL:n=true,replacer:i=null,spaces:r}={}){const a=n?t:"";const o=JSON.stringify(e,i,r);return o.replace(/\n/g,t)+a}function stripBom(e){if(Buffer.isBuffer(e))e=e.toString("utf8");return e.replace(/^\uFEFF/,"")}e.exports={stringify:stringify,stripBom:stripBom}},6765:e=>{class InvalidCaseError extends Error{constructor(e){super(e);this.name="InvalidCaseError"}}if(true&&e.exports){e.exports=InvalidCaseError}},7233:e=>{class InvalidConstantError extends Error{constructor(e){super(e);this.name="InvalidConstantError"}}if(true&&e.exports){e.exports=InvalidConstantError}},4317:(module,__unused_webpack_exports,__nccwpck_require__)=>{if(true){var InvalidCaseError=__nccwpck_require__(6765);var InvalidConstantError=__nccwpck_require__(7233)}class LuckyCase{static getVersion(){const e=LuckyCase;return e._version}static case(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}let r=null;for(let e of Object.keys(n.CASES)){const t=n.CASES[e.toString()];t.lastIndex=0;if(n.CASES[e].test(i)){r=e;break}}return r}static cases(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}let r=[];for(let e of Object.keys(n.CASES)){const t=n.CASES[e];t.lastIndex=0;if(t.test(i)){r.push(e)}}if(r.length===0){return null}else if(r.length>1){return r.filter((e=>e!==n.MIXED_CASE))}else{return r}}static convertCase(e,t,n=true){const i=LuckyCase;t=i.toUpperCase(t);if(Object.keys(i.CASES).includes(t)){return i["to"+i.toPascalCase(t)](e,n)}const r=`Invalid case type '${t}'. Valid types are: ${Object.keys(i.CASES).join(", ")}`;throw new InvalidCaseError(r)}static isValidCaseType(e){const t=LuckyCase;if(Object.keys(t.CASES).includes(e)){return true}else{return false}}static isValidCaseString(e){const t=LuckyCase;return t.case(e)!==null}static toUpperCase(e){return e.toLocaleUpperCase()}static isUpperCase(e){const t=LuckyCase;return e===t.toUpperCase(e)}static toLowerCase(e){return e.toLocaleLowerCase()}static isLowerCase(e){const t=LuckyCase;return e===t.toLowerCase(e)}static toSnakeCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.join("_");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isSnakeCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.SNAKE_CASE)}static toUpperSnakeCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.map((e=>n.toUpperCase(e))).join("_");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isUpperSnakeCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.UPPER_SNAKE_CASE)}static toPascalCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.map((e=>n.toCapital(e))).join("");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isPascalCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.PASCAL_CASE)}static toCamelCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i[0]+i.slice(1).map((e=>n.toCapital(e))).join("");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isCamelCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.CAMEL_CASE)}static toDashCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.join("-");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isDashCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.DASH_CASE)}static toUpperDashCase(e,t=true){const n=LuckyCase;const i=n.toDashCase(e,t);return n.toUpperCase(i)}static isUpperDashCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.UPPER_DASH_CASE)}static toTrainCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.map((e=>n.toCapital(e))).join("-");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isTrainCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.TRAIN_CASE)}static toWordCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.join(" ");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isWordCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.WORD_CASE)}static toUpperWordCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.map((e=>n.toUpperCase(e))).join(" ");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isUpperWordCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.UPPER_WORD_CASE)}static toCapitalWordCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=i.map((e=>n.toCapital(e))).join(" ");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isCapitalWordCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.CAPITAL_WORD_CASE)}static toSentenceCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);const r=n.toCapital(i.join(" "));if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isSentenceCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.SENTENCE_CASE)}static toCapital(e,t=false){const n=LuckyCase;if(!e||e===""){return e}let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}i=n.toUpperCase(i[0])+i.substr(1);if(t){return n.getUnderscoresAtStart(e)+i}else{return i}}static capitalize(e,t=false){const n=LuckyCase;return n.toCapital(e,t)}static isCapital(e,t=false){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n.isUpperCase(i[0])}static isCapitalized(e,t=false){const n=LuckyCase;return n.isCapital(e,t)}static decapitalize(e,t=false){const n=LuckyCase;if(!e||e===""){return e}let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}i=n.toLowerCase(i[0])+i.substr(1);if(t){return n.getUnderscoresAtStart(e)+i}else{return i}}static isNotCapital(e,t=false){const n=LuckyCase;return!n.isCapital(e,t)}static isDecapitalized(e,t=false){const n=LuckyCase;return n.isNotCapital(e,t)}static toMixedCase(e,t=true){const n=LuckyCase;const i=n.splitCaseString(e);let r=null;do{r="";for(let e of i){r+=n.convertCase(e,n._sampleFromArray(Object.keys(n.CASES)),t)}r=n.convertCase(r,n._sampleFromArray(Object.keys(n.CASES)),t)}while(!(r!==e&&n.getUnderscoresAtStart(e)+r!==e));if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static isMixedCase(e,t=true){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}return n._isCaseMatch(i,n.MIXED_CASE)}static swapCase(e,t=false){const n=LuckyCase;let i;if(t){i=n.cutUnderscoresAtStart(e)}else{i=e}let r=i.split("");for(let e=0;e<r.length;++e){let t=r[e];if(t==="_"){r[e]="-"}else if(t==="-"){r[e]="_"}else if(n.isLowerCase(t)){r[e]=n.toUpperCase(t)}else if(n.isUpperCase(t)){r[e]=n.toLowerCase(t)}}r=r.join("");if(t){return n.getUnderscoresAtStart(e)+r}else{return r}}static constantize(string){const self=LuckyCase;let s=string.replace(/\//g,"_");let constant_string=self.toPascalCase(s,false);return eval(constant_string)}static deconstantize(e,t=LuckyCase.CAMEL_CASE){const n=LuckyCase;let i;if(typeof e==="function"){i=e.name}else{throw new InvalidConstantError("Constant must be of type 'function'")}return n.convertCase(i,t)}static cutUnderscoresAtStart(e){let t=0;const n=e.split("");for(let e of n){if(e==="_"){++t}else{break}}return e.substr(t)}static getUnderscoresAtStart(e){let t="";for(let n of e.split("")){if(n==="_"){t+="_"}else{break}}return t}static splitCaseString(e){const t=LuckyCase;let n=t.cutUnderscoresAtStart(e);if(!t.isUpperCase(n)){n=n.replace(makeUpperLowerRegExp(`([::upper::])`),"_$1")}n=n.replace(/ /g,"_");n=n.replace(/\-/g,"_");n=t.cutUnderscoresAtStart(n);return n.toLocaleLowerCase().split("_").filter((e=>!!e))}static _isCaseMatch(e,t){const n=LuckyCase;if(n.isValidCaseType(t)){const i=n.CASES[t];i.lastIndex=0;return n.CASES[t].test(e)}else if(n.FORMATS[t]){const i=n.FORMATS[t];i.lastIndex=0;return n.FORMATS[t].test(e)}else{const e=`Invalid case type '${t}'. Valid types are: ${Object.keys(n.CASES).join(", ")}`;throw new InvalidCaseError(e)}}static _sampleFromArray(e){return e[Math.floor(Math.random()*e.length)]}}LuckyCase._version="1.1.8";LuckyCase._lower="\\u0061-\\u007A\\u00B5\\u00DF-\\u00F6\\u00F8-\\u00FF\\u0101\\u0103\\u0105\\u0107\\u0109\\u010B\\u010D\\u010F\\u0111\\u0113\\u0115\\u0117\\u0119\\u011B\\u011D\\u011F\\u0121\\u0123\\u0125\\u0127\\u0129\\u012B\\u012D\\u012F\\u0131\\u0133\\u0135\\u0137-\\u0138\\u013A\\u013C\\u013E\\u0140\\u0142\\u0144\\u0146\\u0148-\\u0149\\u014B\\u014D\\u014F\\u0151\\u0153\\u0155\\u0157\\u0159\\u015B\\u015D\\u015F\\u0161\\u0163\\u0165\\u0167\\u0169\\u016B\\u016D\\u016F\\u0171\\u0173\\u0175\\u0177\\u017A\\u017C\\u017E-\\u0180\\u0183\\u0185\\u0188\\u018C-\\u018D\\u0192\\u0195\\u0199-\\u019B\\u019E\\u01A1\\u01A3\\u01A5\\u01A8\\u01AA-\\u01AB\\u01AD\\u01B0\\u01B4\\u01B6\\u01B9-\\u01BA\\u01BD-\\u01BF\\u01C6\\u01C9\\u01CC\\u01CE\\u01D0\\u01D2\\u01D4\\u01D6\\u01D8\\u01DA\\u01DC-\\u01DD\\u01DF\\u01E1\\u01E3\\u01E5\\u01E7\\u01E9\\u01EB\\u01ED\\u01EF-\\u01F0\\u01F3\\u01F5\\u01F9\\u01FB\\u01FD\\u01FF\\u0201\\u0203\\u0205\\u0207\\u0209\\u020B\\u020D\\u020F\\u0211\\u0213\\u0215\\u0217\\u0219\\u021B\\u021D\\u021F\\u0221\\u0223\\u0225\\u0227\\u0229\\u022B\\u022D\\u022F\\u0231\\u0233-\\u0239\\u023C\\u023F-\\u0240\\u0242\\u0247\\u0249\\u024B\\u024D\\u024F-\\u0293\\u0295-\\u02AF\\u0371\\u0373\\u0377\\u037B-\\u037D\\u0390\\u03AC-\\u03CE\\u03D0-\\u03D1\\u03D5-\\u03D7\\u03D9\\u03DB\\u03DD\\u03DF\\u03E1\\u03E3\\u03E5\\u03E7\\u03E9\\u03EB\\u03ED\\u03EF-\\u03F3\\u03F5\\u03F8\\u03FB-\\u03FC\\u0428-\\u045F\\u0461\\u0463\\u0465\\u0467\\u0469\\u046B\\u046D\\u046F\\u0471\\u0473\\u0475\\u0477\\u0479\\u047B\\u047D\\u047F\\u0481\\u048B\\u048D\\u048F\\u0491\\u0493\\u0495\\u0497\\u0499\\u049B\\u049D\\u049F\\u04A1\\u04A3\\u04A5\\u04A7\\u04A9\\u04AB\\u04AD\\u04AF\\u04B1\\u04B3\\u04B5\\u04B7\\u04B9\\u04BB\\u04BD\\u04BF\\u04C2\\u04C4\\u04C6\\u04C8\\u04CA\\u04CC\\u04CE-\\u04CF\\u04D1\\u04D3\\u04D5\\u04D7-\\u04FB\\u04FD\\u04FF\\u0501\\u0503\\u0505\\u0507\\u0509\\u050B\\u050D\\u050F\\u0511\\u0513\\u0515\\u0517\\u0519\\u051B\\u051D\\u051F\\u0521\\u0523\\u0525\\u0527\\u0529\\u052B\\u052D\\u052F\\u0560-\\u0588\\u0CC0-\\u0CF2\\u10D0-\\u10FA\\u10FD-\\u10FF\\u13F8-\\u13FD\\u18C0-\\u18DF\\u1C80-\\u1C88\\u1D00-\\u1D2B\\u1D6B-\\u1D77\\u1D79-\\u1D9A\\u1E01\\u1E03\\u1E05\\u1E07\\u1E09\\u1E0B\\u1E0D\\u1E0F\\u1E11\\u1E13\\u1E15\\u1E17\\u1E19\\u1E1B\\u1E1D\\u1E1F\\u1E21\\u1E23\\u1E25\\u1E27\\u1E29\\u1E2B\\u1E2D\\u1E2F\\u1E31\\u1E33\\u1E35\\u1E37\\u1E39\\u1E3B\\u1E3D\\u1E3F\\u1E41\\u1E43\\u1E45\\u1E47\\u1E49\\u1E4B\\u1E4D\\u1E4F\\u1E51\\u1E53\\u1E55\\u1E57\\u1E59\\u1E5B\\u1E5D\\u1E5F\\u1E61\\u1E63\\u1E65\\u1E67\\u1E69\\u1E6B\\u1E6D\\u1E6F\\u1E71\\u1E73\\u1E75\\u1E77\\u1E79\\u1E7B\\u1E7D\\u1E7F\\u1E81\\u1E83\\u1E85\\u1E87\\u1E89\\u1E8B\\u1E8D\\u1E8F\\u1E91\\u1E93\\u1E95-\\u1E9D\\u1E9F\\u1EA1\\u1EA3\\u1EA5\\u1EA7\\u1EA9\\u1EAB\\u1EAD\\u1EAF\\u1EB1\\u1EB3\\u1EB5\\u1EB7\\u1EB9\\u1EBB\\u1EBD\\u1EBF\\u1EC1\\u1EC3\\u1EC5\\u1EC7\\u1EC9\\u1ECB\\u1ECD\\u1ECF\\u1ED1\\u1ED3\\u1ED5\\u1ED7\\u1ED9\\u1EDB\\u1EDD\\u1EDF\\u1EE1\\u1EE3\\u1EE5\\u1EE7\\u1EE9\\u1EEB\\u1EED\\u1EEF\\u1EF1\\u1EF3\\u1EF5\\u1EF7\\u1EF9\\u1EFB\\u1EFD\\u1EFF-\\u1F07\\u1F10-\\u1F15\\u1F20-\\u1F27\\u1F30-\\u1F37\\u1F40-\\u1F45\\u1F50-\\u1F57\\u1F60-\\u1F67\\u1F70-\\u1F7D\\u1F80-\\u1F87\\u1F90-\\u1F97\\u1FA0-\\u1FA7\\u1FB0-\\u1FB4\\u1FB6-\\u1FB7\\u1FBE\\u1FC2-\\u1FC4\\u1FC6-\\u1FC7\\u1FD0-\\u1FD3\\u1FD6-\\u1FD7\\u1FE0-\\u1FE7\\u1FF2-\\u1FF4\\u1FF6-\\u1FF7\\u210A\\u210E-\\u210F\\u2113\\u212F\\u2134\\u2139\\u213C-\\u213D\\u2146-\\u2149\\u214E\\u2184\\u2C30-\\u2C5E\\u2C61\\u2C65-\\u2C66\\u2C68\\u2C6A\\u2C6C\\u2C71\\u2C73-\\u2C74\\u2C76-\\u2C7B\\u2C81\\u2C83\\u2C85\\u2C87\\u2C89\\u2C8B\\u2C8D\\u2C8F\\u2C91\\u2C93\\u2C95\\u2C97\\u2C99\\u2C9B\\u2C9D\\u2C9F\\u2CA1\\u2CA3\\u2CA5\\u2CA7\\u2CA9\\u2CAB\\u2CAD\\u2CAF\\u2CB1\\u2CB3\\u2CB5\\u2CB7\\u2CB9\\u2CBB\\u2CBD\\u2CBF\\u2CC1\\u2CC3\\u2CC5\\u2CC7\\u2CC9\\u2CCB\\u2CCD\\u2CCF\\u2CD1\\u2CD3\\u2CD5\\u2CD7\\u2CD9\\u2CDB\\u2CDD\\u2CDF\\u2CE1\\u2CE3-\\u2CE4\\u2CEC\\u2CEE\\u2CF3\\u2D00-\\u2D25\\u2D27\\u2D2D\\u6E60-\\u6E7F\\uA641\\uA643\\uA645\\uA647\\uA649\\uA64B\\uA64D\\uA64F\\uA651\\uA653\\uA655\\uA657\\uA659\\uA65B\\uA65D\\uA65F\\uA661\\uA663\\uA665\\uA667\\uA669\\uA66B\\uA66D\\uA681\\uA683\\uA685\\uA687\\uA689\\uA68B\\uA68D\\uA68F\\uA691\\uA693\\uA695\\uA697\\uA699\\uA69B\\uA723\\uA725\\uA727\\uA729\\uA72B\\uA72D\\uA72F-\\uA731\\uA733\\uA735\\uA737\\uA739\\uA73B\\uA73D\\uA73F\\uA741\\uA743\\uA745\\uA747\\uA749\\uA74B\\uA74D\\uA74F\\uA751\\uA753\\uA755\\uA757\\uA759\\uA75B\\uA75D\\uA75F\\uA761\\uA763\\uA765\\uA767\\uA769\\uA76B\\uA76D\\uA76F\\uA771-\\uA778\\uA77A\\uA77C\\uA77F\\uA781\\uA783\\uA785\\uA787\\uA78C\\uA78E\\uA791\\uA793-\\uA795\\uA797\\uA799\\uA79B\\uA79D\\uA79F\\uA7A1\\uA7A3\\uA7A5\\uA7A7\\uA7A9\\uA7AF\\uA7B5\\uA7B7\\uA7B9\\uA7BB\\uA7BD\\uA7BF\\uA7C3\\uA7FA\\uAB30-\\uAB5A\\uAB60-\\uAB67\\uAB70-\\uABBF\\uD41A-\\uD433\\uD44E-\\uD454\\uD456-\\uD467\\uD482-\\uD49B\\uD4B6-\\uD4B9\\uD4BB\\uD4BD-\\uD4C3\\uD4C5-\\uD4CF\\uD4EA-\\uD503\\uD51E-\\uD537\\uD552-\\uD56B\\uD586-\\uD59F\\uD5BA-\\uD5D3\\uD5EE-\\uD607\\uD622-\\uD63B\\uD656-\\uD66F\\uD68A-\\uD6A5\\uD6C2-\\uD6DA\\uD6DC-\\uD6E1\\uD6FC-\\uD714\\uD716-\\uD71B\\uD736-\\uD74E\\uD750-\\uD755\\uD770-\\uD788\\uD78A-\\uD78F\\uD7AA-\\uD7C2\\uD7C4-\\uD7C9\\uD7CB\\uE922-\\uE943\\uFB00-\\uFB06\\uFB13-\\uFB17\\uFF41-\\uFF5A";LuckyCase._upper="\\u0041-\\u005A\\u00C0-\\u00D6\\u00D8-\\u00DE\\u0100\\u0102\\u0104\\u0106\\u0108\\u010A\\u010C\\u010E\\u0110\\u0112\\u0114\\u0116\\u0118\\u011A\\u011C\\u011E\\u0120\\u0122\\u0124\\u0126\\u0128\\u012A\\u012C\\u012E\\u0130\\u0132\\u0134\\u0136\\u0139\\u013B\\u013D\\u013F\\u0141\\u0143\\u0145\\u0147\\u014A\\u014C\\u014E\\u0150\\u0152\\u0154\\u0156\\u0158\\u015A\\u015C\\u015E\\u0160\\u0162\\u0164\\u0166\\u0168\\u016A\\u016C\\u016E\\u0170\\u0172\\u0174\\u0176\\u0178-\\u0179\\u017B\\u017D\\u0181-\\u0182\\u0184\\u0186-\\u0187\\u0189-\\u018B\\u018E-\\u0191\\u0193-\\u0194\\u0196-\\u0198\\u019C-\\u019D\\u019F-\\u01A0\\u01A2\\u01A4\\u01A6-\\u01A7\\u01A9\\u01AC\\u01AE-\\u01AF\\u01B1-\\u01B3\\u01B5\\u01B7-\\u01B8\\u01BC\\u01C4\\u01C7\\u01CA\\u01CD\\u01CF\\u01D1\\u01D3\\u01D5\\u01D7\\u01D9\\u01DB\\u01DE\\u01E0\\u01E2\\u01E4\\u01E6\\u01E8\\u01EA\\u01EC\\u01EE\\u01F1\\u01F4\\u01F6-\\u01F8\\u01FA\\u01FC\\u01FE\\u0200\\u0202\\u0204\\u0206\\u0208\\u020A\\u020C\\u020E\\u0210\\u0212\\u0214\\u0216\\u0218\\u021A\\u021C\\u021E\\u0220\\u0222\\u0224\\u0226\\u0228\\u022A\\u022C\\u022E\\u0230\\u0232\\u023A-\\u023B\\u023D-\\u023E\\u0241\\u0243-\\u0246\\u0248\\u024A\\u024C\\u024E\\u0370\\u0372\\u0376\\u037F\\u0386\\u0388-\\u038A\\u038C\\u038E-\\u038F\\u0391-\\u03A1\\u03A3-\\u03AB\\u03CF\\u03D2-\\u03D4\\u03D8\\u03DA\\u03DC\\u03DE\\u03E0\\u03E2\\u03E4\\u03E6\\u03E8\\u03EA\\u03EC\\u03EE\\u03F4\\u03F7\\u03F9-\\u03FA\\u03FD-\\u042F\\u0460\\u0462\\u0464\\u0466\\u0468\\u046A\\u046C\\u046E\\u0470\\u0472\\u0474\\u0476\\u0478\\u047A\\u047C\\u047E\\u0480\\u048A\\u048C\\u048E\\u0490\\u0492\\u0494\\u0496\\u0498\\u049A\\u049C\\u049E\\u04A0\\u04A2\\u04A4\\u04A6\\u04A8\\u04AA\\u04AC\\u04AE\\u04B0-\\u04D4\\u04D6\\u04D8\\u04DA\\u04DC\\u04DE\\u04E0\\u04E2\\u04E4\\u04E6\\u04E8\\u04EA\\u04EC\\u04EE\\u04F0\\u04F2\\u04F4\\u04F6\\u04F8\\u04FA\\u04FC\\u04FE\\u0500\\u0502\\u0504\\u0506\\u0508\\u050A\\u050C\\u050E\\u0510\\u0512\\u0514\\u0516\\u0518\\u051A\\u051C\\u051E\\u0520\\u0522\\u0524\\u0526\\u0528\\u052A\\u052C\\u052E\\u0531-\\u0556\\u0C80-\\u0CB2\\u10A0-\\u10C5\\u10C7\\u10CD\\u13A0-\\u13F5\\u18A0-\\u18BF\\u1C90-\\u1CBA\\u1CBD-\\u1CBF\\u1E00\\u1E02\\u1E04\\u1E06\\u1E08\\u1E0A\\u1E0C\\u1E0E\\u1E10\\u1E12\\u1E14\\u1E16\\u1E18\\u1E1A\\u1E1C\\u1E1E\\u1E20\\u1E22\\u1E24\\u1E26\\u1E28\\u1E2A\\u1E2C\\u1E2E\\u1E30\\u1E32\\u1E34\\u1E36\\u1E38\\u1E3A\\u1E3C\\u1E3E\\u1E40\\u1E42\\u1E44\\u1E46\\u1E48\\u1E4A\\u1E4C\\u1E4E\\u1E50\\u1E52\\u1E54\\u1E56\\u1E58\\u1E5A\\u1E5C\\u1E5E\\u1E60\\u1E62\\u1E64\\u1E66\\u1E68\\u1E6A\\u1E6C\\u1E6E\\u1E70\\u1E72\\u1E74\\u1E76\\u1E78\\u1E7A\\u1E7C\\u1E7E\\u1E80\\u1E82\\u1E84\\u1E86\\u1E88\\u1E8A\\u1E8C\\u1E8E\\u1E90\\u1E92\\u1E94\\u1E9E\\u1EA0\\u1EA2\\u1EA4\\u1EA6\\u1EA8\\u1EAA\\u1EAC\\u1EAE\\u1EB0\\u1EB2\\u1EB4\\u1EB6\\u1EB8\\u1EBA\\u1EBC\\u1EBE\\u1EC0\\u1EC2\\u1EC4\\u1EC6\\u1EC8\\u1ECA\\u1ECC\\u1ECE\\u1ED0\\u1ED2\\u1ED4\\u1ED6\\u1ED8\\u1EDA\\u1EDC\\u1EDE\\u1EE0\\u1EE2\\u1EE4\\u1EE6\\u1EE8\\u1EEA\\u1EEC\\u1EEE\\u1EF0\\u1EF2\\u1EF4\\u1EF6\\u1EF8\\u1EFA\\u1EFC\\u1EFE\\u1F08-\\u1F0F\\u1F18-\\u1F1D\\u1F28-\\u1F2F\\u1F38-\\u1F3F\\u1F48-\\u1F4D\\u1F59\\u1F5B\\u1F5D\\u1F5F\\u1F68-\\u1F6F\\u1FB8-\\u1FBB\\u1FC8-\\u1FCB\\u1FD8-\\u1FDB\\u1FE8-\\u1FEC\\u1FF8-\\u1FFB\\u2102\\u2107\\u210B-\\u210D\\u2110-\\u2112\\u2115\\u2119-\\u211D\\u2124\\u2126\\u2128\\u212A-\\u212D\\u2130-\\u2133\\u213E-\\u213F\\u2145\\u2183\\u2C00-\\u2C2E\\u2C60\\u2C62-\\u2C64\\u2C67\\u2C69\\u2C6B\\u2C6D-\\u2C70\\u2C72\\u2C75\\u2C7E-\\u2C80\\u2C82\\u2C84\\u2C86\\u2C88\\u2C8A\\u2C8C\\u2C8E\\u2C90\\u2C92\\u2C94\\u2C96\\u2C98\\u2C9A\\u2C9C\\u2C9E\\u2CA0\\u2CA2\\u2CA4\\u2CA6\\u2CA8\\u2CAA\\u2CAC\\u2CAE\\u2CB0\\u2CB2\\u2CB4\\u2CB6\\u2CB8\\u2CBA\\u2CBC\\u2CBE\\u2CC0\\u2CC2\\u2CC4\\u2CC6\\u2CC8\\u2CCA\\u2CCC\\u2CCE\\u2CD0\\u2CD2\\u2CD4\\u2CD6\\u2CD8\\u2CDA\\u2CDC\\u2CDE\\u2CE0\\u2CE2\\u2CEB\\u2CED\\u2CF2\\u6E40-\\u6E5F\\uA640\\uA642\\uA644\\uA646\\uA648\\uA64A\\uA64C\\uA64E\\uA650\\uA652\\uA654\\uA656\\uA658\\uA65A\\uA65C\\uA65E\\uA660\\uA662\\uA664\\uA666\\uA668\\uA66A\\uA66C\\uA680\\uA682\\uA684\\uA686\\uA688\\uA68A\\uA68C\\uA68E\\uA690\\uA692\\uA694\\uA696\\uA698\\uA69A\\uA722\\uA724\\uA726\\uA728\\uA72A\\uA72C\\uA72E\\uA732\\uA734\\uA736\\uA738\\uA73A\\uA73C\\uA73E\\uA740\\uA742\\uA744\\uA746\\uA748\\uA74A\\uA74C\\uA74E\\uA750\\uA752\\uA754\\uA756\\uA758\\uA75A\\uA75C\\uA75E\\uA760\\uA762\\uA764\\uA766\\uA768\\uA76A\\uA76C\\uA76E\\uA779\\uA77B\\uA77D-\\uA77E\\uA780\\uA782\\uA784\\uA786\\uA78B\\uA78D\\uA790\\uA792\\uA796\\uA798\\uA79A\\uA79C\\uA79E\\uA7A0\\uA7A2\\uA7A4\\uA7A6\\uA7A8\\uA7AA-\\uA7AE\\uA7B0-\\uA7B4\\uA7B6\\uA7B8\\uA7BA\\uA7BC\\uA7BE\\uA7C2\\uA7C4-\\uA7C6\\uD400-\\uD419\\uD434-\\uD44D\\uD468-\\uD481\\uD49C\\uD49E-\\uD49F\\uD4A2\\uD4A5-\\uD4A6\\uD4A9-\\uD4AC\\uD4AE-\\uD4B5\\uD4D0-\\uD4E9\\uD504-\\uD505\\uD507-\\uD50A\\uD50D-\\uD514\\uD516-\\uD51C\\uD538-\\uD539\\uD53B-\\uD53E\\uD540-\\uD544\\uD546\\uD54A-\\uD550\\uD56C-\\uD585\\uD5A0-\\uD5B9\\uD5D4-\\uD5ED\\uD608-\\uD621\\uD63C-\\uD655\\uD670-\\uD689\\uD6A8-\\uD6C0\\uD6E2-\\uD6FA\\uD71C-\\uD734\\uD756-\\uD76E\\uD790-\\uD7A8\\uD7CA\\uE900-\\uE921\\uFF21-\\uFF3A";function makeUpperLowerRegExp(e){return new RegExp(e.replace(/::lower::/g,LuckyCase._lower).replace(/::upper::/g,LuckyCase._upper),"g")}LuckyCase.CASES={SNAKE_CASE:makeUpperLowerRegExp("^[::lower::]{1}[::lower::_0-9]+$"),UPPER_SNAKE_CASE:makeUpperLowerRegExp("^[::upper::]{1}[::upper::_0-9]+$"),PASCAL_CASE:makeUpperLowerRegExp("^[::upper::]{1}[::upper::::lower::0-9]+$"),CAMEL_CASE:makeUpperLowerRegExp("^[::lower::]{1}[::upper::::lower::0-9]+$"),DASH_CASE:makeUpperLowerRegExp("^([::lower::]){1}[::lower::\\-0-9]*[::lower::0-9]+$"),UPPER_DASH_CASE:makeUpperLowerRegExp("^([::upper::]){1}[::upper::\\-0-9]*[::upper::0-9]+$"),TRAIN_CASE:makeUpperLowerRegExp("^([::upper::][::lower::0-9]*\\-|[0-9]+\\-)*([::upper::][::lower::0-9]*)$"),WORD_CASE:makeUpperLowerRegExp("^[::lower::]{1}[::lower:: 0-9]+$"),UPPER_WORD_CASE:makeUpperLowerRegExp("^[::upper::]{1}[::upper:: 0-9]+$"),CAPITAL_WORD_CASE:makeUpperLowerRegExp("^([::upper::][::lower::0-9]*\\ |[0-9]+\\ )*([::upper::][::lower::0-9]*)$"),SENTENCE_CASE:makeUpperLowerRegExp("^[::upper::]{1}[::lower:: 0-9]+$"),MIXED_CASE:makeUpperLowerRegExp("^[::upper::::lower::][::upper::::lower::_\\-0-9 ]*$")};LuckyCase.FORMATS={CAPITAL:makeUpperLowerRegExp("^[::upper::]{1}.*$"),UPPER_CASE:makeUpperLowerRegExp("^[^::lower::]+$"),LOWER_CASE:makeUpperLowerRegExp("^[^::upper::]+$")};LuckyCase.SNAKE_CASE="SNAKE_CASE";LuckyCase.UPPER_SNAKE_CASE="UPPER_SNAKE_CASE";LuckyCase.PASCAL_CASE="PASCAL_CASE";LuckyCase.CAMEL_CASE="CAMEL_CASE";LuckyCase.DASH_CASE="DASH_CASE";LuckyCase.UPPER_DASH_CASE="UPPER_DASH_CASE";LuckyCase.TRAIN_CASE="TRAIN_CASE";LuckyCase.WORD_CASE="WORD_CASE";LuckyCase.UPPER_WORD_CASE="UPPER_WORD_CASE";LuckyCase.CAPITAL_WORD_CASE="CAPITAL_WORD_CASE";LuckyCase.SENTENCE_CASE="SENTENCE_CASE";LuckyCase.MIXED_CASE="MIXED_CASE";LuckyCase.CAPITAL="CAPITAL";LuckyCase.UPPER_CASE="UPPER_CASE";LuckyCase.LOWER_CASE="LOWER_CASE";if(true&&module.exports){module.exports=LuckyCase}},9034:e=>{"use strict";function Mime(){this._types=Object.create(null);this._extensions=Object.create(null);for(let e=0;e<arguments.length;e++){this.define(arguments[e])}this.define=this.define.bind(this);this.getType=this.getType.bind(this);this.getExtension=this.getExtension.bind(this)}Mime.prototype.define=function(e,t){for(let n in e){let i=e[n].map((function(e){return e.toLowerCase()}));n=n.toLowerCase();for(let e=0;e<i.length;e++){const r=i[e];if(r[0]==="*"){continue}if(!t&&r in this._types){throw new Error('Attempt to change mapping for "'+r+'" extension from "'+this._types[r]+'" to "'+n+'". Pass `force=true` to allow this, otherwise remove "'+r+'" from the list of extensions for "'+n+'".')}this._types[r]=n}if(t||!this._extensions[n]){const e=i[0];this._extensions[n]=e[0]!=="*"?e:e.substr(1)}}};Mime.prototype.getType=function(e){e=String(e);let t=e.replace(/^.*[/\\]/,"").toLowerCase();let n=t.replace(/^.*\./,"").toLowerCase();let i=t.length<e.length;let r=n.length<t.length-1;return(r||!i)&&this._types[n]||null};Mime.prototype.getExtension=function(e){e=/^\s*([^;\s]*)/.test(e)&&RegExp.$1;return e&&this._extensions[e.toLowerCase()]||null};e.exports=Mime},124:(e,t,n)=>{"use strict";let i=n(9034);e.exports=new i(n(149),n(7500))},7500:e=>{e.exports={"application/prs.cww":["cww"],"application/vnd.1000minds.decision-model+xml":["1km"],"application/vnd.3gpp.pic-bw-large":["plb"],"application/vnd.3gpp.pic-bw-small":["psb"],"application/vnd.3gpp.pic-bw-var":["pvb"],"application/vnd.3gpp2.tcap":["tcap"],"application/vnd.3m.post-it-notes":["pwn"],"application/vnd.accpac.simply.aso":["aso"],"application/vnd.accpac.simply.imp":["imp"],"application/vnd.acucobol":["acu"],"application/vnd.acucorp":["atc","acutc"],"application/vnd.adobe.air-application-installer-package+zip":["air"],"application/vnd.adobe.formscentral.fcdt":["fcdt"],"application/vnd.adobe.fxp":["fxp","fxpl"],"application/vnd.adobe.xdp+xml":["xdp"],"application/vnd.adobe.xfdf":["xfdf"],"application/vnd.ahead.space":["ahead"],"application/vnd.airzip.filesecure.azf":["azf"],"application/vnd.airzip.filesecure.azs":["azs"],"application/vnd.amazon.ebook":["azw"],"application/vnd.americandynamics.acc":["acc"],"application/vnd.amiga.ami":["ami"],"application/vnd.android.package-archive":["apk"],"application/vnd.anser-web-certificate-issue-initiation":["cii"],"application/vnd.anser-web-funds-transfer-initiation":["fti"],"application/vnd.antix.game-component":["atx"],"application/vnd.apple.installer+xml":["mpkg"],"application/vnd.apple.keynote":["key"],"application/vnd.apple.mpegurl":["m3u8"],"application/vnd.apple.numbers":["numbers"],"application/vnd.apple.pages":["pages"],"application/vnd.apple.pkpass":["pkpass"],"application/vnd.aristanetworks.swi":["swi"],"application/vnd.astraea-software.iota":["iota"],"application/vnd.audiograph":["aep"],"application/vnd.balsamiq.bmml+xml":["bmml"],"application/vnd.blueice.multipass":["mpm"],"application/vnd.bmi":["bmi"],"application/vnd.businessobjects":["rep"],"application/vnd.chemdraw+xml":["cdxml"],"application/vnd.chipnuts.karaoke-mmd":["mmd"],"application/vnd.cinderella":["cdy"],"application/vnd.citationstyles.style+xml":["csl"],"application/vnd.claymore":["cla"],"application/vnd.cloanto.rp9":["rp9"],"application/vnd.clonk.c4group":["c4g","c4d","c4f","c4p","c4u"],"application/vnd.cluetrust.cartomobile-config":["c11amc"],"application/vnd.cluetrust.cartomobile-config-pkg":["c11amz"],"application/vnd.commonspace":["csp"],"application/vnd.contact.cmsg":["cdbcmsg"],"application/vnd.cosmocaller":["cmc"],"application/vnd.crick.clicker":["clkx"],"application/vnd.crick.clicker.keyboard":["clkk"],"application/vnd.crick.clicker.palette":["clkp"],"application/vnd.crick.clicker.template":["clkt"],"application/vnd.crick.clicker.wordbank":["clkw"],"application/vnd.criticaltools.wbs+xml":["wbs"],"application/vnd.ctc-posml":["pml"],"application/vnd.cups-ppd":["ppd"],"application/vnd.curl.car":["car"],"application/vnd.curl.pcurl":["pcurl"],"application/vnd.dart":["dart"],"application/vnd.data-vision.rdz":["rdz"],"application/vnd.dbf":["dbf"],"application/vnd.dece.data":["uvf","uvvf","uvd","uvvd"],"application/vnd.dece.ttml+xml":["uvt","uvvt"],"application/vnd.dece.unspecified":["uvx","uvvx"],"application/vnd.dece.zip":["uvz","uvvz"],"application/vnd.denovo.fcselayout-link":["fe_launch"],"application/vnd.dna":["dna"],"application/vnd.dolby.mlp":["mlp"],"application/vnd.dpgraph":["dpg"],"application/vnd.dreamfactory":["dfac"],"application/vnd.ds-keypoint":["kpxx"],"application/vnd.dvb.ait":["ait"],"application/vnd.dvb.service":["svc"],"application/vnd.dynageo":["geo"],"application/vnd.ecowin.chart":["mag"],"application/vnd.enliven":["nml"],"application/vnd.epson.esf":["esf"],"application/vnd.epson.msf":["msf"],"application/vnd.epson.quickanime":["qam"],"application/vnd.epson.salt":["slt"],"application/vnd.epson.ssf":["ssf"],"application/vnd.eszigno3+xml":["es3","et3"],"application/vnd.ezpix-album":["ez2"],"application/vnd.ezpix-package":["ez3"],"application/vnd.fdf":["fdf"],"application/vnd.fdsn.mseed":["mseed"],"application/vnd.fdsn.seed":["seed","dataless"],"application/vnd.flographit":["gph"],"application/vnd.fluxtime.clip":["ftc"],"application/vnd.framemaker":["fm","frame","maker","book"],"application/vnd.frogans.fnc":["fnc"],"application/vnd.frogans.ltf":["ltf"],"application/vnd.fsc.weblaunch":["fsc"],"application/vnd.fujitsu.oasys":["oas"],"application/vnd.fujitsu.oasys2":["oa2"],"application/vnd.fujitsu.oasys3":["oa3"],"application/vnd.fujitsu.oasysgp":["fg5"],"application/vnd.fujitsu.oasysprs":["bh2"],"application/vnd.fujixerox.ddd":["ddd"],"application/vnd.fujixerox.docuworks":["xdw"],"application/vnd.fujixerox.docuworks.binder":["xbd"],"application/vnd.fuzzysheet":["fzs"],"application/vnd.genomatix.tuxedo":["txd"],"application/vnd.geogebra.file":["ggb"],"application/vnd.geogebra.tool":["ggt"],"application/vnd.geometry-explorer":["gex","gre"],"application/vnd.geonext":["gxt"],"application/vnd.geoplan":["g2w"],"application/vnd.geospace":["g3w"],"application/vnd.gmx":["gmx"],"application/vnd.google-apps.document":["gdoc"],"application/vnd.google-apps.presentation":["gslides"],"application/vnd.google-apps.spreadsheet":["gsheet"],"application/vnd.google-earth.kml+xml":["kml"],"application/vnd.google-earth.kmz":["kmz"],"application/vnd.grafeq":["gqf","gqs"],"application/vnd.groove-account":["gac"],"application/vnd.groove-help":["ghf"],"application/vnd.groove-identity-message":["gim"],"application/vnd.groove-injector":["grv"],"application/vnd.groove-tool-message":["gtm"],"application/vnd.groove-tool-template":["tpl"],"application/vnd.groove-vcard":["vcg"],"application/vnd.hal+xml":["hal"],"application/vnd.handheld-entertainment+xml":["zmm"],"application/vnd.hbci":["hbci"],"application/vnd.hhe.lesson-player":["les"],"application/vnd.hp-hpgl":["hpgl"],"application/vnd.hp-hpid":["hpid"],"application/vnd.hp-hps":["hps"],"application/vnd.hp-jlyt":["jlt"],"application/vnd.hp-pcl":["pcl"],"application/vnd.hp-pclxl":["pclxl"],"application/vnd.hydrostatix.sof-data":["sfd-hdstx"],"application/vnd.ibm.minipay":["mpy"],"application/vnd.ibm.modcap":["afp","listafp","list3820"],"application/vnd.ibm.rights-management":["irm"],"application/vnd.ibm.secure-container":["sc"],"application/vnd.iccprofile":["icc","icm"],"application/vnd.igloader":["igl"],"application/vnd.immervision-ivp":["ivp"],"application/vnd.immervision-ivu":["ivu"],"application/vnd.insors.igm":["igm"],"application/vnd.intercon.formnet":["xpw","xpx"],"application/vnd.intergeo":["i2g"],"application/vnd.intu.qbo":["qbo"],"application/vnd.intu.qfx":["qfx"],"application/vnd.ipunplugged.rcprofile":["rcprofile"],"application/vnd.irepository.package+xml":["irp"],"application/vnd.is-xpr":["xpr"],"application/vnd.isac.fcs":["fcs"],"application/vnd.jam":["jam"],"application/vnd.jcp.javame.midlet-rms":["rms"],"application/vnd.jisp":["jisp"],"application/vnd.joost.joda-archive":["joda"],"application/vnd.kahootz":["ktz","ktr"],"application/vnd.kde.karbon":["karbon"],"application/vnd.kde.kchart":["chrt"],"application/vnd.kde.kformula":["kfo"],"application/vnd.kde.kivio":["flw"],"application/vnd.kde.kontour":["kon"],"application/vnd.kde.kpresenter":["kpr","kpt"],"application/vnd.kde.kspread":["ksp"],"application/vnd.kde.kword":["kwd","kwt"],"application/vnd.kenameaapp":["htke"],"application/vnd.kidspiration":["kia"],"application/vnd.kinar":["kne","knp"],"application/vnd.koan":["skp","skd","skt","skm"],"application/vnd.kodak-descriptor":["sse"],"application/vnd.las.las+xml":["lasxml"],"application/vnd.llamagraphics.life-balance.desktop":["lbd"],"application/vnd.llamagraphics.life-balance.exchange+xml":["lbe"],"application/vnd.lotus-1-2-3":["123"],"application/vnd.lotus-approach":["apr"],"application/vnd.lotus-freelance":["pre"],"application/vnd.lotus-notes":["nsf"],"application/vnd.lotus-organizer":["org"],"application/vnd.lotus-screencam":["scm"],"application/vnd.lotus-wordpro":["lwp"],"application/vnd.macports.portpkg":["portpkg"],"application/vnd.mapbox-vector-tile":["mvt"],"application/vnd.mcd":["mcd"],"application/vnd.medcalcdata":["mc1"],"application/vnd.mediastation.cdkey":["cdkey"],"application/vnd.mfer":["mwf"],"application/vnd.mfmp":["mfm"],"application/vnd.micrografx.flo":["flo"],"application/vnd.micrografx.igx":["igx"],"application/vnd.mif":["mif"],"application/vnd.mobius.daf":["daf"],"application/vnd.mobius.dis":["dis"],"application/vnd.mobius.mbk":["mbk"],"application/vnd.mobius.mqy":["mqy"],"application/vnd.mobius.msl":["msl"],"application/vnd.mobius.plc":["plc"],"application/vnd.mobius.txf":["txf"],"application/vnd.mophun.application":["mpn"],"application/vnd.mophun.certificate":["mpc"],"application/vnd.mozilla.xul+xml":["xul"],"application/vnd.ms-artgalry":["cil"],"application/vnd.ms-cab-compressed":["cab"],"application/vnd.ms-excel":["xls","xlm","xla","xlc","xlt","xlw"],"application/vnd.ms-excel.addin.macroenabled.12":["xlam"],"application/vnd.ms-excel.sheet.binary.macroenabled.12":["xlsb"],"application/vnd.ms-excel.sheet.macroenabled.12":["xlsm"],"application/vnd.ms-excel.template.macroenabled.12":["xltm"],"application/vnd.ms-fontobject":["eot"],"application/vnd.ms-htmlhelp":["chm"],"application/vnd.ms-ims":["ims"],"application/vnd.ms-lrm":["lrm"],"application/vnd.ms-officetheme":["thmx"],"application/vnd.ms-outlook":["msg"],"application/vnd.ms-pki.seccat":["cat"],"application/vnd.ms-pki.stl":["*stl"],"application/vnd.ms-powerpoint":["ppt","pps","pot"],"application/vnd.ms-powerpoint.addin.macroenabled.12":["ppam"],"application/vnd.ms-powerpoint.presentation.macroenabled.12":["pptm"],"application/vnd.ms-powerpoint.slide.macroenabled.12":["sldm"],"application/vnd.ms-powerpoint.slideshow.macroenabled.12":["ppsm"],"application/vnd.ms-powerpoint.template.macroenabled.12":["potm"],"application/vnd.ms-project":["mpp","mpt"],"application/vnd.ms-word.document.macroenabled.12":["docm"],"application/vnd.ms-word.template.macroenabled.12":["dotm"],"application/vnd.ms-works":["wps","wks","wcm","wdb"],"application/vnd.ms-wpl":["wpl"],"application/vnd.ms-xpsdocument":["xps"],"application/vnd.mseq":["mseq"],"application/vnd.musician":["mus"],"application/vnd.muvee.style":["msty"],"application/vnd.mynfc":["taglet"],"application/vnd.neurolanguage.nlu":["nlu"],"application/vnd.nitf":["ntf","nitf"],"application/vnd.noblenet-directory":["nnd"],"application/vnd.noblenet-sealer":["nns"],"application/vnd.noblenet-web":["nnw"],"application/vnd.nokia.n-gage.ac+xml":["*ac"],"application/vnd.nokia.n-gage.data":["ngdat"],"application/vnd.nokia.n-gage.symbian.install":["n-gage"],"application/vnd.nokia.radio-preset":["rpst"],"application/vnd.nokia.radio-presets":["rpss"],"application/vnd.novadigm.edm":["edm"],"application/vnd.novadigm.edx":["edx"],"application/vnd.novadigm.ext":["ext"],"application/vnd.oasis.opendocument.chart":["odc"],"application/vnd.oasis.opendocument.chart-template":["otc"],"application/vnd.oasis.opendocument.database":["odb"],"application/vnd.oasis.opendocument.formula":["odf"],"application/vnd.oasis.opendocument.formula-template":["odft"],"application/vnd.oasis.opendocument.graphics":["odg"],"application/vnd.oasis.opendocument.graphics-template":["otg"],"application/vnd.oasis.opendocument.image":["odi"],"application/vnd.oasis.opendocument.image-template":["oti"],"application/vnd.oasis.opendocument.presentation":["odp"],"application/vnd.oasis.opendocument.presentation-template":["otp"],"application/vnd.oasis.opendocument.spreadsheet":["ods"],"application/vnd.oasis.opendocument.spreadsheet-template":["ots"],"application/vnd.oasis.opendocument.text":["odt"],"application/vnd.oasis.opendocument.text-master":["odm"],"application/vnd.oasis.opendocument.text-template":["ott"],"application/vnd.oasis.opendocument.text-web":["oth"],"application/vnd.olpc-sugar":["xo"],"application/vnd.oma.dd2+xml":["dd2"],"application/vnd.openblox.game+xml":["obgx"],"application/vnd.openofficeorg.extension":["oxt"],"application/vnd.openstreetmap.data+xml":["osm"],"application/vnd.openxmlformats-officedocument.presentationml.presentation":["pptx"],"application/vnd.openxmlformats-officedocument.presentationml.slide":["sldx"],"application/vnd.openxmlformats-officedocument.presentationml.slideshow":["ppsx"],"application/vnd.openxmlformats-officedocument.presentationml.template":["potx"],"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":["xlsx"],"application/vnd.openxmlformats-officedocument.spreadsheetml.template":["xltx"],"application/vnd.openxmlformats-officedocument.wordprocessingml.document":["docx"],"application/vnd.openxmlformats-officedocument.wordprocessingml.template":["dotx"],"application/vnd.osgeo.mapguide.package":["mgp"],"application/vnd.osgi.dp":["dp"],"application/vnd.osgi.subsystem":["esa"],"application/vnd.palm":["pdb","pqa","oprc"],"application/vnd.pawaafile":["paw"],"application/vnd.pg.format":["str"],"application/vnd.pg.osasli":["ei6"],"application/vnd.picsel":["efif"],"application/vnd.pmi.widget":["wg"],"application/vnd.pocketlearn":["plf"],"application/vnd.powerbuilder6":["pbd"],"application/vnd.previewsystems.box":["box"],"application/vnd.proteus.magazine":["mgz"],"application/vnd.publishare-delta-tree":["qps"],"application/vnd.pvi.ptid1":["ptid"],"application/vnd.quark.quarkxpress":["qxd","qxt","qwd","qwt","qxl","qxb"],"application/vnd.rar":["rar"],"application/vnd.realvnc.bed":["bed"],"application/vnd.recordare.musicxml":["mxl"],"application/vnd.recordare.musicxml+xml":["musicxml"],"application/vnd.rig.cryptonote":["cryptonote"],"application/vnd.rim.cod":["cod"],"application/vnd.rn-realmedia":["rm"],"application/vnd.rn-realmedia-vbr":["rmvb"],"application/vnd.route66.link66+xml":["link66"],"application/vnd.sailingtracker.track":["st"],"application/vnd.seemail":["see"],"application/vnd.sema":["sema"],"application/vnd.semd":["semd"],"application/vnd.semf":["semf"],"application/vnd.shana.informed.formdata":["ifm"],"application/vnd.shana.informed.formtemplate":["itp"],"application/vnd.shana.informed.interchange":["iif"],"application/vnd.shana.informed.package":["ipk"],"application/vnd.simtech-mindmapper":["twd","twds"],"application/vnd.smaf":["mmf"],"application/vnd.smart.teacher":["teacher"],"application/vnd.software602.filler.form+xml":["fo"],"application/vnd.solent.sdkm+xml":["sdkm","sdkd"],"application/vnd.spotfire.dxp":["dxp"],"application/vnd.spotfire.sfs":["sfs"],"application/vnd.stardivision.calc":["sdc"],"application/vnd.stardivision.draw":["sda"],"application/vnd.stardivision.impress":["sdd"],"application/vnd.stardivision.math":["smf"],"application/vnd.stardivision.writer":["sdw","vor"],"application/vnd.stardivision.writer-global":["sgl"],"application/vnd.stepmania.package":["smzip"],"application/vnd.stepmania.stepchart":["sm"],"application/vnd.sun.wadl+xml":["wadl"],"application/vnd.sun.xml.calc":["sxc"],"application/vnd.sun.xml.calc.template":["stc"],"application/vnd.sun.xml.draw":["sxd"],"application/vnd.sun.xml.draw.template":["std"],"application/vnd.sun.xml.impress":["sxi"],"application/vnd.sun.xml.impress.template":["sti"],"application/vnd.sun.xml.math":["sxm"],"application/vnd.sun.xml.writer":["sxw"],"application/vnd.sun.xml.writer.global":["sxg"],"application/vnd.sun.xml.writer.template":["stw"],"application/vnd.sus-calendar":["sus","susp"],"application/vnd.svd":["svd"],"application/vnd.symbian.install":["sis","sisx"],"application/vnd.syncml+xml":["xsm"],"application/vnd.syncml.dm+wbxml":["bdm"],"application/vnd.syncml.dm+xml":["xdm"],"application/vnd.syncml.dmddf+xml":["ddf"],"application/vnd.tao.intent-module-archive":["tao"],"application/vnd.tcpdump.pcap":["pcap","cap","dmp"],"application/vnd.tmobile-livetv":["tmo"],"application/vnd.trid.tpt":["tpt"],"application/vnd.triscape.mxs":["mxs"],"application/vnd.trueapp":["tra"],"application/vnd.ufdl":["ufd","ufdl"],"application/vnd.uiq.theme":["utz"],"application/vnd.umajin":["umj"],"application/vnd.unity":["unityweb"],"application/vnd.uoml+xml":["uoml"],"application/vnd.vcx":["vcx"],"application/vnd.visio":["vsd","vst","vss","vsw"],"application/vnd.visionary":["vis"],"application/vnd.vsf":["vsf"],"application/vnd.wap.wbxml":["wbxml"],"application/vnd.wap.wmlc":["wmlc"],"application/vnd.wap.wmlscriptc":["wmlsc"],"application/vnd.webturbo":["wtb"],"application/vnd.wolfram.player":["nbp"],"application/vnd.wordperfect":["wpd"],"application/vnd.wqd":["wqd"],"application/vnd.wt.stf":["stf"],"application/vnd.xara":["xar"],"application/vnd.xfdl":["xfdl"],"application/vnd.yamaha.hv-dic":["hvd"],"application/vnd.yamaha.hv-script":["hvs"],"application/vnd.yamaha.hv-voice":["hvp"],"application/vnd.yamaha.openscoreformat":["osf"],"application/vnd.yamaha.openscoreformat.osfpvg+xml":["osfpvg"],"application/vnd.yamaha.smaf-audio":["saf"],"application/vnd.yamaha.smaf-phrase":["spf"],"application/vnd.yellowriver-custom-menu":["cmp"],"application/vnd.zul":["zir","zirz"],"application/vnd.zzazz.deck+xml":["zaz"],"application/x-7z-compressed":["7z"],"application/x-abiword":["abw"],"application/x-ace-compressed":["ace"],"application/x-apple-diskimage":["*dmg"],"application/x-arj":["arj"],"application/x-authorware-bin":["aab","x32","u32","vox"],"application/x-authorware-map":["aam"],"application/x-authorware-seg":["aas"],"application/x-bcpio":["bcpio"],"application/x-bdoc":["*bdoc"],"application/x-bittorrent":["torrent"],"application/x-blorb":["blb","blorb"],"application/x-bzip":["bz"],"application/x-bzip2":["bz2","boz"],"application/x-cbr":["cbr","cba","cbt","cbz","cb7"],"application/x-cdlink":["vcd"],"application/x-cfs-compressed":["cfs"],"application/x-chat":["chat"],"application/x-chess-pgn":["pgn"],"application/x-chrome-extension":["crx"],"application/x-cocoa":["cco"],"application/x-conference":["nsc"],"application/x-cpio":["cpio"],"application/x-csh":["csh"],"application/x-debian-package":["*deb","udeb"],"application/x-dgc-compressed":["dgc"],"application/x-director":["dir","dcr","dxr","cst","cct","cxt","w3d","fgd","swa"],"application/x-doom":["wad"],"application/x-dtbncx+xml":["ncx"],"application/x-dtbook+xml":["dtb"],"application/x-dtbresource+xml":["res"],"application/x-dvi":["dvi"],"application/x-envoy":["evy"],"application/x-eva":["eva"],"application/x-font-bdf":["bdf"],"application/x-font-ghostscript":["gsf"],"application/x-font-linux-psf":["psf"],"application/x-font-pcf":["pcf"],"application/x-font-snf":["snf"],"application/x-font-type1":["pfa","pfb","pfm","afm"],"application/x-freearc":["arc"],"application/x-futuresplash":["spl"],"application/x-gca-compressed":["gca"],"application/x-glulx":["ulx"],"application/x-gnumeric":["gnumeric"],"application/x-gramps-xml":["gramps"],"application/x-gtar":["gtar"],"application/x-hdf":["hdf"],"application/x-httpd-php":["php"],"application/x-install-instructions":["install"],"application/x-iso9660-image":["*iso"],"application/x-iwork-keynote-sffkey":["*key"],"application/x-iwork-numbers-sffnumbers":["*numbers"],"application/x-iwork-pages-sffpages":["*pages"],"application/x-java-archive-diff":["jardiff"],"application/x-java-jnlp-file":["jnlp"],"application/x-keepass2":["kdbx"],"application/x-latex":["latex"],"application/x-lua-bytecode":["luac"],"application/x-lzh-compressed":["lzh","lha"],"application/x-makeself":["run"],"application/x-mie":["mie"],"application/x-mobipocket-ebook":["prc","mobi"],"application/x-ms-application":["application"],"application/x-ms-shortcut":["lnk"],"application/x-ms-wmd":["wmd"],"application/x-ms-wmz":["wmz"],"application/x-ms-xbap":["xbap"],"application/x-msaccess":["mdb"],"application/x-msbinder":["obd"],"application/x-mscardfile":["crd"],"application/x-msclip":["clp"],"application/x-msdos-program":["*exe"],"application/x-msdownload":["*exe","*dll","com","bat","*msi"],"application/x-msmediaview":["mvb","m13","m14"],"application/x-msmetafile":["*wmf","*wmz","*emf","emz"],"application/x-msmoney":["mny"],"application/x-mspublisher":["pub"],"application/x-msschedule":["scd"],"application/x-msterminal":["trm"],"application/x-mswrite":["wri"],"application/x-netcdf":["nc","cdf"],"application/x-ns-proxy-autoconfig":["pac"],"application/x-nzb":["nzb"],"application/x-perl":["pl","pm"],"application/x-pilot":["*prc","*pdb"],"application/x-pkcs12":["p12","pfx"],"application/x-pkcs7-certificates":["p7b","spc"],"application/x-pkcs7-certreqresp":["p7r"],"application/x-rar-compressed":["*rar"],"application/x-redhat-package-manager":["rpm"],"application/x-research-info-systems":["ris"],"application/x-sea":["sea"],"application/x-sh":["sh"],"application/x-shar":["shar"],"application/x-shockwave-flash":["swf"],"application/x-silverlight-app":["xap"],"application/x-sql":["sql"],"application/x-stuffit":["sit"],"application/x-stuffitx":["sitx"],"application/x-subrip":["srt"],"application/x-sv4cpio":["sv4cpio"],"application/x-sv4crc":["sv4crc"],"application/x-t3vm-image":["t3"],"application/x-tads":["gam"],"application/x-tar":["tar"],"application/x-tcl":["tcl","tk"],"application/x-tex":["tex"],"application/x-tex-tfm":["tfm"],"application/x-texinfo":["texinfo","texi"],"application/x-tgif":["*obj"],"application/x-ustar":["ustar"],"application/x-virtualbox-hdd":["hdd"],"application/x-virtualbox-ova":["ova"],"application/x-virtualbox-ovf":["ovf"],"application/x-virtualbox-vbox":["vbox"],"application/x-virtualbox-vbox-extpack":["vbox-extpack"],"application/x-virtualbox-vdi":["vdi"],"application/x-virtualbox-vhd":["vhd"],"application/x-virtualbox-vmdk":["vmdk"],"application/x-wais-source":["src"],"application/x-web-app-manifest+json":["webapp"],"application/x-x509-ca-cert":["der","crt","pem"],"application/x-xfig":["fig"],"application/x-xliff+xml":["*xlf"],"application/x-xpinstall":["xpi"],"application/x-xz":["xz"],"application/x-zmachine":["z1","z2","z3","z4","z5","z6","z7","z8"],"audio/vnd.dece.audio":["uva","uvva"],"audio/vnd.digital-winds":["eol"],"audio/vnd.dra":["dra"],"audio/vnd.dts":["dts"],"audio/vnd.dts.hd":["dtshd"],"audio/vnd.lucent.voice":["lvp"],"audio/vnd.ms-playready.media.pya":["pya"],"audio/vnd.nuera.ecelp4800":["ecelp4800"],"audio/vnd.nuera.ecelp7470":["ecelp7470"],"audio/vnd.nuera.ecelp9600":["ecelp9600"],"audio/vnd.rip":["rip"],"audio/x-aac":["aac"],"audio/x-aiff":["aif","aiff","aifc"],"audio/x-caf":["caf"],"audio/x-flac":["flac"],"audio/x-m4a":["*m4a"],"audio/x-matroska":["mka"],"audio/x-mpegurl":["m3u"],"audio/x-ms-wax":["wax"],"audio/x-ms-wma":["wma"],"audio/x-pn-realaudio":["ram","ra"],"audio/x-pn-realaudio-plugin":["rmp"],"audio/x-realaudio":["*ra"],"audio/x-wav":["*wav"],"chemical/x-cdx":["cdx"],"chemical/x-cif":["cif"],"chemical/x-cmdf":["cmdf"],"chemical/x-cml":["cml"],"chemical/x-csml":["csml"],"chemical/x-xyz":["xyz"],"image/prs.btif":["btif"],"image/prs.pti":["pti"],"image/vnd.adobe.photoshop":["psd"],"image/vnd.airzip.accelerator.azv":["azv"],"image/vnd.dece.graphic":["uvi","uvvi","uvg","uvvg"],"image/vnd.djvu":["djvu","djv"],"image/vnd.dvb.subtitle":["*sub"],"image/vnd.dwg":["dwg"],"image/vnd.dxf":["dxf"],"image/vnd.fastbidsheet":["fbs"],"image/vnd.fpx":["fpx"],"image/vnd.fst":["fst"],"image/vnd.fujixerox.edmics-mmr":["mmr"],"image/vnd.fujixerox.edmics-rlc":["rlc"],"image/vnd.microsoft.icon":["ico"],"image/vnd.ms-dds":["dds"],"image/vnd.ms-modi":["mdi"],"image/vnd.ms-photo":["wdp"],"image/vnd.net-fpx":["npx"],"image/vnd.pco.b16":["b16"],"image/vnd.tencent.tap":["tap"],"image/vnd.valve.source.texture":["vtf"],"image/vnd.wap.wbmp":["wbmp"],"image/vnd.xiff":["xif"],"image/vnd.zbrush.pcx":["pcx"],"image/x-3ds":["3ds"],"image/x-cmu-raster":["ras"],"image/x-cmx":["cmx"],"image/x-freehand":["fh","fhc","fh4","fh5","fh7"],"image/x-icon":["*ico"],"image/x-jng":["jng"],"image/x-mrsid-image":["sid"],"image/x-ms-bmp":["*bmp"],"image/x-pcx":["*pcx"],"image/x-pict":["pic","pct"],"image/x-portable-anymap":["pnm"],"image/x-portable-bitmap":["pbm"],"image/x-portable-graymap":["pgm"],"image/x-portable-pixmap":["ppm"],"image/x-rgb":["rgb"],"image/x-tga":["tga"],"image/x-xbitmap":["xbm"],"image/x-xpixmap":["xpm"],"image/x-xwindowdump":["xwd"],"message/vnd.wfa.wsc":["wsc"],"model/vnd.collada+xml":["dae"],"model/vnd.dwf":["dwf"],"model/vnd.gdl":["gdl"],"model/vnd.gtw":["gtw"],"model/vnd.mts":["mts"],"model/vnd.opengex":["ogex"],"model/vnd.parasolid.transmit.binary":["x_b"],"model/vnd.parasolid.transmit.text":["x_t"],"model/vnd.sap.vds":["vds"],"model/vnd.usdz+zip":["usdz"],"model/vnd.valve.source.compiled-map":["bsp"],"model/vnd.vtu":["vtu"],"text/prs.lines.tag":["dsc"],"text/vnd.curl":["curl"],"text/vnd.curl.dcurl":["dcurl"],"text/vnd.curl.mcurl":["mcurl"],"text/vnd.curl.scurl":["scurl"],"text/vnd.dvb.subtitle":["sub"],"text/vnd.fly":["fly"],"text/vnd.fmi.flexstor":["flx"],"text/vnd.graphviz":["gv"],"text/vnd.in3d.3dml":["3dml"],"text/vnd.in3d.spot":["spot"],"text/vnd.sun.j2me.app-descriptor":["jad"],"text/vnd.wap.wml":["wml"],"text/vnd.wap.wmlscript":["wmls"],"text/x-asm":["s","asm"],"text/x-c":["c","cc","cxx","cpp","h","hh","dic"],"text/x-component":["htc"],"text/x-fortran":["f","for","f77","f90"],"text/x-handlebars-template":["hbs"],"text/x-java-source":["java"],"text/x-lua":["lua"],"text/x-markdown":["mkd"],"text/x-nfo":["nfo"],"text/x-opml":["opml"],"text/x-org":["*org"],"text/x-pascal":["p","pas"],"text/x-processing":["pde"],"text/x-sass":["sass"],"text/x-scss":["scss"],"text/x-setext":["etx"],"text/x-sfv":["sfv"],"text/x-suse-ymp":["ymp"],"text/x-uuencode":["uu"],"text/x-vcalendar":["vcs"],"text/x-vcard":["vcf"],"video/vnd.dece.hd":["uvh","uvvh"],"video/vnd.dece.mobile":["uvm","uvvm"],"video/vnd.dece.pd":["uvp","uvvp"],"video/vnd.dece.sd":["uvs","uvvs"],"video/vnd.dece.video":["uvv","uvvv"],"video/vnd.dvb.file":["dvb"],"video/vnd.fvt":["fvt"],"video/vnd.mpegurl":["mxu","m4u"],"video/vnd.ms-playready.media.pyv":["pyv"],"video/vnd.uvvu.mp4":["uvu","uvvu"],"video/vnd.vivo":["viv"],"video/x-f4v":["f4v"],"video/x-fli":["fli"],"video/x-flv":["flv"],"video/x-m4v":["m4v"],"video/x-matroska":["mkv","mk3d","mks"],"video/x-mng":["mng"],"video/x-ms-asf":["asf","asx"],"video/x-ms-vob":["vob"],"video/x-ms-wm":["wm"],"video/x-ms-wmv":["wmv"],"video/x-ms-wmx":["wmx"],"video/x-ms-wvx":["wvx"],"video/x-msvideo":["avi"],"video/x-sgi-movie":["movie"],"video/x-smv":["smv"],"x-conference/x-cooltalk":["ice"]}},149:e=>{e.exports={"application/andrew-inset":["ez"],"application/applixware":["aw"],"application/atom+xml":["atom"],"application/atomcat+xml":["atomcat"],"application/atomdeleted+xml":["atomdeleted"],"application/atomsvc+xml":["atomsvc"],"application/atsc-dwd+xml":["dwd"],"application/atsc-held+xml":["held"],"application/atsc-rsat+xml":["rsat"],"application/bdoc":["bdoc"],"application/calendar+xml":["xcs"],"application/ccxml+xml":["ccxml"],"application/cdfx+xml":["cdfx"],"application/cdmi-capability":["cdmia"],"application/cdmi-container":["cdmic"],"application/cdmi-domain":["cdmid"],"application/cdmi-object":["cdmio"],"application/cdmi-queue":["cdmiq"],"application/cu-seeme":["cu"],"application/dash+xml":["mpd"],"application/davmount+xml":["davmount"],"application/docbook+xml":["dbk"],"application/dssc+der":["dssc"],"application/dssc+xml":["xdssc"],"application/ecmascript":["es","ecma"],"application/emma+xml":["emma"],"application/emotionml+xml":["emotionml"],"application/epub+zip":["epub"],"application/exi":["exi"],"application/express":["exp"],"application/fdt+xml":["fdt"],"application/font-tdpfr":["pfr"],"application/geo+json":["geojson"],"application/gml+xml":["gml"],"application/gpx+xml":["gpx"],"application/gxf":["gxf"],"application/gzip":["gz"],"application/hjson":["hjson"],"application/hyperstudio":["stk"],"application/inkml+xml":["ink","inkml"],"application/ipfix":["ipfix"],"application/its+xml":["its"],"application/java-archive":["jar","war","ear"],"application/java-serialized-object":["ser"],"application/java-vm":["class"],"application/javascript":["js","mjs"],"application/json":["json","map"],"application/json5":["json5"],"application/jsonml+json":["jsonml"],"application/ld+json":["jsonld"],"application/lgr+xml":["lgr"],"application/lost+xml":["lostxml"],"application/mac-binhex40":["hqx"],"application/mac-compactpro":["cpt"],"application/mads+xml":["mads"],"application/manifest+json":["webmanifest"],"application/marc":["mrc"],"application/marcxml+xml":["mrcx"],"application/mathematica":["ma","nb","mb"],"application/mathml+xml":["mathml"],"application/mbox":["mbox"],"application/mediaservercontrol+xml":["mscml"],"application/metalink+xml":["metalink"],"application/metalink4+xml":["meta4"],"application/mets+xml":["mets"],"application/mmt-aei+xml":["maei"],"application/mmt-usd+xml":["musd"],"application/mods+xml":["mods"],"application/mp21":["m21","mp21"],"application/mp4":["mp4s","m4p"],"application/msword":["doc","dot"],"application/mxf":["mxf"],"application/n-quads":["nq"],"application/n-triples":["nt"],"application/node":["cjs"],"application/octet-stream":["bin","dms","lrf","mar","so","dist","distz","pkg","bpk","dump","elc","deploy","exe","dll","deb","dmg","iso","img","msi","msp","msm","buffer"],"application/oda":["oda"],"application/oebps-package+xml":["opf"],"application/ogg":["ogx"],"application/omdoc+xml":["omdoc"],"application/onenote":["onetoc","onetoc2","onetmp","onepkg"],"application/oxps":["oxps"],"application/p2p-overlay+xml":["relo"],"application/patch-ops-error+xml":["xer"],"application/pdf":["pdf"],"application/pgp-encrypted":["pgp"],"application/pgp-signature":["asc","sig"],"application/pics-rules":["prf"],"application/pkcs10":["p10"],"application/pkcs7-mime":["p7m","p7c"],"application/pkcs7-signature":["p7s"],"application/pkcs8":["p8"],"application/pkix-attr-cert":["ac"],"application/pkix-cert":["cer"],"application/pkix-crl":["crl"],"application/pkix-pkipath":["pkipath"],"application/pkixcmp":["pki"],"application/pls+xml":["pls"],"application/postscript":["ai","eps","ps"],"application/provenance+xml":["provx"],"application/pskc+xml":["pskcxml"],"application/raml+yaml":["raml"],"application/rdf+xml":["rdf","owl"],"application/reginfo+xml":["rif"],"application/relax-ng-compact-syntax":["rnc"],"application/resource-lists+xml":["rl"],"application/resource-lists-diff+xml":["rld"],"application/rls-services+xml":["rs"],"application/route-apd+xml":["rapd"],"application/route-s-tsid+xml":["sls"],"application/route-usd+xml":["rusd"],"application/rpki-ghostbusters":["gbr"],"application/rpki-manifest":["mft"],"application/rpki-roa":["roa"],"application/rsd+xml":["rsd"],"application/rss+xml":["rss"],"application/rtf":["rtf"],"application/sbml+xml":["sbml"],"application/scvp-cv-request":["scq"],"application/scvp-cv-response":["scs"],"application/scvp-vp-request":["spq"],"application/scvp-vp-response":["spp"],"application/sdp":["sdp"],"application/senml+xml":["senmlx"],"application/sensml+xml":["sensmlx"],"application/set-payment-initiation":["setpay"],"application/set-registration-initiation":["setreg"],"application/shf+xml":["shf"],"application/sieve":["siv","sieve"],"application/smil+xml":["smi","smil"],"application/sparql-query":["rq"],"application/sparql-results+xml":["srx"],"application/srgs":["gram"],"application/srgs+xml":["grxml"],"application/sru+xml":["sru"],"application/ssdl+xml":["ssdl"],"application/ssml+xml":["ssml"],"application/swid+xml":["swidtag"],"application/tei+xml":["tei","teicorpus"],"application/thraud+xml":["tfi"],"application/timestamped-data":["tsd"],"application/toml":["toml"],"application/trig":["trig"],"application/ttml+xml":["ttml"],"application/ubjson":["ubj"],"application/urc-ressheet+xml":["rsheet"],"application/urc-targetdesc+xml":["td"],"application/voicexml+xml":["vxml"],"application/wasm":["wasm"],"application/widget":["wgt"],"application/winhlp":["hlp"],"application/wsdl+xml":["wsdl"],"application/wspolicy+xml":["wspolicy"],"application/xaml+xml":["xaml"],"application/xcap-att+xml":["xav"],"application/xcap-caps+xml":["xca"],"application/xcap-diff+xml":["xdf"],"application/xcap-el+xml":["xel"],"application/xcap-ns+xml":["xns"],"application/xenc+xml":["xenc"],"application/xhtml+xml":["xhtml","xht"],"application/xliff+xml":["xlf"],"application/xml":["xml","xsl","xsd","rng"],"application/xml-dtd":["dtd"],"application/xop+xml":["xop"],"application/xproc+xml":["xpl"],"application/xslt+xml":["*xsl","xslt"],"application/xspf+xml":["xspf"],"application/xv+xml":["mxml","xhvml","xvml","xvm"],"application/yang":["yang"],"application/yin+xml":["yin"],"application/zip":["zip"],"audio/3gpp":["*3gpp"],"audio/adpcm":["adp"],"audio/amr":["amr"],"audio/basic":["au","snd"],"audio/midi":["mid","midi","kar","rmi"],"audio/mobile-xmf":["mxmf"],"audio/mp3":["*mp3"],"audio/mp4":["m4a","mp4a"],"audio/mpeg":["mpga","mp2","mp2a","mp3","m2a","m3a"],"audio/ogg":["oga","ogg","spx","opus"],"audio/s3m":["s3m"],"audio/silk":["sil"],"audio/wav":["wav"],"audio/wave":["*wav"],"audio/webm":["weba"],"audio/xm":["xm"],"font/collection":["ttc"],"font/otf":["otf"],"font/ttf":["ttf"],"font/woff":["woff"],"font/woff2":["woff2"],"image/aces":["exr"],"image/apng":["apng"],"image/avif":["avif"],"image/bmp":["bmp"],"image/cgm":["cgm"],"image/dicom-rle":["drle"],"image/emf":["emf"],"image/fits":["fits"],"image/g3fax":["g3"],"image/gif":["gif"],"image/heic":["heic"],"image/heic-sequence":["heics"],"image/heif":["heif"],"image/heif-sequence":["heifs"],"image/hej2k":["hej2"],"image/hsj2":["hsj2"],"image/ief":["ief"],"image/jls":["jls"],"image/jp2":["jp2","jpg2"],"image/jpeg":["jpeg","jpg","jpe"],"image/jph":["jph"],"image/jphc":["jhc"],"image/jpm":["jpm"],"image/jpx":["jpx","jpf"],"image/jxr":["jxr"],"image/jxra":["jxra"],"image/jxrs":["jxrs"],"image/jxs":["jxs"],"image/jxsc":["jxsc"],"image/jxsi":["jxsi"],"image/jxss":["jxss"],"image/ktx":["ktx"],"image/ktx2":["ktx2"],"image/png":["png"],"image/sgi":["sgi"],"image/svg+xml":["svg","svgz"],"image/t38":["t38"],"image/tiff":["tif","tiff"],"image/tiff-fx":["tfx"],"image/webp":["webp"],"image/wmf":["wmf"],"message/disposition-notification":["disposition-notification"],"message/global":["u8msg"],"message/global-delivery-status":["u8dsn"],"message/global-disposition-notification":["u8mdn"],"message/global-headers":["u8hdr"],"message/rfc822":["eml","mime"],"model/3mf":["3mf"],"model/gltf+json":["gltf"],"model/gltf-binary":["glb"],"model/iges":["igs","iges"],"model/mesh":["msh","mesh","silo"],"model/mtl":["mtl"],"model/obj":["obj"],"model/step+xml":["stpx"],"model/step+zip":["stpz"],"model/step-xml+zip":["stpxz"],"model/stl":["stl"],"model/vrml":["wrl","vrml"],"model/x3d+binary":["*x3db","x3dbz"],"model/x3d+fastinfoset":["x3db"],"model/x3d+vrml":["*x3dv","x3dvz"],"model/x3d+xml":["x3d","x3dz"],"model/x3d-vrml":["x3dv"],"text/cache-manifest":["appcache","manifest"],"text/calendar":["ics","ifb"],"text/coffeescript":["coffee","litcoffee"],"text/css":["css"],"text/csv":["csv"],"text/html":["html","htm","shtml"],"text/jade":["jade"],"text/jsx":["jsx"],"text/less":["less"],"text/markdown":["markdown","md"],"text/mathml":["mml"],"text/mdx":["mdx"],"text/n3":["n3"],"text/plain":["txt","text","conf","def","list","log","in","ini"],"text/richtext":["rtx"],"text/rtf":["*rtf"],"text/sgml":["sgml","sgm"],"text/shex":["shex"],"text/slim":["slim","slm"],"text/spdx":["spdx"],"text/stylus":["stylus","styl"],"text/tab-separated-values":["tsv"],"text/troff":["t","tr","roff","man","me","ms"],"text/turtle":["ttl"],"text/uri-list":["uri","uris","urls"],"text/vcard":["vcard"],"text/vtt":["vtt"],"text/xml":["*xml"],"text/yaml":["yaml","yml"],"video/3gpp":["3gp","3gpp"],"video/3gpp2":["3g2"],"video/h261":["h261"],"video/h263":["h263"],"video/h264":["h264"],"video/iso.segment":["m4s"],"video/jpeg":["jpgv"],"video/jpm":["*jpm","jpgm"],"video/mj2":["mj2","mjp2"],"video/mp2t":["ts"],"video/mp4":["mp4","mp4v","mpg4"],"video/mpeg":["mpeg","mpg","mpe","m1v","m2v"],"video/ogg":["ogv"],"video/quicktime":["qt","mov"],"video/webm":["webm"]}},6144:(e,t,n)=>{var i=n(9808);e.exports=i(once);e.exports.strict=i(onceStrict);once.proto=once((function(){Object.defineProperty(Function.prototype,"once",{value:function(){return once(this)},configurable:true});Object.defineProperty(Function.prototype,"onceStrict",{value:function(){return onceStrict(this)},configurable:true})}));function once(e){var f=function(){if(f.called)return f.value;f.called=true;return f.value=e.apply(this,arguments)};f.called=false;return f}function onceStrict(e){var f=function(){if(f.called)throw new Error(f.onceError);f.called=true;return f.value=e.apply(this,arguments)};var t=e.name||"Function wrapped with `once`";f.onceError=t+" shouldn't be called more than once";f.called=false;return f}},9542:(e,t,n)=>{"use strict";var i=n(9896);var r=n(142);var a=13;function create(e){e=e||{};var t=e.sigint;var n=e.eot;var o=e.autocomplete=e.autocomplete||function(){return[]};var c=e.history;prompt.history=c||{save:function(){}};prompt.hide=function(e){return prompt(e,{echo:""})};return prompt;function prompt(e,r,l){var u=0,p=0,d,h,v;l=l||{};if(Object(e)===e){l=e;e=l.ask}else if(Object(r)===r){l=r;r=l.value}e=e||"";var g=l.echo;var y="echo"in l;o=l.autocomplete||o;var x=process.platform==="win32"?process.stdin.fd:i.openSync("/dev/tty","rs");var b=process.stdin.isRaw;if(!b){process.stdin.setRawMode&&process.stdin.setRawMode(true)}var E=Buffer.alloc(3);var C="",w,S;v="";if(e){process.stdout.write(e)}var k=0;var A;while(true){S=i.readSync(x,E,0,3);if(S>1){switch(E.toString()){case"[A":if(y)break;if(!c)break;if(c.atStart())break;if(c.atEnd()){v=C;p=u}C=c.prev();u=C.length;process.stdout.write("[2K[0G"+e+C);break;case"[B":if(y)break;if(!c)break;if(c.pastEnd())break;if(c.atPenultimate()){C=v;u=p;c.next()}else{C=c.next();u=C.length}process.stdout.write("[2K[0G"+e+C+"["+(u+e.length+1)+"G");break;case"[D":if(y)break;var D=u;u=--u<0?0:u;if(D-u)process.stdout.write("[1D");break;case"[C":if(y)break;u=++u>C.length?C.length:u;process.stdout.write("["+(u+e.length+1)+"G");break;default:if(E.toString()){C=C+E.toString();C=C.replace(/\0/g,"");u=C.length;promptPrint(y,e,g,C,u);process.stdout.write("["+(u+e.length+1)+"G");E=Buffer.alloc(3)}}continue}w=E[S-1];if(w==3){process.stdout.write("^C\n");i.closeSync(x);if(t)process.exit(130);process.stdin.setRawMode&&process.stdin.setRawMode(b);return null}if(w==4){if(C.length==0&&n){process.stdout.write("exit\n");process.exit(0)}}if(w==a){i.closeSync(x);if(!c)break;if(!y&&C.length)c.push(C);c.reset();break}if(w==9){d=o(C);if(C==d[0]){d=o("")}else{A=d.length}if(d.length==0){process.stdout.write("\t");continue}var F=d[k++]||d[(k=0,k++)];if(F){process.stdout.write("\r[K"+e+F);C=F;u=F.length}}if(w==127||process.platform=="win32"&&w==8){if(!u)continue;C=C.slice(0,u-1)+C.slice(u);u--;process.stdout.write("[2D")}else{if(w<32||w>126)continue;C=C.slice(0,u)+String.fromCharCode(w)+C.slice(u);u++}promptPrint(y,e,g,C,u)}process.stdout.write("\n");process.stdin.setRawMode&&process.stdin.setRawMode(b);return C||r||""}function promptPrint(e,t,n,i,a){if(e){process.stdout.write("[2K[0G"+t+Array(i.length+1).join(n))}else{process.stdout.write("[s");if(a==i.length){process.stdout.write("[2K[0G"+t+i)}else{if(t){process.stdout.write("[2K[0G"+t+i)}else{process.stdout.write("[2K[0G"+i+"["+(i.length-a)+"D")}}var o=r(t).length;process.stdout.write(`[${o+1+(n==""?0:a)}G`)}}}e.exports=create},1069:(e,t,n)=>{var i=n(7644);e.exports=expandTop;var r="\0SLASH"+Math.random()+"\0";var a="\0OPEN"+Math.random()+"\0";var o="\0CLOSE"+Math.random()+"\0";var c="\0COMMA"+Math.random()+"\0";var l="\0PERIOD"+Math.random()+"\0";function numeric(e){return parseInt(e,10)==e?parseInt(e,10):e.charCodeAt(0)}function escapeBraces(e){return e.split("\\\\").join(r).split("\\{").join(a).split("\\}").join(o).split("\\,").join(c).split("\\.").join(l)}function unescapeBraces(e){return e.split(r).join("\\").split(a).join("{").split(o).join("}").split(c).join(",").split(l).join(".")}function parseCommaParts(e){if(!e)return[""];var t=[];var n=i("{","}",e);if(!n)return e.split(",");var r=n.pre;var a=n.body;var o=n.post;var c=r.split(",");c[c.length-1]+="{"+a+"}";var l=parseCommaParts(o);if(o.length){c[c.length-1]+=l.shift();c.push.apply(c,l)}t.push.apply(t,c);return t}function expandTop(e){if(!e)return[];if(e.substr(0,2)==="{}"){e="\\{\\}"+e.substr(2)}return expand(escapeBraces(e),true).map(unescapeBraces)}function embrace(e){return"{"+e+"}"}function isPadded(e){return/^-?0\d/.test(e)}function lte(e,t){return e<=t}function gte(e,t){return e>=t}function expand(e,t){var n=[];var r=i("{","}",e);if(!r)return[e];var a=r.pre;var c=r.post.length?expand(r.post,false):[""];if(/\$$/.test(r.pre)){for(var l=0;l<c.length;l++){var u=a+"{"+r.body+"}"+c[l];n.push(u)}}else{var p=/^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(r.body);var d=/^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(r.body);var h=p||d;var v=r.body.indexOf(",")>=0;if(!h&&!v){if(r.post.match(/,.*\}/)){e=r.pre+"{"+r.body+o+r.post;return expand(e)}return[e]}var g;if(h){g=r.body.split(/\.\./)}else{g=parseCommaParts(r.body);if(g.length===1){g=expand(g[0],false).map(embrace);if(g.length===1){return c.map((function(e){return r.pre+g[0]+e}))}}}var y;if(h){var x=numeric(g[0]);var b=numeric(g[1]);var E=Math.max(g[0].length,g[1].length);var C=g.length==3?Math.abs(numeric(g[2])):1;var w=lte;var S=b<x;if(S){C*=-1;w=gte}var k=g.some(isPadded);y=[];for(var A=x;w(A,b);A+=C){var D;if(d){D=String.fromCharCode(A);if(D==="\\")D=""}else{D=String(A);if(k){var F=E-D.length;if(F>0){var _=new Array(F+1).join("0");if(A<0)D="-"+_+D.slice(1);else D=_+D}}}y.push(D)}}else{y=[];for(var O=0;O<g.length;O++){y.push.apply(y,expand(g[O],false))}}for(var O=0;O<y.length;O++){for(var l=0;l<c.length;l++){var u=a+y[O]+c[l];if(!t||h||u)n.push(u)}}}return n}},75:(e,t,n)=>{t.setopts=setopts;t.ownProp=ownProp;t.makeAbs=makeAbs;t.finish=finish;t.mark=mark;t.isIgnored=isIgnored;t.childrenIgnored=childrenIgnored;function ownProp(e,t){return Object.prototype.hasOwnProperty.call(e,t)}var i=n(9896);var r=n(6928);var a=n(7302);var o=n(6928).isAbsolute;var c=a.Minimatch;function alphasort(e,t){return e.localeCompare(t,"en")}function setupIgnores(e,t){e.ignore=t.ignore||[];if(!Array.isArray(e.ignore))e.ignore=[e.ignore];if(e.ignore.length){e.ignore=e.ignore.map(ignoreMap)}}function ignoreMap(e){var t=null;if(e.slice(-3)==="/**"){var n=e.replace(/(\/\*\*)+$/,"");t=new c(n,{dot:true})}return{matcher:new c(e,{dot:true}),gmatcher:t}}function setopts(e,t,n){if(!n)n={};if(n.matchBase&&-1===t.indexOf("/")){if(n.noglobstar){throw new Error("base matching requires globstar")}t="**/"+t}e.windowsPathsNoEscape=!!n.windowsPathsNoEscape||n.allowWindowsEscape===false;if(e.windowsPathsNoEscape){t=t.replace(/\\/g,"/")}e.silent=!!n.silent;e.pattern=t;e.strict=n.strict!==false;e.realpath=!!n.realpath;e.realpathCache=n.realpathCache||Object.create(null);e.follow=!!n.follow;e.dot=!!n.dot;e.mark=!!n.mark;e.nodir=!!n.nodir;if(e.nodir)e.mark=true;e.sync=!!n.sync;e.nounique=!!n.nounique;e.nonull=!!n.nonull;e.nosort=!!n.nosort;e.nocase=!!n.nocase;e.stat=!!n.stat;e.noprocess=!!n.noprocess;e.absolute=!!n.absolute;e.fs=n.fs||i;e.maxLength=n.maxLength||Infinity;e.cache=n.cache||Object.create(null);e.statCache=n.statCache||Object.create(null);e.symlinks=n.symlinks||Object.create(null);setupIgnores(e,n);e.changedCwd=false;var a=process.cwd();if(!ownProp(n,"cwd"))e.cwd=r.resolve(a);else{e.cwd=r.resolve(n.cwd);e.changedCwd=e.cwd!==a}e.root=n.root||r.resolve(e.cwd,"/");e.root=r.resolve(e.root);e.cwdAbs=o(e.cwd)?e.cwd:makeAbs(e,e.cwd);e.nomount=!!n.nomount;if(process.platform==="win32"){e.root=e.root.replace(/\\/g,"/");e.cwd=e.cwd.replace(/\\/g,"/");e.cwdAbs=e.cwdAbs.replace(/\\/g,"/")}n.nonegate=true;n.nocomment=true;e.minimatch=new c(t,n);e.options=e.minimatch.options}function finish(e){var t=e.nounique;var n=t?[]:Object.create(null);for(var i=0,r=e.matches.length;i<r;i++){var a=e.matches[i];if(!a||Object.keys(a).length===0){if(e.nonull){var o=e.minimatch.globSet[i];if(t)n.push(o);else n[o]=true}}else{var c=Object.keys(a);if(t)n.push.apply(n,c);else c.forEach((function(e){n[e]=true}))}}if(!t)n=Object.keys(n);if(!e.nosort)n=n.sort(alphasort);if(e.mark){for(var i=0;i<n.length;i++){n[i]=e._mark(n[i])}if(e.nodir){n=n.filter((function(t){var n=!/\/$/.test(t);var i=e.cache[t]||e.cache[makeAbs(e,t)];if(n&&i)n=i!=="DIR"&&!Array.isArray(i);return n}))}}if(e.ignore.length)n=n.filter((function(t){return!isIgnored(e,t)}));e.found=n}function mark(e,t){var n=makeAbs(e,t);var i=e.cache[n];var r=t;if(i){var a=i==="DIR"||Array.isArray(i);var o=t.slice(-1)==="/";if(a&&!o)r+="/";else if(!a&&o)r=r.slice(0,-1);if(r!==t){var c=makeAbs(e,r);e.statCache[c]=e.statCache[n];e.cache[c]=e.cache[n]}}return r}function makeAbs(e,t){var n=t;if(t.charAt(0)==="/"){n=r.join(e.root,t)}else if(o(t)||t===""){n=t}else if(e.changedCwd){n=r.resolve(e.cwd,t)}else{n=r.resolve(t)}if(process.platform==="win32")n=n.replace(/\\/g,"/");return n}function isIgnored(e,t){if(!e.ignore.length)return false;return e.ignore.some((function(e){return e.matcher.match(t)||!!(e.gmatcher&&e.gmatcher.match(t))}))}function childrenIgnored(e,t){if(!e.ignore.length)return false;return e.ignore.some((function(e){return!!(e.gmatcher&&e.gmatcher.match(t))}))}},1352:(e,t,n)=>{e.exports=glob;var i=n(5048);var r=n(7302);var a=r.Minimatch;var o=n(8870);var c=n(4434).EventEmitter;var l=n(6928);var u=n(2613);var p=n(6928).isAbsolute;var d=n(2573);var h=n(75);var v=h.setopts;var g=h.ownProp;var y=n(5536);var x=n(9023);var b=h.childrenIgnored;var E=h.isIgnored;var C=n(6144);function glob(e,t,n){if(typeof t==="function")n=t,t={};if(!t)t={};if(t.sync){if(n)throw new TypeError("callback provided to sync glob");return d(e,t)}return new Glob(e,t,n)}glob.sync=d;var w=glob.GlobSync=d.GlobSync;glob.glob=glob;function extend(e,t){if(t===null||typeof t!=="object"){return e}var n=Object.keys(t);var i=n.length;while(i--){e[n[i]]=t[n[i]]}return e}glob.hasMagic=function(e,t){var n=extend({},t);n.noprocess=true;var i=new Glob(e,n);var r=i.minimatch.set;if(!e)return false;if(r.length>1)return true;for(var a=0;a<r[0].length;a++){if(typeof r[0][a]!=="string")return true}return false};glob.Glob=Glob;o(Glob,c);function Glob(e,t,n){if(typeof t==="function"){n=t;t=null}if(t&&t.sync){if(n)throw new TypeError("callback provided to sync glob");return new w(e,t)}if(!(this instanceof Glob))return new Glob(e,t,n);v(this,e,t);this._didRealPath=false;var i=this.minimatch.set.length;this.matches=new Array(i);if(typeof n==="function"){n=C(n);this.on("error",n);this.on("end",(function(e){n(null,e)}))}var r=this;this._processing=0;this._emitQueue=[];this._processQueue=[];this.paused=false;if(this.noprocess)return this;if(i===0)return done();var a=true;for(var o=0;o<i;o++){this._process(this.minimatch.set[o],o,false,done)}a=false;function done(){--r._processing;if(r._processing<=0){if(a){process.nextTick((function(){r._finish()}))}else{r._finish()}}}}Glob.prototype._finish=function(){u(this instanceof Glob);if(this.aborted)return;if(this.realpath&&!this._didRealpath)return this._realpath();h.finish(this);this.emit("end",this.found)};Glob.prototype._realpath=function(){if(this._didRealpath)return;this._didRealpath=true;var e=this.matches.length;if(e===0)return this._finish();var t=this;for(var n=0;n<this.matches.length;n++)this._realpathSet(n,next);function next(){if(--e===0)t._finish()}};Glob.prototype._realpathSet=function(e,t){var n=this.matches[e];if(!n)return t();var r=Object.keys(n);var a=this;var o=r.length;if(o===0)return t();var c=this.matches[e]=Object.create(null);r.forEach((function(n,r){n=a._makeAbs(n);i.realpath(n,a.realpathCache,(function(i,r){if(!i)c[r]=true;else if(i.syscall==="stat")c[n]=true;else a.emit("error",i);if(--o===0){a.matches[e]=c;t()}}))}))};Glob.prototype._mark=function(e){return h.mark(this,e)};Glob.prototype._makeAbs=function(e){return h.makeAbs(this,e)};Glob.prototype.abort=function(){this.aborted=true;this.emit("abort")};Glob.prototype.pause=function(){if(!this.paused){this.paused=true;this.emit("pause")}};Glob.prototype.resume=function(){if(this.paused){this.emit("resume");this.paused=false;if(this._emitQueue.length){var e=this._emitQueue.slice(0);this._emitQueue.length=0;for(var t=0;t<e.length;t++){var n=e[t];this._emitMatch(n[0],n[1])}}if(this._processQueue.length){var i=this._processQueue.slice(0);this._processQueue.length=0;for(var t=0;t<i.length;t++){var r=i[t];this._processing--;this._process(r[0],r[1],r[2],r[3])}}}};Glob.prototype._process=function(e,t,n,i){u(this instanceof Glob);u(typeof i==="function");if(this.aborted)return;this._processing++;if(this.paused){this._processQueue.push([e,t,n,i]);return}var a=0;while(typeof e[a]==="string"){a++}var o;switch(a){case e.length:this._processSimple(e.join("/"),t,i);return;case 0:o=null;break;default:o=e.slice(0,a).join("/");break}var c=e.slice(a);var l;if(o===null)l=".";else if(p(o)||p(e.map((function(e){return typeof e==="string"?e:"[*]"})).join("/"))){if(!o||!p(o))o="/"+o;l=o}else l=o;var d=this._makeAbs(l);if(b(this,l))return i();var h=c[0]===r.GLOBSTAR;if(h)this._processGlobStar(o,l,d,c,t,n,i);else this._processReaddir(o,l,d,c,t,n,i)};Glob.prototype._processReaddir=function(e,t,n,i,r,a,o){var c=this;this._readdir(n,a,(function(l,u){return c._processReaddir2(e,t,n,i,r,a,u,o)}))};Glob.prototype._processReaddir2=function(e,t,n,i,r,a,o,c){if(!o)return c();var u=i[0];var p=!!this.minimatch.negate;var d=u._glob;var h=this.dot||d.charAt(0)===".";var v=[];for(var g=0;g<o.length;g++){var y=o[g];if(y.charAt(0)!=="."||h){var x;if(p&&!e){x=!y.match(u)}else{x=y.match(u)}if(x)v.push(y)}}var b=v.length;if(b===0)return c();if(i.length===1&&!this.mark&&!this.stat){if(!this.matches[r])this.matches[r]=Object.create(null);for(var g=0;g<b;g++){var y=v[g];if(e){if(e!=="/")y=e+"/"+y;else y=e+y}if(y.charAt(0)==="/"&&!this.nomount){y=l.join(this.root,y)}this._emitMatch(r,y)}return c()}i.shift();for(var g=0;g<b;g++){var y=v[g];var E;if(e){if(e!=="/")y=e+"/"+y;else y=e+y}this._process([y].concat(i),r,a,c)}c()};Glob.prototype._emitMatch=function(e,t){if(this.aborted)return;if(E(this,t))return;if(this.paused){this._emitQueue.push([e,t]);return}var n=p(t)?t:this._makeAbs(t);if(this.mark)t=this._mark(t);if(this.absolute)t=n;if(this.matches[e][t])return;if(this.nodir){var i=this.cache[n];if(i==="DIR"||Array.isArray(i))return}this.matches[e][t]=true;var r=this.statCache[n];if(r)this.emit("stat",t,r);this.emit("match",t)};Glob.prototype._readdirInGlobStar=function(e,t){if(this.aborted)return;if(this.follow)return this._readdir(e,false,t);var n="lstat\0"+e;var i=this;var r=y(n,lstatcb_);if(r)i.fs.lstat(e,r);function lstatcb_(n,r){if(n&&n.code==="ENOENT")return t();var a=r&&r.isSymbolicLink();i.symlinks[e]=a;if(!a&&r&&!r.isDirectory()){i.cache[e]="FILE";t()}else i._readdir(e,false,t)}};Glob.prototype._readdir=function(e,t,n){if(this.aborted)return;n=y("readdir\0"+e+"\0"+t,n);if(!n)return;if(t&&!g(this.symlinks,e))return this._readdirInGlobStar(e,n);if(g(this.cache,e)){var i=this.cache[e];if(!i||i==="FILE")return n();if(Array.isArray(i))return n(null,i)}var r=this;r.fs.readdir(e,readdirCb(this,e,n))};function readdirCb(e,t,n){return function(i,r){if(i)e._readdirError(t,i,n);else e._readdirEntries(t,r,n)}}Glob.prototype._readdirEntries=function(e,t,n){if(this.aborted)return;if(!this.mark&&!this.stat){for(var i=0;i<t.length;i++){var r=t[i];if(e==="/")r=e+r;else r=e+"/"+r;this.cache[r]=true}}this.cache[e]=t;return n(null,t)};Glob.prototype._readdirError=function(e,t,n){if(this.aborted)return;switch(t.code){case"ENOTSUP":case"ENOTDIR":var i=this._makeAbs(e);this.cache[i]="FILE";if(i===this.cwdAbs){var r=new Error(t.code+" invalid cwd "+this.cwd);r.path=this.cwd;r.code=t.code;this.emit("error",r);this.abort()}break;case"ENOENT":case"ELOOP":case"ENAMETOOLONG":case"UNKNOWN":this.cache[this._makeAbs(e)]=false;break;default:this.cache[this._makeAbs(e)]=false;if(this.strict){this.emit("error",t);this.abort()}if(!this.silent)console.error("glob error",t);break}return n()};Glob.prototype._processGlobStar=function(e,t,n,i,r,a,o){var c=this;this._readdir(n,a,(function(l,u){c._processGlobStar2(e,t,n,i,r,a,u,o)}))};Glob.prototype._processGlobStar2=function(e,t,n,i,r,a,o,c){if(!o)return c();var l=i.slice(1);var u=e?[e]:[];var p=u.concat(l);this._process(p,r,false,c);var d=this.symlinks[n];var h=o.length;if(d&&a)return c();for(var v=0;v<h;v++){var g=o[v];if(g.charAt(0)==="."&&!this.dot)continue;var y=u.concat(o[v],l);this._process(y,r,true,c);var x=u.concat(o[v],i);this._process(x,r,true,c)}c()};Glob.prototype._processSimple=function(e,t,n){var i=this;this._stat(e,(function(r,a){i._processSimple2(e,t,r,a,n)}))};Glob.prototype._processSimple2=function(e,t,n,i,r){if(!this.matches[t])this.matches[t]=Object.create(null);if(!i)return r();if(e&&p(e)&&!this.nomount){var a=/[\/\\]$/.test(e);if(e.charAt(0)==="/"){e=l.join(this.root,e)}else{e=l.resolve(this.root,e);if(a)e+="/"}}if(process.platform==="win32")e=e.replace(/\\/g,"/");this._emitMatch(t,e);r()};Glob.prototype._stat=function(e,t){var n=this._makeAbs(e);var i=e.slice(-1)==="/";if(e.length>this.maxLength)return t();if(!this.stat&&g(this.cache,n)){var r=this.cache[n];if(Array.isArray(r))r="DIR";if(!i||r==="DIR")return t(null,r);if(i&&r==="FILE")return t()}var a;var o=this.statCache[n];if(o!==undefined){if(o===false)return t(null,o);else{var c=o.isDirectory()?"DIR":"FILE";if(i&&c==="FILE")return t();else return t(null,c,o)}}var l=this;var u=y("stat\0"+n,lstatcb_);if(u)l.fs.lstat(n,u);function lstatcb_(i,r){if(r&&r.isSymbolicLink()){return l.fs.stat(n,(function(i,a){if(i)l._stat2(e,n,null,r,t);else l._stat2(e,n,i,a,t)}))}else{l._stat2(e,n,i,r,t)}}};Glob.prototype._stat2=function(e,t,n,i,r){if(n&&(n.code==="ENOENT"||n.code==="ENOTDIR")){this.statCache[t]=false;return r()}var a=e.slice(-1)==="/";this.statCache[t]=i;if(t.slice(-1)==="/"&&i&&!i.isDirectory())return r(null,false,i);var o=true;if(i)o=i.isDirectory()?"DIR":"FILE";this.cache[t]=this.cache[t]||o;if(a&&o==="FILE")return r();return r(null,o,i)}},2573:(e,t,n)=>{e.exports=globSync;globSync.GlobSync=GlobSync;var i=n(5048);var r=n(7302);var a=r.Minimatch;var o=n(1352).Glob;var c=n(9023);var l=n(6928);var u=n(2613);var p=n(6928).isAbsolute;var d=n(75);var h=d.setopts;var v=d.ownProp;var g=d.childrenIgnored;var y=d.isIgnored;function globSync(e,t){if(typeof t==="function"||arguments.length===3)throw new TypeError("callback provided to sync glob\n"+"See: https://github.com/isaacs/node-glob/issues/167");return new GlobSync(e,t).found}function GlobSync(e,t){if(!e)throw new Error("must provide pattern");if(typeof t==="function"||arguments.length===3)throw new TypeError("callback provided to sync glob\n"+"See: https://github.com/isaacs/node-glob/issues/167");if(!(this instanceof GlobSync))return new GlobSync(e,t);h(this,e,t);if(this.noprocess)return this;var n=this.minimatch.set.length;this.matches=new Array(n);for(var i=0;i<n;i++){this._process(this.minimatch.set[i],i,false)}this._finish()}GlobSync.prototype._finish=function(){u.ok(this instanceof GlobSync);if(this.realpath){var e=this;this.matches.forEach((function(t,n){var r=e.matches[n]=Object.create(null);for(var a in t){try{a=e._makeAbs(a);var o=i.realpathSync(a,e.realpathCache);r[o]=true}catch(t){if(t.syscall==="stat")r[e._makeAbs(a)]=true;else throw t}}}))}d.finish(this)};GlobSync.prototype._process=function(e,t,n){u.ok(this instanceof GlobSync);var i=0;while(typeof e[i]==="string"){i++}var a;switch(i){case e.length:this._processSimple(e.join("/"),t);return;case 0:a=null;break;default:a=e.slice(0,i).join("/");break}var o=e.slice(i);var c;if(a===null)c=".";else if(p(a)||p(e.map((function(e){return typeof e==="string"?e:"[*]"})).join("/"))){if(!a||!p(a))a="/"+a;c=a}else c=a;var l=this._makeAbs(c);if(g(this,c))return;var d=o[0]===r.GLOBSTAR;if(d)this._processGlobStar(a,c,l,o,t,n);else this._processReaddir(a,c,l,o,t,n)};GlobSync.prototype._processReaddir=function(e,t,n,i,r,a){var o=this._readdir(n,a);if(!o)return;var c=i[0];var u=!!this.minimatch.negate;var p=c._glob;var d=this.dot||p.charAt(0)===".";var h=[];for(var v=0;v<o.length;v++){var g=o[v];if(g.charAt(0)!=="."||d){var y;if(u&&!e){y=!g.match(c)}else{y=g.match(c)}if(y)h.push(g)}}var x=h.length;if(x===0)return;if(i.length===1&&!this.mark&&!this.stat){if(!this.matches[r])this.matches[r]=Object.create(null);for(var v=0;v<x;v++){var g=h[v];if(e){if(e.slice(-1)!=="/")g=e+"/"+g;else g=e+g}if(g.charAt(0)==="/"&&!this.nomount){g=l.join(this.root,g)}this._emitMatch(r,g)}return}i.shift();for(var v=0;v<x;v++){var g=h[v];var b;if(e)b=[e,g];else b=[g];this._process(b.concat(i),r,a)}};GlobSync.prototype._emitMatch=function(e,t){if(y(this,t))return;var n=this._makeAbs(t);if(this.mark)t=this._mark(t);if(this.absolute){t=n}if(this.matches[e][t])return;if(this.nodir){var i=this.cache[n];if(i==="DIR"||Array.isArray(i))return}this.matches[e][t]=true;if(this.stat)this._stat(t)};GlobSync.prototype._readdirInGlobStar=function(e){if(this.follow)return this._readdir(e,false);var t;var n;var i;try{n=this.fs.lstatSync(e)}catch(e){if(e.code==="ENOENT"){return null}}var r=n&&n.isSymbolicLink();this.symlinks[e]=r;if(!r&&n&&!n.isDirectory())this.cache[e]="FILE";else t=this._readdir(e,false);return t};GlobSync.prototype._readdir=function(e,t){var n;if(t&&!v(this.symlinks,e))return this._readdirInGlobStar(e);if(v(this.cache,e)){var i=this.cache[e];if(!i||i==="FILE")return null;if(Array.isArray(i))return i}try{return this._readdirEntries(e,this.fs.readdirSync(e))}catch(t){this._readdirError(e,t);return null}};GlobSync.prototype._readdirEntries=function(e,t){if(!this.mark&&!this.stat){for(var n=0;n<t.length;n++){var i=t[n];if(e==="/")i=e+i;else i=e+"/"+i;this.cache[i]=true}}this.cache[e]=t;return t};GlobSync.prototype._readdirError=function(e,t){switch(t.code){case"ENOTSUP":case"ENOTDIR":var n=this._makeAbs(e);this.cache[n]="FILE";if(n===this.cwdAbs){var i=new Error(t.code+" invalid cwd "+this.cwd);i.path=this.cwd;i.code=t.code;throw i}break;case"ENOENT":case"ELOOP":case"ENAMETOOLONG":case"UNKNOWN":this.cache[this._makeAbs(e)]=false;break;default:this.cache[this._makeAbs(e)]=false;if(this.strict)throw t;if(!this.silent)console.error("glob error",t);break}};GlobSync.prototype._processGlobStar=function(e,t,n,i,r,a){var o=this._readdir(n,a);if(!o)return;var c=i.slice(1);var l=e?[e]:[];var u=l.concat(c);this._process(u,r,false);var p=o.length;var d=this.symlinks[n];if(d&&a)return;for(var h=0;h<p;h++){var v=o[h];if(v.charAt(0)==="."&&!this.dot)continue;var g=l.concat(o[h],c);this._process(g,r,true);var y=l.concat(o[h],i);this._process(y,r,true)}};GlobSync.prototype._processSimple=function(e,t){var n=this._stat(e);if(!this.matches[t])this.matches[t]=Object.create(null);if(!n)return;if(e&&p(e)&&!this.nomount){var i=/[\/\\]$/.test(e);if(e.charAt(0)==="/"){e=l.join(this.root,e)}else{e=l.resolve(this.root,e);if(i)e+="/"}}if(process.platform==="win32")e=e.replace(/\\/g,"/");this._emitMatch(t,e)};GlobSync.prototype._stat=function(e){var t=this._makeAbs(e);var n=e.slice(-1)==="/";if(e.length>this.maxLength)return false;if(!this.stat&&v(this.cache,t)){var i=this.cache[t];if(Array.isArray(i))i="DIR";if(!n||i==="DIR")return i;if(n&&i==="FILE")return false}var r;var a=this.statCache[t];if(!a){var o;try{o=this.fs.lstatSync(t)}catch(e){if(e&&(e.code==="ENOENT"||e.code==="ENOTDIR")){this.statCache[t]=false;return false}}if(o&&o.isSymbolicLink()){try{a=this.fs.statSync(t)}catch(e){a=o}}else{a=o}}this.statCache[t]=a;var i=true;if(a)i=a.isDirectory()?"DIR":"FILE";this.cache[t]=this.cache[t]||i;if(n&&i==="FILE")return false;return i};GlobSync.prototype._mark=function(e){return d.mark(this,e)};GlobSync.prototype._makeAbs=function(e){return d.makeAbs(this,e)}},1375:e=>{const t=typeof process==="object"&&process&&process.platform==="win32";e.exports=t?{sep:"\\"}:{sep:"/"}},7302:(e,t,n)=>{const i=e.exports=(e,t,n={})=>{assertValidPattern(t);if(!n.nocomment&&t.charAt(0)==="#"){return false}return new Minimatch(t,n).match(e)};e.exports=i;const r=n(1375);i.sep=r.sep;const a=Symbol("globstar **");i.GLOBSTAR=a;const o=n(1069);const c={"!":{open:"(?:(?!(?:",close:"))[^/]*?)"},"?":{open:"(?:",close:")?"},"+":{open:"(?:",close:")+"},"*":{open:"(?:",close:")*"},"@":{open:"(?:",close:")"}};const l="[^/]";const u=l+"*?";const p="(?:(?!(?:\\/|^)(?:\\.{1,2})($|\\/)).)*?";const d="(?:(?!(?:\\/|^)\\.).)*?";const charSet=e=>e.split("").reduce(((e,t)=>{e[t]=true;return e}),{});const h=charSet("().*{}+?[]^$\\!");const v=charSet("[.(");const g=/\/+/;i.filter=(e,t={})=>(n,r,a)=>i(n,e,t);const ext=(e,t={})=>{const n={};Object.keys(e).forEach((t=>n[t]=e[t]));Object.keys(t).forEach((e=>n[e]=t[e]));return n};i.defaults=e=>{if(!e||typeof e!=="object"||!Object.keys(e).length){return i}const t=i;const m=(n,i,r)=>t(n,i,ext(e,r));m.Minimatch=class Minimatch extends t.Minimatch{constructor(t,n){super(t,ext(e,n))}};m.Minimatch.defaults=n=>t.defaults(ext(e,n)).Minimatch;m.filter=(n,i)=>t.filter(n,ext(e,i));m.defaults=n=>t.defaults(ext(e,n));m.makeRe=(n,i)=>t.makeRe(n,ext(e,i));m.braceExpand=(n,i)=>t.braceExpand(n,ext(e,i));m.match=(n,i,r)=>t.match(n,i,ext(e,r));return m};i.braceExpand=(e,t)=>braceExpand(e,t);const braceExpand=(e,t={})=>{assertValidPattern(e);if(t.nobrace||!/\{(?:(?!\{).)*\}/.test(e)){return[e]}return o(e)};const y=1024*64;const assertValidPattern=e=>{if(typeof e!=="string"){throw new TypeError("invalid pattern")}if(e.length>y){throw new TypeError("pattern is too long")}};const x=Symbol("subparse");i.makeRe=(e,t)=>new Minimatch(e,t||{}).makeRe();i.match=(e,t,n={})=>{const i=new Minimatch(t,n);e=e.filter((e=>i.match(e)));if(i.options.nonull&&!e.length){e.push(t)}return e};const globUnescape=e=>e.replace(/\\(.)/g,"$1");const charUnescape=e=>e.replace(/\\([^-\]])/g,"$1");const regExpEscape=e=>e.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");const braExpEscape=e=>e.replace(/[[\]\\]/g,"\\$&");class Minimatch{constructor(e,t){assertValidPattern(e);if(!t)t={};this.options=t;this.set=[];this.pattern=e;this.windowsPathsNoEscape=!!t.windowsPathsNoEscape||t.allowWindowsEscape===false;if(this.windowsPathsNoEscape){this.pattern=this.pattern.replace(/\\/g,"/")}this.regexp=null;this.negate=false;this.comment=false;this.empty=false;this.partial=!!t.partial;this.make()}debug(){}make(){const e=this.pattern;const t=this.options;if(!t.nocomment&&e.charAt(0)==="#"){this.comment=true;return}if(!e){this.empty=true;return}this.parseNegate();let n=this.globSet=this.braceExpand();if(t.debug)this.debug=(...e)=>console.error(...e);this.debug(this.pattern,n);n=this.globParts=n.map((e=>e.split(g)));this.debug(this.pattern,n);n=n.map(((e,t,n)=>e.map(this.parse,this)));this.debug(this.pattern,n);n=n.filter((e=>e.indexOf(false)===-1));this.debug(this.pattern,n);this.set=n}parseNegate(){if(this.options.nonegate)return;const e=this.pattern;let t=false;let n=0;for(let i=0;i<e.length&&e.charAt(i)==="!";i++){t=!t;n++}if(n)this.pattern=e.slice(n);this.negate=t}matchOne(e,t,n){var i=this.options;this.debug("matchOne",{this:this,file:e,pattern:t});this.debug("matchOne",e.length,t.length);for(var r=0,o=0,c=e.length,l=t.length;r<c&&o<l;r++,o++){this.debug("matchOne loop");var u=t[o];var p=e[r];this.debug(t,u,p);if(u===false)return false;if(u===a){this.debug("GLOBSTAR",[t,u,p]);var d=r;var h=o+1;if(h===l){this.debug("** at the end");for(;r<c;r++){if(e[r]==="."||e[r]===".."||!i.dot&&e[r].charAt(0)===".")return false}return true}while(d<c){var v=e[d];this.debug("\nglobstar while",e,d,t,h,v);if(this.matchOne(e.slice(d),t.slice(h),n)){this.debug("globstar found match!",d,c,v);return true}else{if(v==="."||v===".."||!i.dot&&v.charAt(0)==="."){this.debug("dot detected!",e,d,t,h);break}this.debug("globstar swallow a segment, and continue");d++}}if(n){this.debug("\n>>> no match, partial?",e,d,t,h);if(d===c)return true}return false}var g;if(typeof u==="string"){g=p===u;this.debug("string match",u,p,g)}else{g=p.match(u);this.debug("pattern match",u,p,g)}if(!g)return false}if(r===c&&o===l){return true}else if(r===c){return n}else if(o===l){return r===c-1&&e[r]===""}throw new Error("wtf?")}braceExpand(){return braceExpand(this.pattern,this.options)}parse(e,t){assertValidPattern(e);const n=this.options;if(e==="**"){if(!n.noglobstar)return a;else e="*"}if(e==="")return"";let i="";let r=false;let o=false;const p=[];const d=[];let g;let y=false;let b=-1;let E=-1;let C;let w;let S;let k=e.charAt(0)===".";let A=n.dot||k;const patternStart=()=>k?"":A?"(?!(?:^|\\/)\\.{1,2}(?:$|\\/))":"(?!\\.)";const subPatternStart=e=>e.charAt(0)==="."?"":n.dot?"(?!(?:^|\\/)\\.{1,2}(?:$|\\/))":"(?!\\.)";const clearStateChar=()=>{if(g){switch(g){case"*":i+=u;r=true;break;case"?":i+=l;r=true;break;default:i+="\\"+g;break}this.debug("clearStateChar %j %j",g,i);g=false}};for(let t=0,a;t<e.length&&(a=e.charAt(t));t++){this.debug("%s\t%s %s %j",e,t,i,a);if(o){if(a==="/"){return false}if(h[a]){i+="\\"}i+=a;o=false;continue}switch(a){case"/":{return false}case"\\":if(y&&e.charAt(t+1)==="-"){i+=a;continue}clearStateChar();o=true;continue;case"?":case"*":case"+":case"@":case"!":this.debug("%s\t%s %s %j <-- stateChar",e,t,i,a);if(y){this.debug("  in class");if(a==="!"&&t===E+1)a="^";i+=a;continue}this.debug("call clearStateChar %j",g);clearStateChar();g=a;if(n.noext)clearStateChar();continue;case"(":{if(y){i+="(";continue}if(!g){i+="\\(";continue}const n={type:g,start:t-1,reStart:i.length,open:c[g].open,close:c[g].close};this.debug(this.pattern,"\t",n);p.push(n);i+=n.open;if(n.start===0&&n.type!=="!"){k=true;i+=subPatternStart(e.slice(t+1))}this.debug("plType %j %j",g,i);g=false;continue}case")":{const e=p[p.length-1];if(y||!e){i+="\\)";continue}p.pop();clearStateChar();r=true;w=e;i+=w.close;if(w.type==="!"){d.push(Object.assign(w,{reEnd:i.length}))}continue}case"|":{const n=p[p.length-1];if(y||!n){i+="\\|";continue}clearStateChar();i+="|";if(n.start===0&&n.type!=="!"){k=true;i+=subPatternStart(e.slice(t+1))}continue}case"[":clearStateChar();if(y){i+="\\"+a;continue}y=true;E=t;b=i.length;i+=a;continue;case"]":if(t===E+1||!y){i+="\\"+a;continue}C=e.substring(E+1,t);try{RegExp("["+braExpEscape(charUnescape(C))+"]");i+=a}catch(e){i=i.substring(0,b)+"(?:$.)"}r=true;y=false;continue;default:clearStateChar();if(h[a]&&!(a==="^"&&y)){i+="\\"}i+=a;break}}if(y){C=e.slice(E+1);S=this.parse(C,x);i=i.substring(0,b)+"\\["+S[0];r=r||S[1]}for(w=p.pop();w;w=p.pop()){let e;e=i.slice(w.reStart+w.open.length);this.debug("setting tail",i,w);e=e.replace(/((?:\\{2}){0,64})(\\?)\|/g,((e,t,n)=>{if(!n){n="\\"}return t+t+n+"|"}));this.debug("tail=%j\n   %s",e,e,w,i);const t=w.type==="*"?u:w.type==="?"?l:"\\"+w.type;r=true;i=i.slice(0,w.reStart)+t+"\\("+e}clearStateChar();if(o){i+="\\\\"}const D=v[i.charAt(0)];for(let e=d.length-1;e>-1;e--){const n=d[e];const r=i.slice(0,n.reStart);const a=i.slice(n.reStart,n.reEnd-8);let o=i.slice(n.reEnd);const c=i.slice(n.reEnd-8,n.reEnd)+o;const l=r.split(")").length;const u=r.split("(").length-l;let p=o;for(let e=0;e<u;e++){p=p.replace(/\)[+*?]?/,"")}o=p;const h=o===""&&t!==x?"(?:$|\\/)":"";i=r+a+o+h+c}if(i!==""&&r){i="(?=.)"+i}if(D){i=patternStart()+i}if(t===x){return[i,r]}if(n.nocase&&!r){r=e.toUpperCase()!==e.toLowerCase()}if(!r){return globUnescape(e)}const F=n.nocase?"i":"";try{return Object.assign(new RegExp("^"+i+"$",F),{_glob:e,_src:i})}catch(e){return new RegExp("$.")}}makeRe(){if(this.regexp||this.regexp===false)return this.regexp;const e=this.set;if(!e.length){this.regexp=false;return this.regexp}const t=this.options;const n=t.noglobstar?u:t.dot?p:d;const i=t.nocase?"i":"";let r=e.map((e=>{e=e.map((e=>typeof e==="string"?regExpEscape(e):e===a?a:e._src)).reduce(((e,t)=>{if(!(e[e.length-1]===a&&t===a)){e.push(t)}return e}),[]);e.forEach(((t,i)=>{if(t!==a||e[i-1]===a){return}if(i===0){if(e.length>1){e[i+1]="(?:\\/|"+n+"\\/)?"+e[i+1]}else{e[i]=n}}else if(i===e.length-1){e[i-1]+="(?:\\/|"+n+")?"}else{e[i-1]+="(?:\\/|\\/"+n+"\\/)"+e[i+1];e[i+1]=a}}));return e.filter((e=>e!==a)).join("/")})).join("|");r="^(?:"+r+")$";if(this.negate)r="^(?!"+r+").*$";try{this.regexp=new RegExp(r,i)}catch(e){this.regexp=false}return this.regexp}match(e,t=this.partial){this.debug("match",e,this.pattern);if(this.comment)return false;if(this.empty)return e==="";if(e==="/"&&t)return true;const n=this.options;if(r.sep!=="/"){e=e.split(r.sep).join("/")}e=e.split(g);this.debug(this.pattern,"split",e);const i=this.set;this.debug(this.pattern,"set",i);let a;for(let t=e.length-1;t>=0;t--){a=e[t];if(a)break}for(let r=0;r<i.length;r++){const o=i[r];let c=e;if(n.matchBase&&o.length===1){c=[a]}const l=this.matchOne(c,o,t);if(l){if(n.flipNegate)return true;return!this.negate}}if(n.flipNegate)return false;return this.negate}static defaults(e){return i.defaults(e).Minimatch}}i.Minimatch=Minimatch},1163:(e,t,n)=>{if(true&&e.exports){var i=n(4014);n(203)}(function(){class Array{eachWithIndex(e){}flatten(){}getFirst(){}getLast(){}getMax(){}getMin(){}getSample(){}}});Object.assign(Array.prototype,{flatten(){const recursiveFlat=e=>{if(!e)e=this;const t=e.filter((e=>i.isArray(e))).length>0;if(t){return recursiveFlat(e.flat())}return e.flat()};return recursiveFlat()}});Object.assign(Array.prototype,{getMax(){if(this.length===0)return null;return Math.max(...this)}});Object.assign(Array.prototype,{getMin(){if(this.length===0)return null;return Math.min(...this)}});if(true&&e.exports){e.exports="Array"}},4201:(e,t,n)=>{if(true&&e.exports){var i=n(4212);var r=n(1352);n(1163);var a=n(9266);var o=n(857)}class Dir{static glob(e,t,n){const i=e instanceof Array&&e.constructor.name==="Array";if(!i){e=[e]}let o=[];if(!t)t={};if(n){t.cwd=n}e.eachWithIndex((e=>{let n=a.normalizePath(e);const i=n[1]===":";if(i){n=n.substring(2);const i=a.normalizePath(e).substring(0,2);t.cwd=i}o.push(r.sync(n,t))}));return o.flatten()}static pwd(){return process.cwd()}static chdir(e){if(typeof e==="undefined"){e=process.env.HOME||process.env.LOGDIR||o.homedir()}process.chdir(e)}static delete(e,t={}){i.ensureRunningInNodeJs();const n={recursive:t.recursive,maxRetries:t.max_retries,retryDelay:t.retry_delay};Fs.rmdirSync(e,n)}static isExisting(e){return a.isDirectory(e)}static getHome(e){return a.getHomePath()}}if(true&&e.exports){e.exports=Dir}},2869:(e,t,n)=>{if(true&&e.exports){var i=n(4212)}class Env{static get(e){return process.env[e]}static set(e,t){process.env[e]=t}}if(true&&e.exports){e.exports=Env}},7346:(e,t,n)=>{if(true&&e.exports){var i=n(6928);var r=n(9896);var a=n(124);var o=n(9266);var c=n(1225);var l=n(4014);n(1163)}class FileUtils{static copy(e,t,n){const i=FileUtils;c.ensureRunningInNodeJs();if(l.isArray(e)){if(o.isDirectory(t)){e.eachWithIndex((e=>{if(!o.isFile(e)){throw new Error(`Given 'src' in array of files is no valid file. File not found: '${e}'`)}}));e.eachWithIndex((e=>{let i=t;if(!i.endsWith("/")&&!i.endsWith("\\")){i+="/"}i=i+o.getBasename(e);r.copyFileSync(e,i,n)}))}else{throw new Error(`Parameter 'src' is a array of files. Then the parameter 'dest' must be a valid directory! Directory not found: '${t}'`)}}else{if(!o.isFile(e)){throw new Error(`Given 'src' file not found: '${e}'`)}if(o.isDirectory(t)){if(!t.endsWith("/")&&!t.endsWith("\\")){t+="/"}t=t+o.getBasename(e)}r.copyFileSync(e,t,n)}}static cp(e,t,n){const i=FileUtils;i.copy(e,t,n)}static cp_r(e,t,n){const i=FileUtils;c.ensureRunningInNodeJs();if(!n){n={}}n.recursive=true;if(l.isArray(e)){if(o.isDirectory(t)){e.eachWithIndex((e=>{if(!o.isExisting(e)){throw new Error(`Given 'src' in array of files is no valid path. Path not found: '${file}'`)}}));e.eachWithIndex((e=>{let i=t;if(!i.endsWith("/")&&!i.endsWith("\\")){i+="/"}i=i+o.getBasename(e);r.cpSync(e,i,n)}))}else{throw new Error(`Parameter 'src' is a array of paths. Then the parameter 'dest' must be a valid directory! Directory not found: '${t}'`)}}else{if(!o.isExisting(e)){throw new Error(`Given 'src' path not found: '${e}'`)}if(o.isDirectory(t)){if(!t.endsWith("/")&&!t.endsWith("\\")){t+="/"}t=t+o.getBasename(e)}r.cpSync(e,t,n)}}static mkdirP(e){const t=FileUtils;c.ensureRunningInNodeJs();if(!l.isArray(e)){e=[e]}e.eachWithIndex(((e,t)=>{r.mkdirSync(e,{recursive:true})}))}static move(e,t,n={}){const i=o;if(n&&n.noop)return;o.rename(e,t)}static mv(e,t,n={}){const i=FileUtils;i.move(e,t,n)}static rmRf(e){const t=FileUtils;return t.rmR(e,{force:true})}static rmR(e,t){const n=FileUtils;c.ensureRunningInNodeJs();if(!l.isArray(e)){e=[e]}e.eachWithIndex(((e,n)=>{r.rmSync(e,{recursive:true,force:t?t.force:false})}))}}if(true&&e.exports){e.exports=FileUtils}},9266:(e,t,n)=>{if(true&&e.exports){var i=n(6928);var r=n(9896);var a=n(124);var o=n(1225);var c=n(857)}class File{static delete(e,t){const n=File;o.ensureRunningInNodeJs();r.unlinkSync(e)}static getAbsolutePath(e,t){const n=File;return n.expandPath(e,t,{expand_user_dir:false})}static getAccessTime(e){return r.lstatSync(e).atime}static getBasename(e,t){const n=File;e=n.normalizePath(e);let i=e.split("/").filter((e=>e!=="")).getLast();if(t){if(t===".*"&&i.includes(".")){i=i.substring(0,i.lastIndexOf("."))}else if(i.endsWith(t)){i=i.substring(0,i.lastIndexOf(t))}}return i}static getBirthTime(e){return r.lstatSync(e).birthtime}static getDirname(e){const t=File;e=t.normalizePath(e);return e.substring(0,t.normalizePath(e).lastIndexOf("/"))}static getSize(e){const t=File;e=t.normalizePath(e);return r.statSync(e).size}static expandPath(e,t="",n={}){const r=File;if(!n)n={};if(typeof n.expand_user_dir==="undefined")n.expand_user_dir=true;e=r.normalizePath(e);t=r.normalizePath(t);if(e.startsWith("~")&&t&&t.startsWith("~")){return i.resolve(r._resolveUserDirInPath(e))}else{e=t?r._resolveUserDirInPath(t)+"/"+r._resolveUserDirInPath(e):r._resolveUserDirInPath(e);return i.resolve(e)}}static isDirectory(e){const t=File;return t.isExisting(e)&&r.lstatSync(e).isDirectory()}static isEmpty(e){const t=File;return t.isExisting(e)&&t.getSize(e)===0}static isExisting(e){return r.existsSync(e)}static isFile(e){const t=File;return t.isExisting(e)&&r.lstatSync(e).isFile()}static normalizePath(e){const t=File;return t._cutTrailingSlash(e.replace(/\\/g,"/"))}static read(e,t){const n=File;o.ensureRunningInNodeJs();let i="utf8";if(t&&["binary","buffer"].includes(t.encoding))i=null;let a=r.readFileSync(e,i);if(t&&t.encoding!=="base64"){if(t.offset)a=a.slice(t.offset);if(t.length)a=a.slice(0,t.length)}return a}static rename(e,t){const n=File;o.ensureRunningInNodeJs();r.renameSync(e,t)}static readAsDataUri(e){const t=a.getType(e);if(t){const n=r.readFileSync(e,"base64");return`data:${t};base64,${n}`}else{throw`No mime type found for file '${e}'`}}static write(e,t,n){const i=File;o.ensureRunningInNodeJs();let a={encoding:"utf8"};if(n){if(n.flag)a.flag=n.flag;if(["binary","buffer"].includes(n.encoding))a.encoding=null}return r.writeFileSync(e,t,a)}static getHomePath(){const e=File;o.ensureRunningInNodeJs();let t=null;if(process.env.HOME){t=process.env.HOME}else if(process.env.HOMEDIR&&process.env.HOMEPATH){t=process.env.HOMEDIR+process.env.HOMEPATH}else if(process.env.USERPROFILE){t=process.env.USERPROFILE}else if(c.homedir()){t=c.homedir()}else{throw new Error(`Could not determine path of your home directory. Your OS may be not supported yet.`)}return e.normalizePath(t)}static _cutTrailingSlash(e){if(e.endsWith("/")){return e.substring(0,e.length-1)}else{return e}}static _resolveUserDirInPath(e){const t=File;const n=/^~([^\/]*)\//;const i=e.match(n);if(i){if(i[1]){e=t.getDirname(t.getHomePath())+"/"+i[1]+"/"+e.replace(n,"")}else{e=e.replace(n,t.getHomePath()+"/")}}return e}}if(true&&e.exports){e.exports=File}},25:(e,t,n)=>{if(true&&e.exports){var i=n(4014)}(function(){class Number{timesWithIndex(e){}round(){}floor(){}ceil(){}}});Object.defineProperty(Number.prototype,"timesWithIndex",{value:function timesWithIndex(e){if(typeof e==="function"){if(i.isNumber(this)||i.isNumberClass(this)){for(let t=0;t<this;++t){if(e(t)===false){break}}}else{console.warn(`${i.getType(this)}.timesWithIndex is not a valid function`)}}return this},enumerable:false});Object.defineProperty(Number.prototype,"round",{value:function round(){if(i.isNumber(this)||i.isNumberClass(this)){return Math.round(this)}else{console.warn(`${i.getType(this)}.round is not a valid function`)}},enumerable:false});Object.defineProperty(Number.prototype,"ceil",{value:function ceil(){if(i.isNumber(this)||i.isNumberClass(this)){return Math.ceil(this)}else{console.warn(`${i.getType(this)}.ceil is not a valid function`)}},enumerable:false});Object.defineProperty(Number.prototype,"floor",{value:function floor(){if(i.isNumber(this)||i.isNumberClass(this)){return Math.floor(this)}else{console.warn(`${i.getType(this)}.floor is not a valid function`)}},enumerable:false});if(true&&e.exports){e.exports="Number"}},203:(e,t,n)=>{if(true&&e.exports){var i=n(4014)}(function(){class Object{eachWithIndex(e){}mapObject(e){}getFirst(){}getLast(){}getSample(){}}});Object.defineProperty(Object.prototype,"eachWithIndex",{value:function eachWithIndex(e){if(typeof e==="function"){if(i.isArray(this)){for(let t=0;t<this.length;++t){const n={state:false};if(e(this[t],t,n)===false){break}}}else if(i.isObject(this)){let t=0;const n=Object.keys(this);const i=n.length;for(let r=0;r<i;++r){const i=n[r];if(e(i,this[i],t)===false){break}++t}}else{console.warn(`${i.getType(this)}.eachWithIndex is not a valid function`)}}return this},enumerable:false});Object.defineProperty(Object.prototype,"mapObject",{value:function mapObject(e){if(typeof e==="function"){if(i.isObject(this)){const t=Object.entries(this).map(((e,t)=>{a={};a[e[0]]=e[1];return a}));let n=[];let i=0;for(const[t,r]of Object.entries(this)){const a=e(t,r,i);n.push(a);++i}return n}else{console.warn(`${i.getType(this)}.mapObject is not a valid function`)}}},enumerable:false});Object.defineProperty(Object.prototype,"getFirst",{value:function getFirst(){if(i.is("Column",this))return;if(i.isArray(this)){return this[0]}else if(i.isObject(this)){const e=Object.entries(this)[0];let t={};t[e[0]]=e[1];return t}else{console.warn(`${i.getType(this)}.getFirst is not a valid function`)}},enumerable:false});Object.defineProperty(Object.prototype,"getLast",{value:function getLast(){if(i.is("Column",this))return;if(i.isArray(this)){return this[this.length-1]}else if(i.isObject(this)){const e=Object.entries(this)[Object.entries(this).length-1];let t={};t[e[0]]=e[1];return t}else{console.warn(`${i.getType(this)}.getLast is not a valid function`)}},enumerable:false});Object.defineProperty(Object.prototype,"getSample",{value:function getSample(){if(i.is("Column",this))return;if(i.isArray(this)){const e=Math.floor(Math.random()*this.length);return this[e]}else if(i.isObject(this)){const e=Math.floor(Math.random()*Object.entries(this).length);const t=Object.entries(this)[e];let n={};n[t[0]]=t[1];return n}else{console.warn(`${i.getType(this)}.getSample is not a valid function`)}},enumerable:false});if(true&&e.exports){e.exports="Object"}},1225:e=>{if(true&&e.exports){}class RubyNiceClass{static ensureRunningInNodeJs(){const e=RubyNiceClass;if(!e.isRunningInNodeJs()){throw new Error(`The used method can only be used when running with node js.`)}}static getVersion(){const e=RubyNiceClass;return e._version}static isRunningInNodeJs(){return!!(true&&e.exports)}static isRunningInBrowser(){const e=RubyNiceClass;return!e.isRunningInNodeJs()}}RubyNiceClass._version="0.1.12";if(true&&e.exports){e.exports=RubyNiceClass}},4212:(e,t,n)=>{if(true&&e.exports){var i=n(1225);n(1163);n(203);n(7797);n(25);e.exports=i;t=e.exports;t.RubyNice=i;t.Dir=n(4201);t.Env=n(2869);t.File=n(9266);t.FileUtils=n(7346);t.System=n(529)}},7797:e=>{(function(){class String{toDownCase(){}toUpCase(){}getFirst(){}getLast(){}getSample(){}}});Object.assign(String.prototype,{toDownCase(){return this.toLocaleLowerCase()}});Object.assign(String.prototype,{toUpCase(){return this.toLocaleUpperCase()}});Object.defineProperty(String.prototype,"getFirst",{value:function getFirst(){return this[0]}});Object.defineProperty(String.prototype,"getLast",{value:function getLast(){return this[this.length-1]}});Object.defineProperty(String.prototype,"getSample",{value:function getSample(){const e=Math.floor(Math.random()*this.length);return this[e]}});if(true&&e.exports){e.exports="String"}},529:(e,t,n)=>{if(true&&e.exports){var i=n(4212);var r=n(5317).execSync;var a=n(9266);var o=n(5317).spawnSync;var c=n(5317).spawn;var l=n(857)}class System{static run(e){let t=o(e,null,{shell:true});try{return t.stdout.toString()+t.stderr.toString()}catch(e){return e.message}}static system(e){return o(e,null,{shell:true}).status||0}static exec(e){const t={shell:true};return o(e,null,t)}static execDetached(e){const t={shell:true,detached:true,stdio:"ignore"};return c(e,null,t)}static getUserName(){const e=System;i.ensureRunningInNodeJs();let t=null;if(process.env.USER){t=process.env.USER}else if(process.env.USERNAME){t=process.env.USERNAME}else if(l.userInfo().username){t=l.userInfo().username}else{throw new Error(`Could not determine user name. Your OS may be not supported yet.`)}return t}}if(true&&e.exports){e.exports=System}},142:(e,t,n)=>{"use strict";const i=n(5597);const stripAnsi=e=>typeof e==="string"?e.replace(i(),""):e;e.exports=stripAnsi;e.exports["default"]=stripAnsi},7010:(e,t,n)=>{"use strict";const i=n(857);const r=n(2018);const a=n(3085);const{env:o}=process;let c;if(a("no-color")||a("no-colors")||a("color=false")||a("color=never")){c=0}else if(a("color")||a("colors")||a("color=true")||a("color=always")){c=1}if("FORCE_COLOR"in o){if(o.FORCE_COLOR==="true"){c=1}else if(o.FORCE_COLOR==="false"){c=0}else{c=o.FORCE_COLOR.length===0?1:Math.min(parseInt(o.FORCE_COLOR,10),3)}}function translateLevel(e){if(e===0){return false}return{level:e,hasBasic:true,has256:e>=2,has16m:e>=3}}function supportsColor(e,t){if(c===0){return 0}if(a("color=16m")||a("color=full")||a("color=truecolor")){return 3}if(a("color=256")){return 2}if(e&&!t&&c===undefined){return 0}const n=c||0;if(o.TERM==="dumb"){return n}if(process.platform==="win32"){const e=i.release().split(".");if(Number(e[0])>=10&&Number(e[2])>=10586){return Number(e[2])>=14931?3:2}return 1}if("CI"in o){if(["TRAVIS","CIRCLECI","APPVEYOR","GITLAB_CI","GITHUB_ACTIONS","BUILDKITE"].some((e=>e in o))||o.CI_NAME==="codeship"){return 1}return n}if("TEAMCITY_VERSION"in o){return/^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(o.TEAMCITY_VERSION)?1:0}if(o.COLORTERM==="truecolor"){return 3}if("TERM_PROGRAM"in o){const e=parseInt((o.TERM_PROGRAM_VERSION||"").split(".")[0],10);switch(o.TERM_PROGRAM){case"iTerm.app":return e>=3?3:2;case"Apple_Terminal":return 2}}if(/-256(color)?$/i.test(o.TERM)){return 2}if(/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(o.TERM)){return 1}if("COLORTERM"in o){return 1}return n}function getSupportLevel(e){const t=supportsColor(e,e&&e.isTTY);return translateLevel(t)}e.exports={supportsColor:getSupportLevel,stdout:translateLevel(supportsColor(true,r.isatty(1))),stderr:translateLevel(supportsColor(true,r.isatty(2)))}},4014:(module,__unused_webpack_exports,__nccwpck_require__)=>{if(true&&module.exports){var LuckyCase=__nccwpck_require__(4317)}class Typifier{static getVersion(){const e=Typifier;return e._version}static isArray(e){return e instanceof Array&&e.constructor.name==="Array"}static isObject(e){return e instanceof Object&&e.constructor.name==="Object"}static isString(e){return typeof e==="string"}static isStringClass(e){return e instanceof Object&&e.constructor.name==="String"}static isNumber(e){const t=Typifier;return typeof e==="number"&&!t.isNaN(e)&&!t.isInfinity(e)}static isNumberClass(e){return e instanceof Object&&e.constructor.name==="Number"}static isNumberString(value){const self=Typifier;if(!(self.isString(value)||self.isStringClass(value)))return false;const number_regex=/^[0-9._]+$/g;const hex_regex=/^0[xX][0-9A-Fa-f]+$/g;if(value.match(number_regex)||value.match(hex_regex)){try{eval(value);return true}catch(e){return false}}else{return false}}static isDate(e){return e instanceof Date}static isRegExp(e){return e instanceof RegExp}static isNaN(e){return typeof e==="number"&&e.toString()==="NaN"}static isInfinity(e){return e===Infinity}static isUndefined(e){return typeof e==="undefined"}static isNull(e){return typeof e==="object"&&e===null}static isBoolean(e){return typeof e==="boolean"||e instanceof Object&&e.constructor.name==="Boolean"}static isBooleanClass(e){return e instanceof Object&&e.constructor.name==="Boolean"}static isFunction(e){return typeof e==="function"&&e.constructor.name==="Function"&&(typeof e.prototype==="undefined"||e.prototype&&e.prototype.constructor&&!e.prototype.constructor.name)}static isClass(e){return typeof e==="function"&&e.constructor.name==="Function"&&(e.prototype&&e.prototype.constructor&&e.prototype.constructor.name)}static is(e,t){const n=Typifier;return n.getType(t)===e}static isSet(e){const t=Typifier;return!t.isUndefined(e)&&!t.isNull(e)}static getType(e){const t=Typifier;if(t.isArray(e)){return"Array"}else if(t.isObject(e)){return"Object"}else if(t.isString(e)){return"string"}else if(t.isStringClass(e)){return"String"}else if(t.isNumber(e)){return"number"}else if(t.isNumberClass(e)){return"Number"}else if(t.isDate(e)){return"Date"}else if(t.isRegExp(e)){return"RegExp"}else if(t.isNaN(e)){return"NaN"}else if(t.isInfinity(e)){return"Infinity"}else if(t.isUndefined(e)){return"undefined"}else if(t.isNull(e)){return"null"}else if(t.isBoolean(e)){return"boolean"}else if(t.isBooleanClass(e)){return"Boolean"}else if(t.isFunction(e)){return"function"}else if(t.isClass(e)){return"class"}else{let t="Unknown";if(e&&e.constructor){t=e.constructor.name}else if(e&&e.prop&&e.prop.constructor){t=e.prop.constructor}else if(e&&e.prototype&&e.prototype.constructor&&e.prototype.constructor.name){t=e.prototype.constructor.name}else{t=typeof e}return LuckyCase.toPascalCase(t)}}}Typifier._version="0.1.2";if(true&&module.exports){module.exports=Typifier}},3981:(e,t)=>{"use strict";t.fromCallback=function(e){return Object.defineProperty((function(...t){if(typeof t[t.length-1]==="function")e.apply(this,t);else{return new Promise(((n,i)=>{t.push(((e,t)=>e!=null?i(e):n(t)));e.apply(this,t)}))}}),"name",{value:e.name})};t.fromPromise=function(e){return Object.defineProperty((function(...t){const n=t[t.length-1];if(typeof n!=="function")return e.apply(this,t);else{t.pop();e.apply(this,t).then((e=>n(null,e)),n)}}),"name",{value:e.name})}},9808:e=>{e.exports=wrappy;function wrappy(e,t){if(e&&t)return wrappy(e)(t);if(typeof e!=="function")throw new TypeError("need wrapper function");Object.keys(e).forEach((function(t){wrapper[t]=e[t]}));return wrapper;function wrapper(){var t=new Array(arguments.length);for(var n=0;n<t.length;n++){t[n]=arguments[n]}var i=e.apply(this,t);var r=t[t.length-1];if(typeof i==="function"&&i!==r){Object.keys(r).forEach((function(e){i[e]=r[e]}))}return i}}},2414:(e,t,n)=>{const i=n(2041);const{execSync:r}=n(5317);const a=n(9542)();const o=n(6928);const c=n(9896);const l=n(3488);const u=n(8810);const p=n(9266);const d=n(4014);class RvmCliTools{static logo(){const e=i.reset.green(`  ${u.getVersion()}  `);return i.redBright.bold("\n    \n"+"      ██████╗  ██╗   ██╗ ███╗   ███╗     \n"+"      ██╔══██╗ ██║   ██║ ████╗ ████║     \n"+"      ██████╔╝ ██║   ██║ ██╔████╔██║     \n"+"      ██╔══██╗ ╚██╗ ██╔╝ ██║╚██╔╝██║     \n"+"      ██║  ██║  ╚████╔╝  ██║ ╚═╝ ██║     \n"+"      ╚═╝  ╚═╝   ╚═══╝   ╚═╝     ╚═╝     \n"+"                                       \n"+i.bold.white("      Ruby Version Manager 4 Windows    \n")+`              `+` ${e}      `+"                                         ")}static colorizeValues(e,t,n){const r=RvmCliTools;if(typeof t==="string"){t=[t]}Object.keys(e).forEach((a=>{if(t.includes(a)){e[a]=i[n](e[a])}if(typeof e[a]==="object"){r.colorizeValues(e[a],t,n)}}));return e}static cliQuestion(e,t,n,r=false){const o=RvmCliTools;if(o.first_question){if(n){console.log("  Preselection in ["+i.green("brackets")+"] can be confirmed with ENTER.\n")}o.first_question=false}let c=null;if(n){c=" ["+i.green(n)+"]"}else{c=""}let l=n;while(true){l=a("  "+e+c+": ");if(l===""){l=n!==null?n:l}if(t){if(t&&typeof t[0]!=="undefined"){if(t.includes(l)){break}else{if(l===null){process.exit(1)}o.printLine(i.red(`\n  Invalid input '${l}'.`)+`\n  Valid options are: ${t.map((e=>i.green(e))).join(" | ")}\n`)}}else{break}}else if(r&&!l){if(l===null){process.exit(1)}o.printLine(i.red("Mandatory option, please enter a valid text."+JSON.stringify(l)))}else{if(l===null){process.exit(1)}break}}return l||""}static getRvmDataDir(){const e=RvmCliTools;let t=e.config().rvm_data_dir||e.getDefaultRvmDataDir();if(t.endsWith("/")||t.endsWith("\\")){t=t.substring(0,t.length-1)}return t}static getDefaultRvmDataDir(){return p.expandPath("C:/ProgramData/rvm")}static startsWithNumber(e){if(e){return`${parseInt(e[0])}`===e[0]}else{return false}}static matchingVersion(e,t){const n=RvmCliTools;let i=null;t=t??RvmCliTools.versions();if(t.includes(e)){return e}else{let n=e.split(".");if(n.length===2){const e=n[0]+"."+n[1];let i=null;t.sort(RvmCliTools.versionSort).reverse().eachWithIndex((t=>{if(t.startsWith(`${e}.`)){i=t;return false}}));if(i){return i}}else if(n.length===1){let e=null;t.sort(RvmCliTools.versionSort).reverse().eachWithIndex((t=>{if(t.startsWith(`${n[0]}.`)){e=t;return false}}));if(e){return e}}}}static versions(){const e=RvmCliTools;return Object.keys(e.config().envs).sort(e.versionSort)}static rawVersions(){const e=RvmCliTools;return e.versions().map((e=>e.replace("ruby-","")))}static setCurrentVersion(e){const t=RvmCliTools;if(e&&process.env.RVM_SESSION){const t=p.expandPath(RvmCliTools.rvmSessionsDir()+"/"+process.env.RVM_SESSION);p.write(t,e)}}static killRunningMsysProcesses(){console.log(`Kill running msys processes ...`);const e=[`taskkill /f /im "msys2.exe"`,`taskkill /f /im "ucrt64.exe"`,`taskkill /f /im "mingw64.exe"`,`taskkill /f /im "mingw32.exe"`,`taskkill /f /im "clang64.exe"`,`taskkill /f /im "clang32.exe"`,`taskkill /f /im "msys2_shell.cmd"`,`taskkill /f /im "autorebase.cmd"`,`taskkill /f /fi "MODULES eq msys-2.0.dll"`];e.eachWithIndex((e=>{try{r(e,{stdio:"ignore"})}catch(e){}}))}static getCurrentVersion(){let e=process.env.RVM_SESSION;if(e){const e=p.expandPath(RvmCliTools.rvmSessionsDir()+"/"+process.env.RVM_SESSION);if(p.isExisting(e)){return p.read(e)}}return RvmCliTools.getDefaultVersion()}static getCurrentRawVersion(){const e=RvmCliTools;return e.getCurrentVersion().replace("ruby-","")}static setDefaultVersion(e){const t=RvmCliTools;if(!e){console.error(`${i.red("No version given.")} Run ${i.green("rvm default <version>")}, for example: ${i.green("rvm default ruby-3.2.2")}`);process.exit(1)}if(RvmCliTools.startsWithNumber(e)){e="ruby-"+e}let n=RvmCliTools.matchingVersion(e);if(n){let e=RvmCliTools.config();e.default=n;RvmCliTools.writeRvmConfig(e);console.log(`Set default ${i.green(n)} from ${i.green(RvmCliTools.config().envs[n])} ...`)}else{console.error(`No version for ${i.red(e)} available! Run ${i.green("rvm list")} to show available versions.`)}}static getDefaultVersion(){return RvmCliTools.config().default}static printLine(e){if(!e){e=""}console.log("  "+e)}static print(e){if(!e){e=""}process.stdout.write("  "+e)}static uniqArray(e){return[...new Set(e)]}static filterDeepDirsOnly(e){let t=[];e.forEach(((n,i)=>{if(e.filter((e=>e.includes(n))).length===1){t.push(n)}}));return t}static rvmRootPath(){const e=RvmCliTools;return p.expandPath(o.resolve(__dirname+"/../../"))}static projectRootPath(){const e=RvmCliTools;return p.expandPath(process.cwd())}static readRvmConfig(){const e=RvmCliTools;return p.read(e.rvmConfigPath())}static config(){const e=RvmCliTools;return JSON.parse(e.readRvmConfig())}static writeRvmConfig(e){const t=RvmCliTools;if(d.isObject(e)){e=JSON.stringify(e,null,2)}p.write(t.rvmConfigPath(),e,{encoding:"utf8"})}static rvmConfigPath(){const e=RvmCliTools;return p.expandPath(`${p.getHomePath()}/.rvm.json`)}static rvmSessionsDir(){const e=RvmCliTools;return p.expandPath(`${p.getHomePath()}/.rvm/sessions`)}static rvmConfigTemplatePath(){const e=RvmCliTools;return e.rvmRootPath()+"/src/templates/.rvm.json"}static rvmBatchTemplatePath(){const e=RvmCliTools;return e.rvmRootPath()+"/src/templates/wrapper_template.bat"}static makeDir(e){c.mkdirSync(e,{recursive:true})}static makeDirOfFile(e){const t=RvmCliTools;let n=p.expandPath(o.dirname(e));c.mkdirSync(n,{recursive:true})}static readFile(e,t="utf8"){if(!t){t=undefined}return c.readFileSync(e,t).toString()}static writeFile(e,t){const n=RvmCliTools;n.makeDirOfFile(e);return c.writeFileSync(e,t)}static copyFile(e,t){const n=RvmCliTools;n.makeDirOfFile(t);c.copyFileSync(e,t)}static copy(e,t){const n=RvmCliTools;l.copySync(e,t)}static isDir(e){const t=RvmCliTools;try{const t=c.lstatSync(e);return t.isDirectory()}catch(e){return false}}static isFile(e){const t=RvmCliTools;try{const t=c.lstatSync(e);return t.isFile()}catch(e){return false}}static pathExists(e){const t=RvmCliTools;try{const t=c.lstatSync(e);return true}catch(e){return false}}static normalizePath(e){return e.replace(/\\/g,"/")}static removePath(e){c.rmSync(e,{recursive:true,force:true})}static escapeRegExp(e){return e.replace(/[$+.*?^(){}|[\]\\]/g,"\\$&")}static versionSort(e,t){e=e.replace("ruby-","");t=t.replace("ruby-","");if(parseInt(e.split(".")[0])>parseInt(t.split(".")[0])){return 1}else if(parseInt(e.split(".")[0])<parseInt(t.split(".")[0])){return-1}else{if(parseInt(e.split(".")[1]||0)>parseInt(t.split(".")[1]||0)){return 1}else if(parseInt(e.split(".")[1]||0)<parseInt(t.split(".")[1]||0)){return-1}else{if(parseInt(e.split(".")[2]||0)>parseInt(t.split(".")[2]||0)){return 1}else if(parseInt(e.split(".")[2]||0)<parseInt(t.split(".")[2]||0)){return-1}else{return 0}}}}}RvmCliTools.PACKAGE_JSON_FILE_PATH=RvmCliTools.projectRootPath()+"/package.json";RvmCliTools.first_question=true;RvmCliTools.cached_config=null;RvmCliTools.SECTIONS={};RvmCliTools.SECTIONS.not_inside_valid_project=[{header:"Invalid project directory",content:["{red You can run this command at the root directory of a project with rvm configuration only.}","",`Current directory:\n {green ${RvmCliTools.projectRootPath()}}`]}];Object.defineProperty(String.prototype,"scan",{value:function scan(e){if(typeof e==="undefined"){throw new Error(`ArgumentError (wrong number of arguments (given 0, expected 1))`)}const escapeRegExp=e=>e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");if(d.isString(e)){e=new RegExp(escapeRegExp(e),"gm")}else{let t=e.flags;if(!t.includes("g"))t+="g";e=new RegExp(e.source,t)}const t=!!e.source.match(/(^\(|[^\\]\()/);if(!t){return[...this.matchAll(e)].map((e=>e[0]))}const n=e.lastIndex;e.lastIndex=0;let i=[];let r=null;while(r=e.exec(this)){i.push(r.slice(1));if(e.lastIndex===0){break}}e.lastIndex=n;return i}});e.exports=RvmCliTools},5190:(e,t,n)=>{const i=n(9266);const r=n(2414);class Wrapper{static getRubyVersionForPath(e){const t=Wrapper;let n=r.getCurrentVersion();while(true){let t=null;if(i.isExisting(e+"/.ruby-version")){n=i.read(e+"/.ruby-version");break}else if(i.isExisting(e+"/Gemfile")&&i.read(e+"/Gemfile").match(/ruby\s*["']([0-9\.]+)['"]/gm)){const t=i.read(e+"/Gemfile");const r=/ruby\s*["']([0-9\.]+)['"]/gm;const a=r.exec(t)[1].trim();n=a;break}else{e=i.getDirname(e);if(e===""){break}}}n=n.trim();if(r.startsWithNumber(n)){n=`ruby-${n}`}return n.trim()}static hasRubyEnvCommand(e,t){const n=Wrapper;if(r.versions().includes(e)){const n=r.config().envs[e]+"/bin";return i.isExisting(`${n}/${t}.bat`)||i.isExisting(`${n}/${t}.cmd`)||i.isExisting(`${n}/${t}.exe`)}else if(r.matchingVersion(e,r.versions())){return true}else{return false}}static getRubyEnvCommandPath(e,t){const n=Wrapper;if(r.versions().includes(e)||r.matchingVersion(e,r.versions())){let n=e;if(!r.versions().includes(e)&&r.matchingVersion(e,r.versions())){n=r.matchingVersion(e,r.versions())}const a=r.config().envs[n]+"/bin";let o=null;["exe","bat","cmd"].eachWithIndex((e=>{let n=`${a}/${t}.${e}`;if(i.isExisting(n)){o=n;return false}}));return o}else{throw new Error(`Ruby version ${e} not found!`)}}static getPathOfMatchingRubyVersion(e){const t=r.matchingVersion(e,r.versions());if(t){return r.config().envs[t]}}}e.exports=Wrapper},3365:(e,t,n)=>{const{execSync:i}=n(5317);const r=n(9266);const a=n(4201);const o=n(2041);n(203);const c=n(7346);var l=n(2414);class RvmCliFix{static runFix(){const e=RvmCliFix;console.log(`Fix several issues that could have happened ...`);l.killRunningMsysProcesses();console.log(`Fix config ...`);e.fixConfig();console.log(`Fix existing environment paths ...`);e.fixExistingEnvironmentPaths();console.log(`Fix environment versions ...`);e.fixEnvironmentVersions();console.log(`Fix wrapper files ...`);e.fixWrapperFiles();console.log(`Fixing finished!\n`);console.log(`If you still have trouble, you might try to run ${o.green("rvm init")} to reinit rvm-windows itself!`)}static fixConfig(){const e=RvmCliFix;if(!r.isExisting(l.rvmConfigPath())){c.mkdirP(r.getDirname(l.rvmConfigPath()));c.copy(l.rvmConfigTemplatePath(),l.rvmConfigPath())}else{try{JSON.parse(r.read(l.rvmConfigPath()))}catch(e){c.rmRf(l.rvmConfigPath());c.copy(l.rvmConfigTemplatePath(),l.rvmConfigPath())}}}static fixExistingEnvironmentPaths(){let e=l.config();l.config().envs.eachWithIndex(((t,n)=>{const i=`${n}/bin/ruby.exe`;if(!r.isExisting(i)){delete e.envs[t]}else{e.envs[t]=r.normalizePath(n)}}));l.writeRvmConfig(e)}static fixEnvironmentVersions(){const e=RvmCliFix;let t=l.config();l.config().envs.eachWithIndex(((n,a)=>{const o=`${a}/bin/ruby.exe`;if(!r.isExisting(o)){delete t.envs[n]}else{const c=i(`"${o}" --version`,{encoding:"utf-8"});const l=e.getRubyVersionFromRubyPath(a);if(l){const e=t.envs[n];delete t.envs[n];t.envs[`ruby-${l}`]=r.normalizePath(e)}else{throw new Error(`Could not detect version from: ${c}`)}}}));l.writeRvmConfig(t)}static getRubyVersionFromRubyPath(e){const t=RvmCliFix;let n=`${e}/bin/ruby.exe`;const r=i(`"${n}" --version`,{encoding:"utf-8"});const a=r.toString().match(/ruby\s+([0-9\.]+)/gm)[0].split(" ")[1];return a}static getRubyPlatformFromRubyPath(e){const t=RvmCliFix;let n=`${e}/bin/ruby.exe`;const r=i(`"${n}" --version`,{encoding:"utf-8"});let a=r.toString().match(/ruby\s+[0-9\.]+[^\[]+\[([^\[]+)\]/gm)[0].trim().split(" ").getLast();a=a.substring(1,a.length-1);return a}static fixWrapperFiles(){const e=RvmCliFix;let t=process.argv[0];if(!t.endsWith("node.exe")){throw new Error(`Can not determine node js runtime!`)}t=t.split("\\").map((e=>{if(e.includes(" ")){return`"${e}"`}else{return e}})).join("\\");const n=l.rvmRootPath();const i=l.getRvmDataDir()+"/wrapper";c.rmRf(i);c.mkdirP(i);l.config().envs.eachWithIndex(((e,o)=>{const c=a.glob(o+"/bin/*.*");let u=r.read(l.rvmBatchTemplatePath()).replace("{{node_js_runtime_path}}",t).replace("{{rvm_root_dir}}",n);c.eachWithIndex((e=>{const t=r.getBasename(e);if(t.endsWith(".bat")){if(!r.isExisting(i+"/"+t)){r.write(i+"/"+t,u)}}else if(t.endsWith(".exe")){if(!r.isExisting(i+"/"+t)){r.write(i+"/"+t+".bat",u);r.write(i+"/"+r.getBasename(t,".exe")+".bat",u)}}else if(t.endsWith(".cmd")){if(!r.isExisting(i+"/"+t)){r.write(i+"/"+t+".bat",u);r.write(i+"/"+r.getBasename(t,".cmd")+".bat",u)}}}))}))}}e.exports=RvmCliFix},8810:(e,t,n)=>{const i=n(9266);class RvmCliVersion{static runVersion(){const e=RvmCliVersion;console.log(e.getFullVersion())}static getVersion(){const e=RvmCliVersion;const t=e.getPackageJson();return`${t.version}`}static getFullVersion(){const e=RvmCliVersion;const t=e.getPackageJson();return`${t.name} ${t.version}`}static getPackageJson(){return JSON.parse(i.read(n.ab+"package.json"))}}e.exports=RvmCliVersion},2613:e=>{"use strict";e.exports=require("assert")},5317:e=>{"use strict";e.exports=require("child_process")},9140:e=>{"use strict";e.exports=require("constants")},4434:e=>{"use strict";e.exports=require("events")},9896:e=>{"use strict";e.exports=require("fs")},857:e=>{"use strict";e.exports=require("os")},6928:e=>{"use strict";e.exports=require("path")},2203:e=>{"use strict";e.exports=require("stream")},2018:e=>{"use strict";e.exports=require("tty")},9023:e=>{"use strict";e.exports=require("util")}};var __webpack_module_cache__={};function __nccwpck_require__(e){var t=__webpack_module_cache__[e];if(t!==undefined){return t.exports}var n=__webpack_module_cache__[e]={id:e,loaded:false,exports:{}};var i=true;try{__webpack_modules__[e](n,n.exports,__nccwpck_require__);i=false}finally{if(i)delete __webpack_module_cache__[e]}n.loaded=true;return n.exports}(()=>{__nccwpck_require__.nmd=e=>{e.paths=[];if(!e.children)e.children=[];return e}})();if(typeof __nccwpck_require__!=="undefined")__nccwpck_require__.ab=__dirname+"/";var __webpack_exports__={};const RvmCliTools=__nccwpck_require__(2414);const RvmCliFix=__nccwpck_require__(3365);const{execFileSync:execFileSync}=__nccwpck_require__(5317);const Wrapper=__nccwpck_require__(5190);const cwd=process.argv[2];const command=process.argv[3].split(".")[0];const wrapper_path=RvmCliTools.getRvmDataDir()+"/wrapper";if(RvmCliTools.getCurrentVersion()!=="system"){process.env.PATH=`${wrapper_path}/bin;`+process.env.PATH}let version=Wrapper.getRubyVersionForPath(cwd);if(Wrapper.getPathOfMatchingRubyVersion(version)){process.env.RUBYPATH=`${Wrapper.getPathOfMatchingRubyVersion(version)}/bin`}let final_command="";if(Wrapper.hasRubyEnvCommand(version,command)){final_command=`${Wrapper.getRubyEnvCommandPath(version,command)}`}else if(Wrapper.hasRubyEnvCommand(RvmCliTools.getCurrentVersion(),command)){const e=RvmCliTools.getCurrentVersion();final_command=`${Wrapper.getRubyEnvCommandPath(e,command)}`}else{console.log(`${command} is not recognized as an internal or external command, operable program or batch file.`);process.exit(9009)}try{let e=execFileSync(final_command,process.argv.slice(4),{stdio:"pipe",encoding:"utf8"});console.log(e.trim())}catch(e){if(e.code){console.error(e.code)}else{const{stdout:t,stderr:n}=e;console.error({stdout:t,stderr:n})}}if(command==="gem"||command==="bundle"){RvmCliFix.fixWrapperFiles()}module.exports=__webpack_exports__})();
+#!/usr/bin/env node/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 724:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = options => {
+	options = Object.assign({
+		onlyFirst: false
+	}, options);
+
+	const pattern = [
+		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+	].join('|');
+
+	return new RegExp(pattern, options.onlyFirst ? undefined : 'g');
+};
+
+
+/***/ }),
+
+/***/ 6295:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+/* module decorator */ module = __nccwpck_require__.nmd(module);
+
+
+const wrapAnsi16 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${code + offset}m`;
+};
+
+const wrapAnsi256 = (fn, offset) => (...args) => {
+	const code = fn(...args);
+	return `\u001B[${38 + offset};5;${code}m`;
+};
+
+const wrapAnsi16m = (fn, offset) => (...args) => {
+	const rgb = fn(...args);
+	return `\u001B[${38 + offset};2;${rgb[0]};${rgb[1]};${rgb[2]}m`;
+};
+
+const ansi2ansi = n => n;
+const rgb2rgb = (r, g, b) => [r, g, b];
+
+const setLazyProperty = (object, property, get) => {
+	Object.defineProperty(object, property, {
+		get: () => {
+			const value = get();
+
+			Object.defineProperty(object, property, {
+				value,
+				enumerable: true,
+				configurable: true
+			});
+
+			return value;
+		},
+		enumerable: true,
+		configurable: true
+	});
+};
+
+/** @type {typeof import('color-convert')} */
+let colorConvert;
+const makeDynamicStyles = (wrap, targetSpace, identity, isBackground) => {
+	if (colorConvert === undefined) {
+		colorConvert = __nccwpck_require__(6290);
+	}
+
+	const offset = isBackground ? 10 : 0;
+	const styles = {};
+
+	for (const [sourceSpace, suite] of Object.entries(colorConvert)) {
+		const name = sourceSpace === 'ansi16' ? 'ansi' : sourceSpace;
+		if (sourceSpace === targetSpace) {
+			styles[name] = wrap(identity, offset);
+		} else if (typeof suite === 'object') {
+			styles[name] = wrap(suite[targetSpace], offset);
+		}
+	}
+
+	return styles;
+};
+
+function assembleStyles() {
+	const codes = new Map();
+	const styles = {
+		modifier: {
+			reset: [0, 0],
+			// 21 isn't widely supported and 22 does the same thing
+			bold: [1, 22],
+			dim: [2, 22],
+			italic: [3, 23],
+			underline: [4, 24],
+			inverse: [7, 27],
+			hidden: [8, 28],
+			strikethrough: [9, 29]
+		},
+		color: {
+			black: [30, 39],
+			red: [31, 39],
+			green: [32, 39],
+			yellow: [33, 39],
+			blue: [34, 39],
+			magenta: [35, 39],
+			cyan: [36, 39],
+			white: [37, 39],
+
+			// Bright color
+			blackBright: [90, 39],
+			redBright: [91, 39],
+			greenBright: [92, 39],
+			yellowBright: [93, 39],
+			blueBright: [94, 39],
+			magentaBright: [95, 39],
+			cyanBright: [96, 39],
+			whiteBright: [97, 39]
+		},
+		bgColor: {
+			bgBlack: [40, 49],
+			bgRed: [41, 49],
+			bgGreen: [42, 49],
+			bgYellow: [43, 49],
+			bgBlue: [44, 49],
+			bgMagenta: [45, 49],
+			bgCyan: [46, 49],
+			bgWhite: [47, 49],
+
+			// Bright color
+			bgBlackBright: [100, 49],
+			bgRedBright: [101, 49],
+			bgGreenBright: [102, 49],
+			bgYellowBright: [103, 49],
+			bgBlueBright: [104, 49],
+			bgMagentaBright: [105, 49],
+			bgCyanBright: [106, 49],
+			bgWhiteBright: [107, 49]
+		}
+	};
+
+	// Alias bright black as gray (and grey)
+	styles.color.gray = styles.color.blackBright;
+	styles.bgColor.bgGray = styles.bgColor.bgBlackBright;
+	styles.color.grey = styles.color.blackBright;
+	styles.bgColor.bgGrey = styles.bgColor.bgBlackBright;
+
+	for (const [groupName, group] of Object.entries(styles)) {
+		for (const [styleName, style] of Object.entries(group)) {
+			styles[styleName] = {
+				open: `\u001B[${style[0]}m`,
+				close: `\u001B[${style[1]}m`
+			};
+
+			group[styleName] = styles[styleName];
+
+			codes.set(style[0], style[1]);
+		}
+
+		Object.defineProperty(styles, groupName, {
+			value: group,
+			enumerable: false
+		});
+	}
+
+	Object.defineProperty(styles, 'codes', {
+		value: codes,
+		enumerable: false
+	});
+
+	styles.color.close = '\u001B[39m';
+	styles.bgColor.close = '\u001B[49m';
+
+	setLazyProperty(styles.color, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, false));
+	setLazyProperty(styles.color, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, false));
+	setLazyProperty(styles.bgColor, 'ansi', () => makeDynamicStyles(wrapAnsi16, 'ansi16', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi256', () => makeDynamicStyles(wrapAnsi256, 'ansi256', ansi2ansi, true));
+	setLazyProperty(styles.bgColor, 'ansi16m', () => makeDynamicStyles(wrapAnsi16m, 'rgb', rgb2rgb, true));
+
+	return styles;
+}
+
+// Make the export immutable
+Object.defineProperty(module, 'exports', {
+	enumerable: true,
+	get: assembleStyles
+});
+
+
+/***/ }),
+
+/***/ 1381:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = balanced;
+function balanced(a, b, str) {
+  if (a instanceof RegExp) a = maybeMatch(a, str);
+  if (b instanceof RegExp) b = maybeMatch(b, str);
+
+  var r = range(a, b, str);
+
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+function maybeMatch(reg, str) {
+  var m = str.match(reg);
+  return m ? m[0] : null;
+}
+
+balanced.range = range;
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    if(a===b) {
+      return [ai, bi];
+    }
+    begs = [];
+    left = str.length;
+
+    while (i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [ begs.pop(), bi ];
+      } else {
+        beg = begs.pop();
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [ left, right ];
+    }
+  }
+
+  return result;
+}
+
+
+/***/ }),
+
+/***/ 3548:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const ansiStyles = __nccwpck_require__(6295);
+const {stdout: stdoutColor, stderr: stderrColor} = __nccwpck_require__(8675);
+const {
+	stringReplaceAll,
+	stringEncaseCRLFWithFirstIndex
+} = __nccwpck_require__(7342);
+
+const {isArray} = Array;
+
+// `supportsColor.level` → `ansiStyles.color[name]` mapping
+const levelMapping = [
+	'ansi',
+	'ansi',
+	'ansi256',
+	'ansi16m'
+];
+
+const styles = Object.create(null);
+
+const applyOptions = (object, options = {}) => {
+	if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
+		throw new Error('The `level` option should be an integer from 0 to 3');
+	}
+
+	// Detect level if not set manually
+	const colorLevel = stdoutColor ? stdoutColor.level : 0;
+	object.level = options.level === undefined ? colorLevel : options.level;
+};
+
+class ChalkClass {
+	constructor(options) {
+		// eslint-disable-next-line no-constructor-return
+		return chalkFactory(options);
+	}
+}
+
+const chalkFactory = options => {
+	const chalk = {};
+	applyOptions(chalk, options);
+
+	chalk.template = (...arguments_) => chalkTag(chalk.template, ...arguments_);
+
+	Object.setPrototypeOf(chalk, Chalk.prototype);
+	Object.setPrototypeOf(chalk.template, chalk);
+
+	chalk.template.constructor = () => {
+		throw new Error('`chalk.constructor()` is deprecated. Use `new chalk.Instance()` instead.');
+	};
+
+	chalk.template.Instance = ChalkClass;
+
+	return chalk.template;
+};
+
+function Chalk(options) {
+	return chalkFactory(options);
+}
+
+for (const [styleName, style] of Object.entries(ansiStyles)) {
+	styles[styleName] = {
+		get() {
+			const builder = createBuilder(this, createStyler(style.open, style.close, this._styler), this._isEmpty);
+			Object.defineProperty(this, styleName, {value: builder});
+			return builder;
+		}
+	};
+}
+
+styles.visible = {
+	get() {
+		const builder = createBuilder(this, this._styler, true);
+		Object.defineProperty(this, 'visible', {value: builder});
+		return builder;
+	}
+};
+
+const usedModels = ['rgb', 'hex', 'keyword', 'hsl', 'hsv', 'hwb', 'ansi', 'ansi256'];
+
+for (const model of usedModels) {
+	styles[model] = {
+		get() {
+			const {level} = this;
+			return function (...arguments_) {
+				const styler = createStyler(ansiStyles.color[levelMapping[level]][model](...arguments_), ansiStyles.color.close, this._styler);
+				return createBuilder(this, styler, this._isEmpty);
+			};
+		}
+	};
+}
+
+for (const model of usedModels) {
+	const bgModel = 'bg' + model[0].toUpperCase() + model.slice(1);
+	styles[bgModel] = {
+		get() {
+			const {level} = this;
+			return function (...arguments_) {
+				const styler = createStyler(ansiStyles.bgColor[levelMapping[level]][model](...arguments_), ansiStyles.bgColor.close, this._styler);
+				return createBuilder(this, styler, this._isEmpty);
+			};
+		}
+	};
+}
+
+const proto = Object.defineProperties(() => {}, {
+	...styles,
+	level: {
+		enumerable: true,
+		get() {
+			return this._generator.level;
+		},
+		set(level) {
+			this._generator.level = level;
+		}
+	}
+});
+
+const createStyler = (open, close, parent) => {
+	let openAll;
+	let closeAll;
+	if (parent === undefined) {
+		openAll = open;
+		closeAll = close;
+	} else {
+		openAll = parent.openAll + open;
+		closeAll = close + parent.closeAll;
+	}
+
+	return {
+		open,
+		close,
+		openAll,
+		closeAll,
+		parent
+	};
+};
+
+const createBuilder = (self, _styler, _isEmpty) => {
+	const builder = (...arguments_) => {
+		if (isArray(arguments_[0]) && isArray(arguments_[0].raw)) {
+			// Called as a template literal, for example: chalk.red`2 + 3 = {bold ${2+3}}`
+			return applyStyle(builder, chalkTag(builder, ...arguments_));
+		}
+
+		// Single argument is hot path, implicit coercion is faster than anything
+		// eslint-disable-next-line no-implicit-coercion
+		return applyStyle(builder, (arguments_.length === 1) ? ('' + arguments_[0]) : arguments_.join(' '));
+	};
+
+	// We alter the prototype because we must return a function, but there is
+	// no way to create a function with a different prototype
+	Object.setPrototypeOf(builder, proto);
+
+	builder._generator = self;
+	builder._styler = _styler;
+	builder._isEmpty = _isEmpty;
+
+	return builder;
+};
+
+const applyStyle = (self, string) => {
+	if (self.level <= 0 || !string) {
+		return self._isEmpty ? '' : string;
+	}
+
+	let styler = self._styler;
+
+	if (styler === undefined) {
+		return string;
+	}
+
+	const {openAll, closeAll} = styler;
+	if (string.indexOf('\u001B') !== -1) {
+		while (styler !== undefined) {
+			// Replace any instances already present with a re-opening code
+			// otherwise only the part of the string until said closing code
+			// will be colored, and the rest will simply be 'plain'.
+			string = stringReplaceAll(string, styler.close, styler.open);
+
+			styler = styler.parent;
+		}
+	}
+
+	// We can move both next actions out of loop, because remaining actions in loop won't have
+	// any/visible effect on parts we add here. Close the styling before a linebreak and reopen
+	// after next line to fix a bleed issue on macOS: https://github.com/chalk/chalk/pull/92
+	const lfIndex = string.indexOf('\n');
+	if (lfIndex !== -1) {
+		string = stringEncaseCRLFWithFirstIndex(string, closeAll, openAll, lfIndex);
+	}
+
+	return openAll + string + closeAll;
+};
+
+let template;
+const chalkTag = (chalk, ...strings) => {
+	const [firstString] = strings;
+
+	if (!isArray(firstString) || !isArray(firstString.raw)) {
+		// If chalk() was called by itself or with a string,
+		// return the string itself as a string.
+		return strings.join(' ');
+	}
+
+	const arguments_ = strings.slice(1);
+	const parts = [firstString.raw[0]];
+
+	for (let i = 1; i < firstString.length; i++) {
+		parts.push(
+			String(arguments_[i - 1]).replace(/[{}\\]/g, '\\$&'),
+			String(firstString.raw[i])
+		);
+	}
+
+	if (template === undefined) {
+		template = __nccwpck_require__(7667);
+	}
+
+	return template(chalk, parts.join(''));
+};
+
+Object.defineProperties(Chalk.prototype, styles);
+
+const chalk = Chalk(); // eslint-disable-line new-cap
+chalk.supportsColor = stdoutColor;
+chalk.stderr = Chalk({level: stderrColor ? stderrColor.level : 0}); // eslint-disable-line new-cap
+chalk.stderr.supportsColor = stderrColor;
+
+module.exports = chalk;
+
+
+/***/ }),
+
+/***/ 7667:
+/***/ ((module) => {
+
+"use strict";
+
+const TEMPLATE_REGEX = /(?:\\(u(?:[a-f\d]{4}|\{[a-f\d]{1,6}\})|x[a-f\d]{2}|.))|(?:\{(~)?(\w+(?:\([^)]*\))?(?:\.\w+(?:\([^)]*\))?)*)(?:[ \t]|(?=\r?\n)))|(\})|((?:.|[\r\n\f])+?)/gi;
+const STYLE_REGEX = /(?:^|\.)(\w+)(?:\(([^)]*)\))?/g;
+const STRING_REGEX = /^(['"])((?:\\.|(?!\1)[^\\])*)\1$/;
+const ESCAPE_REGEX = /\\(u(?:[a-f\d]{4}|{[a-f\d]{1,6}})|x[a-f\d]{2}|.)|([^\\])/gi;
+
+const ESCAPES = new Map([
+	['n', '\n'],
+	['r', '\r'],
+	['t', '\t'],
+	['b', '\b'],
+	['f', '\f'],
+	['v', '\v'],
+	['0', '\0'],
+	['\\', '\\'],
+	['e', '\u001B'],
+	['a', '\u0007']
+]);
+
+function unescape(c) {
+	const u = c[0] === 'u';
+	const bracket = c[1] === '{';
+
+	if ((u && !bracket && c.length === 5) || (c[0] === 'x' && c.length === 3)) {
+		return String.fromCharCode(parseInt(c.slice(1), 16));
+	}
+
+	if (u && bracket) {
+		return String.fromCodePoint(parseInt(c.slice(2, -1), 16));
+	}
+
+	return ESCAPES.get(c) || c;
+}
+
+function parseArguments(name, arguments_) {
+	const results = [];
+	const chunks = arguments_.trim().split(/\s*,\s*/g);
+	let matches;
+
+	for (const chunk of chunks) {
+		const number = Number(chunk);
+		if (!Number.isNaN(number)) {
+			results.push(number);
+		} else if ((matches = chunk.match(STRING_REGEX))) {
+			results.push(matches[2].replace(ESCAPE_REGEX, (m, escape, character) => escape ? unescape(escape) : character));
+		} else {
+			throw new Error(`Invalid Chalk template style argument: ${chunk} (in style '${name}')`);
+		}
+	}
+
+	return results;
+}
+
+function parseStyle(style) {
+	STYLE_REGEX.lastIndex = 0;
+
+	const results = [];
+	let matches;
+
+	while ((matches = STYLE_REGEX.exec(style)) !== null) {
+		const name = matches[1];
+
+		if (matches[2]) {
+			const args = parseArguments(name, matches[2]);
+			results.push([name].concat(args));
+		} else {
+			results.push([name]);
+		}
+	}
+
+	return results;
+}
+
+function buildStyle(chalk, styles) {
+	const enabled = {};
+
+	for (const layer of styles) {
+		for (const style of layer.styles) {
+			enabled[style[0]] = layer.inverse ? null : style.slice(1);
+		}
+	}
+
+	let current = chalk;
+	for (const [styleName, styles] of Object.entries(enabled)) {
+		if (!Array.isArray(styles)) {
+			continue;
+		}
+
+		if (!(styleName in current)) {
+			throw new Error(`Unknown Chalk style: ${styleName}`);
+		}
+
+		current = styles.length > 0 ? current[styleName](...styles) : current[styleName];
+	}
+
+	return current;
+}
+
+module.exports = (chalk, temporary) => {
+	const styles = [];
+	const chunks = [];
+	let chunk = [];
+
+	// eslint-disable-next-line max-params
+	temporary.replace(TEMPLATE_REGEX, (m, escapeCharacter, inverse, style, close, character) => {
+		if (escapeCharacter) {
+			chunk.push(unescape(escapeCharacter));
+		} else if (style) {
+			const string = chunk.join('');
+			chunk = [];
+			chunks.push(styles.length === 0 ? string : buildStyle(chalk, styles)(string));
+			styles.push({inverse, styles: parseStyle(style)});
+		} else if (close) {
+			if (styles.length === 0) {
+				throw new Error('Found extraneous } in Chalk template literal');
+			}
+
+			chunks.push(buildStyle(chalk, styles)(chunk.join('')));
+			chunk = [];
+			styles.pop();
+		} else {
+			chunk.push(character);
+		}
+	});
+
+	chunks.push(chunk.join(''));
+
+	if (styles.length > 0) {
+		const errMessage = `Chalk template literal is missing ${styles.length} closing bracket${styles.length === 1 ? '' : 's'} (\`}\`)`;
+		throw new Error(errMessage);
+	}
+
+	return chunks.join('');
+};
+
+
+/***/ }),
+
+/***/ 7342:
+/***/ ((module) => {
+
+"use strict";
+
+
+const stringReplaceAll = (string, substring, replacer) => {
+	let index = string.indexOf(substring);
+	if (index === -1) {
+		return string;
+	}
+
+	const substringLength = substring.length;
+	let endIndex = 0;
+	let returnValue = '';
+	do {
+		returnValue += string.substr(endIndex, index - endIndex) + substring + replacer;
+		endIndex = index + substringLength;
+		index = string.indexOf(substring, endIndex);
+	} while (index !== -1);
+
+	returnValue += string.substr(endIndex);
+	return returnValue;
+};
+
+const stringEncaseCRLFWithFirstIndex = (string, prefix, postfix, index) => {
+	let endIndex = 0;
+	let returnValue = '';
+	do {
+		const gotCR = string[index - 1] === '\r';
+		returnValue += string.substr(endIndex, (gotCR ? index - 1 : index) - endIndex) + prefix + (gotCR ? '\r\n' : '\n') + postfix;
+		endIndex = index + 1;
+		index = string.indexOf('\n', endIndex);
+	} while (index !== -1);
+
+	returnValue += string.substr(endIndex);
+	return returnValue;
+};
+
+module.exports = {
+	stringReplaceAll,
+	stringEncaseCRLFWithFirstIndex
+};
+
+
+/***/ }),
+
+/***/ 2263:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+/* MIT license */
+/* eslint-disable no-mixed-operators */
+const cssKeywords = __nccwpck_require__(2712);
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+const reverseKeywords = {};
+for (const key of Object.keys(cssKeywords)) {
+	reverseKeywords[cssKeywords[key]] = key;
+}
+
+const convert = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	lch: {channels: 3, labels: 'lch'},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']}
+};
+
+module.exports = convert;
+
+// Hide .channels and .labels properties
+for (const model of Object.keys(convert)) {
+	if (!('channels' in convert[model])) {
+		throw new Error('missing channels property: ' + model);
+	}
+
+	if (!('labels' in convert[model])) {
+		throw new Error('missing channel labels property: ' + model);
+	}
+
+	if (convert[model].labels.length !== convert[model].channels) {
+		throw new Error('channel and label counts mismatch: ' + model);
+	}
+
+	const {channels, labels} = convert[model];
+	delete convert[model].channels;
+	delete convert[model].labels;
+	Object.defineProperty(convert[model], 'channels', {value: channels});
+	Object.defineProperty(convert[model], 'labels', {value: labels});
+}
+
+convert.rgb.hsl = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const min = Math.min(r, g, b);
+	const max = Math.max(r, g, b);
+	const delta = max - min;
+	let h;
+	let s;
+
+	if (max === min) {
+		h = 0;
+	} else if (r === max) {
+		h = (g - b) / delta;
+	} else if (g === max) {
+		h = 2 + (b - r) / delta;
+	} else if (b === max) {
+		h = 4 + (r - g) / delta;
+	}
+
+	h = Math.min(h * 60, 360);
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const l = (min + max) / 2;
+
+	if (max === min) {
+		s = 0;
+	} else if (l <= 0.5) {
+		s = delta / (max + min);
+	} else {
+		s = delta / (2 - max - min);
+	}
+
+	return [h, s * 100, l * 100];
+};
+
+convert.rgb.hsv = function (rgb) {
+	let rdif;
+	let gdif;
+	let bdif;
+	let h;
+	let s;
+
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const v = Math.max(r, g, b);
+	const diff = v - Math.min(r, g, b);
+	const diffc = function (c) {
+		return (v - c) / 6 / diff + 1 / 2;
+	};
+
+	if (diff === 0) {
+		h = 0;
+		s = 0;
+	} else {
+		s = diff / v;
+		rdif = diffc(r);
+		gdif = diffc(g);
+		bdif = diffc(b);
+
+		if (r === v) {
+			h = bdif - gdif;
+		} else if (g === v) {
+			h = (1 / 3) + rdif - bdif;
+		} else if (b === v) {
+			h = (2 / 3) + gdif - rdif;
+		}
+
+		if (h < 0) {
+			h += 1;
+		} else if (h > 1) {
+			h -= 1;
+		}
+	}
+
+	return [
+		h * 360,
+		s * 100,
+		v * 100
+	];
+};
+
+convert.rgb.hwb = function (rgb) {
+	const r = rgb[0];
+	const g = rgb[1];
+	let b = rgb[2];
+	const h = convert.rgb.hsl(rgb)[0];
+	const w = 1 / 255 * Math.min(r, Math.min(g, b));
+
+	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+
+	return [h, w * 100, b * 100];
+};
+
+convert.rgb.cmyk = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+
+	const k = Math.min(1 - r, 1 - g, 1 - b);
+	const c = (1 - r - k) / (1 - k) || 0;
+	const m = (1 - g - k) / (1 - k) || 0;
+	const y = (1 - b - k) / (1 - k) || 0;
+
+	return [c * 100, m * 100, y * 100, k * 100];
+};
+
+function comparativeDistance(x, y) {
+	/*
+		See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+	*/
+	return (
+		((x[0] - y[0]) ** 2) +
+		((x[1] - y[1]) ** 2) +
+		((x[2] - y[2]) ** 2)
+	);
+}
+
+convert.rgb.keyword = function (rgb) {
+	const reversed = reverseKeywords[rgb];
+	if (reversed) {
+		return reversed;
+	}
+
+	let currentClosestDistance = Infinity;
+	let currentClosestKeyword;
+
+	for (const keyword of Object.keys(cssKeywords)) {
+		const value = cssKeywords[keyword];
+
+		// Compute comparative distance
+		const distance = comparativeDistance(rgb, value);
+
+		// Check if its less, if so set as closest
+		if (distance < currentClosestDistance) {
+			currentClosestDistance = distance;
+			currentClosestKeyword = keyword;
+		}
+	}
+
+	return currentClosestKeyword;
+};
+
+convert.keyword.rgb = function (keyword) {
+	return cssKeywords[keyword];
+};
+
+convert.rgb.xyz = function (rgb) {
+	let r = rgb[0] / 255;
+	let g = rgb[1] / 255;
+	let b = rgb[2] / 255;
+
+	// Assume sRGB
+	r = r > 0.04045 ? (((r + 0.055) / 1.055) ** 2.4) : (r / 12.92);
+	g = g > 0.04045 ? (((g + 0.055) / 1.055) ** 2.4) : (g / 12.92);
+	b = b > 0.04045 ? (((b + 0.055) / 1.055) ** 2.4) : (b / 12.92);
+
+	const x = (r * 0.4124) + (g * 0.3576) + (b * 0.1805);
+	const y = (r * 0.2126) + (g * 0.7152) + (b * 0.0722);
+	const z = (r * 0.0193) + (g * 0.1192) + (b * 0.9505);
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.rgb.lab = function (rgb) {
+	const xyz = convert.rgb.xyz(rgb);
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.hsl.rgb = function (hsl) {
+	const h = hsl[0] / 360;
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+	let t2;
+	let t3;
+	let val;
+
+	if (s === 0) {
+		val = l * 255;
+		return [val, val, val];
+	}
+
+	if (l < 0.5) {
+		t2 = l * (1 + s);
+	} else {
+		t2 = l + s - l * s;
+	}
+
+	const t1 = 2 * l - t2;
+
+	const rgb = [0, 0, 0];
+	for (let i = 0; i < 3; i++) {
+		t3 = h + 1 / 3 * -(i - 1);
+		if (t3 < 0) {
+			t3++;
+		}
+
+		if (t3 > 1) {
+			t3--;
+		}
+
+		if (6 * t3 < 1) {
+			val = t1 + (t2 - t1) * 6 * t3;
+		} else if (2 * t3 < 1) {
+			val = t2;
+		} else if (3 * t3 < 2) {
+			val = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		} else {
+			val = t1;
+		}
+
+		rgb[i] = val * 255;
+	}
+
+	return rgb;
+};
+
+convert.hsl.hsv = function (hsl) {
+	const h = hsl[0];
+	let s = hsl[1] / 100;
+	let l = hsl[2] / 100;
+	let smin = s;
+	const lmin = Math.max(l, 0.01);
+
+	l *= 2;
+	s *= (l <= 1) ? l : 2 - l;
+	smin *= lmin <= 1 ? lmin : 2 - lmin;
+	const v = (l + s) / 2;
+	const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+
+	return [h, sv * 100, v * 100];
+};
+
+convert.hsv.rgb = function (hsv) {
+	const h = hsv[0] / 60;
+	const s = hsv[1] / 100;
+	let v = hsv[2] / 100;
+	const hi = Math.floor(h) % 6;
+
+	const f = h - Math.floor(h);
+	const p = 255 * v * (1 - s);
+	const q = 255 * v * (1 - (s * f));
+	const t = 255 * v * (1 - (s * (1 - f)));
+	v *= 255;
+
+	switch (hi) {
+		case 0:
+			return [v, t, p];
+		case 1:
+			return [q, v, p];
+		case 2:
+			return [p, v, t];
+		case 3:
+			return [p, q, v];
+		case 4:
+			return [t, p, v];
+		case 5:
+			return [v, p, q];
+	}
+};
+
+convert.hsv.hsl = function (hsv) {
+	const h = hsv[0];
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+	const vmin = Math.max(v, 0.01);
+	let sl;
+	let l;
+
+	l = (2 - s) * v;
+	const lmin = (2 - s) * vmin;
+	sl = s * vmin;
+	sl /= (lmin <= 1) ? lmin : 2 - lmin;
+	sl = sl || 0;
+	l /= 2;
+
+	return [h, sl * 100, l * 100];
+};
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+convert.hwb.rgb = function (hwb) {
+	const h = hwb[0] / 360;
+	let wh = hwb[1] / 100;
+	let bl = hwb[2] / 100;
+	const ratio = wh + bl;
+	let f;
+
+	// Wh + bl cant be > 1
+	if (ratio > 1) {
+		wh /= ratio;
+		bl /= ratio;
+	}
+
+	const i = Math.floor(6 * h);
+	const v = 1 - bl;
+	f = 6 * h - i;
+
+	if ((i & 0x01) !== 0) {
+		f = 1 - f;
+	}
+
+	const n = wh + f * (v - wh); // Linear interpolation
+
+	let r;
+	let g;
+	let b;
+	/* eslint-disable max-statements-per-line,no-multi-spaces */
+	switch (i) {
+		default:
+		case 6:
+		case 0: r = v;  g = n;  b = wh; break;
+		case 1: r = n;  g = v;  b = wh; break;
+		case 2: r = wh; g = v;  b = n; break;
+		case 3: r = wh; g = n;  b = v; break;
+		case 4: r = n;  g = wh; b = v; break;
+		case 5: r = v;  g = wh; b = n; break;
+	}
+	/* eslint-enable max-statements-per-line,no-multi-spaces */
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.cmyk.rgb = function (cmyk) {
+	const c = cmyk[0] / 100;
+	const m = cmyk[1] / 100;
+	const y = cmyk[2] / 100;
+	const k = cmyk[3] / 100;
+
+	const r = 1 - Math.min(1, c * (1 - k) + k);
+	const g = 1 - Math.min(1, m * (1 - k) + k);
+	const b = 1 - Math.min(1, y * (1 - k) + k);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.rgb = function (xyz) {
+	const x = xyz[0] / 100;
+	const y = xyz[1] / 100;
+	const z = xyz[2] / 100;
+	let r;
+	let g;
+	let b;
+
+	r = (x * 3.2406) + (y * -1.5372) + (z * -0.4986);
+	g = (x * -0.9689) + (y * 1.8758) + (z * 0.0415);
+	b = (x * 0.0557) + (y * -0.2040) + (z * 1.0570);
+
+	// Assume sRGB
+	r = r > 0.0031308
+		? ((1.055 * (r ** (1.0 / 2.4))) - 0.055)
+		: r * 12.92;
+
+	g = g > 0.0031308
+		? ((1.055 * (g ** (1.0 / 2.4))) - 0.055)
+		: g * 12.92;
+
+	b = b > 0.0031308
+		? ((1.055 * (b ** (1.0 / 2.4))) - 0.055)
+		: b * 12.92;
+
+	r = Math.min(Math.max(0, r), 1);
+	g = Math.min(Math.max(0, g), 1);
+	b = Math.min(Math.max(0, b), 1);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.lab = function (xyz) {
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > 0.008856 ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > 0.008856 ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > 0.008856 ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.lab.xyz = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let x;
+	let y;
+	let z;
+
+	y = (l + 16) / 116;
+	x = a / 500 + y;
+	z = y - b / 200;
+
+	const y2 = y ** 3;
+	const x2 = x ** 3;
+	const z2 = z ** 3;
+	y = y2 > 0.008856 ? y2 : (y - 16 / 116) / 7.787;
+	x = x2 > 0.008856 ? x2 : (x - 16 / 116) / 7.787;
+	z = z2 > 0.008856 ? z2 : (z - 16 / 116) / 7.787;
+
+	x *= 95.047;
+	y *= 100;
+	z *= 108.883;
+
+	return [x, y, z];
+};
+
+convert.lab.lch = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let h;
+
+	const hr = Math.atan2(b, a);
+	h = hr * 360 / 2 / Math.PI;
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const c = Math.sqrt(a * a + b * b);
+
+	return [l, c, h];
+};
+
+convert.lch.lab = function (lch) {
+	const l = lch[0];
+	const c = lch[1];
+	const h = lch[2];
+
+	const hr = h / 360 * 2 * Math.PI;
+	const a = c * Math.cos(hr);
+	const b = c * Math.sin(hr);
+
+	return [l, a, b];
+};
+
+convert.rgb.ansi16 = function (args, saturation = null) {
+	const [r, g, b] = args;
+	let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation; // Hsv -> ansi16 optimization
+
+	value = Math.round(value / 50);
+
+	if (value === 0) {
+		return 30;
+	}
+
+	let ansi = 30
+		+ ((Math.round(b / 255) << 2)
+		| (Math.round(g / 255) << 1)
+		| Math.round(r / 255));
+
+	if (value === 2) {
+		ansi += 60;
+	}
+
+	return ansi;
+};
+
+convert.hsv.ansi16 = function (args) {
+	// Optimization here; we already know the value and don't need to get
+	// it converted for us.
+	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+};
+
+convert.rgb.ansi256 = function (args) {
+	const r = args[0];
+	const g = args[1];
+	const b = args[2];
+
+	// We use the extended greyscale palette here, with the exception of
+	// black and white. normal palette only has 4 greyscale shades.
+	if (r === g && g === b) {
+		if (r < 8) {
+			return 16;
+		}
+
+		if (r > 248) {
+			return 231;
+		}
+
+		return Math.round(((r - 8) / 247) * 24) + 232;
+	}
+
+	const ansi = 16
+		+ (36 * Math.round(r / 255 * 5))
+		+ (6 * Math.round(g / 255 * 5))
+		+ Math.round(b / 255 * 5);
+
+	return ansi;
+};
+
+convert.ansi16.rgb = function (args) {
+	let color = args % 10;
+
+	// Handle greyscale
+	if (color === 0 || color === 7) {
+		if (args > 50) {
+			color += 3.5;
+		}
+
+		color = color / 10.5 * 255;
+
+		return [color, color, color];
+	}
+
+	const mult = (~~(args > 50) + 1) * 0.5;
+	const r = ((color & 1) * mult) * 255;
+	const g = (((color >> 1) & 1) * mult) * 255;
+	const b = (((color >> 2) & 1) * mult) * 255;
+
+	return [r, g, b];
+};
+
+convert.ansi256.rgb = function (args) {
+	// Handle greyscale
+	if (args >= 232) {
+		const c = (args - 232) * 10 + 8;
+		return [c, c, c];
+	}
+
+	args -= 16;
+
+	let rem;
+	const r = Math.floor(args / 36) / 5 * 255;
+	const g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+	const b = (rem % 6) / 5 * 255;
+
+	return [r, g, b];
+};
+
+convert.rgb.hex = function (args) {
+	const integer = ((Math.round(args[0]) & 0xFF) << 16)
+		+ ((Math.round(args[1]) & 0xFF) << 8)
+		+ (Math.round(args[2]) & 0xFF);
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.hex.rgb = function (args) {
+	const match = args.toString(16).match(/[a-f0-9]{6}|[a-f0-9]{3}/i);
+	if (!match) {
+		return [0, 0, 0];
+	}
+
+	let colorString = match[0];
+
+	if (match[0].length === 3) {
+		colorString = colorString.split('').map(char => {
+			return char + char;
+		}).join('');
+	}
+
+	const integer = parseInt(colorString, 16);
+	const r = (integer >> 16) & 0xFF;
+	const g = (integer >> 8) & 0xFF;
+	const b = integer & 0xFF;
+
+	return [r, g, b];
+};
+
+convert.rgb.hcg = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const max = Math.max(Math.max(r, g), b);
+	const min = Math.min(Math.min(r, g), b);
+	const chroma = (max - min);
+	let grayscale;
+	let hue;
+
+	if (chroma < 1) {
+		grayscale = min / (1 - chroma);
+	} else {
+		grayscale = 0;
+	}
+
+	if (chroma <= 0) {
+		hue = 0;
+	} else
+	if (max === r) {
+		hue = ((g - b) / chroma) % 6;
+	} else
+	if (max === g) {
+		hue = 2 + (b - r) / chroma;
+	} else {
+		hue = 4 + (r - g) / chroma;
+	}
+
+	hue /= 6;
+	hue %= 1;
+
+	return [hue * 360, chroma * 100, grayscale * 100];
+};
+
+convert.hsl.hcg = function (hsl) {
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+
+	const c = l < 0.5 ? (2.0 * s * l) : (2.0 * s * (1.0 - l));
+
+	let f = 0;
+	if (c < 1.0) {
+		f = (l - 0.5 * c) / (1.0 - c);
+	}
+
+	return [hsl[0], c * 100, f * 100];
+};
+
+convert.hsv.hcg = function (hsv) {
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+
+	const c = s * v;
+	let f = 0;
+
+	if (c < 1.0) {
+		f = (v - c) / (1 - c);
+	}
+
+	return [hsv[0], c * 100, f * 100];
+};
+
+convert.hcg.rgb = function (hcg) {
+	const h = hcg[0] / 360;
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	if (c === 0.0) {
+		return [g * 255, g * 255, g * 255];
+	}
+
+	const pure = [0, 0, 0];
+	const hi = (h % 1) * 6;
+	const v = hi % 1;
+	const w = 1 - v;
+	let mg = 0;
+
+	/* eslint-disable max-statements-per-line */
+	switch (Math.floor(hi)) {
+		case 0:
+			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+		case 1:
+			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+		case 2:
+			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+		case 3:
+			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+		case 4:
+			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+		default:
+			pure[0] = 1; pure[1] = 0; pure[2] = w;
+	}
+	/* eslint-enable max-statements-per-line */
+
+	mg = (1.0 - c) * g;
+
+	return [
+		(c * pure[0] + mg) * 255,
+		(c * pure[1] + mg) * 255,
+		(c * pure[2] + mg) * 255
+	];
+};
+
+convert.hcg.hsv = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const v = c + g * (1.0 - c);
+	let f = 0;
+
+	if (v > 0.0) {
+		f = c / v;
+	}
+
+	return [hcg[0], f * 100, v * 100];
+};
+
+convert.hcg.hsl = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const l = g * (1.0 - c) + 0.5 * c;
+	let s = 0;
+
+	if (l > 0.0 && l < 0.5) {
+		s = c / (2 * l);
+	} else
+	if (l >= 0.5 && l < 1.0) {
+		s = c / (2 * (1 - l));
+	}
+
+	return [hcg[0], s * 100, l * 100];
+};
+
+convert.hcg.hwb = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+	const v = c + g * (1.0 - c);
+	return [hcg[0], (v - c) * 100, (1 - v) * 100];
+};
+
+convert.hwb.hcg = function (hwb) {
+	const w = hwb[1] / 100;
+	const b = hwb[2] / 100;
+	const v = 1 - b;
+	const c = v - w;
+	let g = 0;
+
+	if (c < 1) {
+		g = (v - c) / (1 - c);
+	}
+
+	return [hwb[0], c * 100, g * 100];
+};
+
+convert.apple.rgb = function (apple) {
+	return [(apple[0] / 65535) * 255, (apple[1] / 65535) * 255, (apple[2] / 65535) * 255];
+};
+
+convert.rgb.apple = function (rgb) {
+	return [(rgb[0] / 255) * 65535, (rgb[1] / 255) * 65535, (rgb[2] / 255) * 65535];
+};
+
+convert.gray.rgb = function (args) {
+	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+};
+
+convert.gray.hsl = function (args) {
+	return [0, 0, args[0]];
+};
+
+convert.gray.hsv = convert.gray.hsl;
+
+convert.gray.hwb = function (gray) {
+	return [0, 100, gray[0]];
+};
+
+convert.gray.cmyk = function (gray) {
+	return [0, 0, 0, gray[0]];
+};
+
+convert.gray.lab = function (gray) {
+	return [gray[0], 0, 0];
+};
+
+convert.gray.hex = function (gray) {
+	const val = Math.round(gray[0] / 100 * 255) & 0xFF;
+	const integer = (val << 16) + (val << 8) + val;
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.substring(string.length) + string;
+};
+
+convert.rgb.gray = function (rgb) {
+	const val = (rgb[0] + rgb[1] + rgb[2]) / 3;
+	return [val / 255 * 100];
+};
+
+
+/***/ }),
+
+/***/ 6290:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const conversions = __nccwpck_require__(2263);
+const route = __nccwpck_require__(23);
+
+const convert = {};
+
+const models = Object.keys(conversions);
+
+function wrapRaw(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		return fn(args);
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		const result = fn(args);
+
+		// We're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (let len = result.length, i = 0; i < len; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+models.forEach(fromModel => {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: conversions[fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: conversions[fromModel].labels});
+
+	const routes = route(fromModel);
+	const routeModels = Object.keys(routes);
+
+	routeModels.forEach(toModel => {
+		const fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	});
+});
+
+module.exports = convert;
+
+
+/***/ }),
+
+/***/ 23:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const conversions = __nccwpck_require__(2263);
+
+/*
+	This function routes a model to all other models.
+
+	all functions that are routed have a property `.conversion` attached
+	to the returned synthetic function. This property is an array
+	of strings, each with the steps in between the 'from' and 'to'
+	color models (inclusive).
+
+	conversions that are not possible simply are not included.
+*/
+
+function buildGraph() {
+	const graph = {};
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	const models = Object.keys(conversions);
+
+	for (let len = models.length, i = 0; i < len; i++) {
+		graph[models[i]] = {
+			// http://jsperf.com/1-vs-infinity
+			// micro-opt, but this is simple.
+			distance: -1,
+			parent: null
+		};
+	}
+
+	return graph;
+}
+
+// https://en.wikipedia.org/wiki/Breadth-first_search
+function deriveBFS(fromModel) {
+	const graph = buildGraph();
+	const queue = [fromModel]; // Unshift -> queue -> pop
+
+	graph[fromModel].distance = 0;
+
+	while (queue.length) {
+		const current = queue.pop();
+		const adjacents = Object.keys(conversions[current]);
+
+		for (let len = adjacents.length, i = 0; i < len; i++) {
+			const adjacent = adjacents[i];
+			const node = graph[adjacent];
+
+			if (node.distance === -1) {
+				node.distance = graph[current].distance + 1;
+				node.parent = current;
+				queue.unshift(adjacent);
+			}
+		}
+	}
+
+	return graph;
+}
+
+function link(from, to) {
+	return function (args) {
+		return to(from(args));
+	};
+}
+
+function wrapConversion(toModel, graph) {
+	const path = [graph[toModel].parent, toModel];
+	let fn = conversions[graph[toModel].parent][toModel];
+
+	let cur = graph[toModel].parent;
+	while (graph[cur].parent) {
+		path.unshift(graph[cur].parent);
+		fn = link(conversions[graph[cur].parent][cur], fn);
+		cur = graph[cur].parent;
+	}
+
+	fn.conversion = path;
+	return fn;
+}
+
+module.exports = function (fromModel) {
+	const graph = deriveBFS(fromModel);
+	const conversion = {};
+
+	const models = Object.keys(graph);
+	for (let len = models.length, i = 0; i < len; i++) {
+		const toModel = models[i];
+		const node = graph[toModel];
+
+		if (node.parent === null) {
+			// No possible conversion, or this node is the source model.
+			continue;
+		}
+
+		conversion[toModel] = wrapConversion(toModel, graph);
+	}
+
+	return conversion;
+};
+
+
+
+/***/ }),
+
+/***/ 2712:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = {
+	"aliceblue": [240, 248, 255],
+	"antiquewhite": [250, 235, 215],
+	"aqua": [0, 255, 255],
+	"aquamarine": [127, 255, 212],
+	"azure": [240, 255, 255],
+	"beige": [245, 245, 220],
+	"bisque": [255, 228, 196],
+	"black": [0, 0, 0],
+	"blanchedalmond": [255, 235, 205],
+	"blue": [0, 0, 255],
+	"blueviolet": [138, 43, 226],
+	"brown": [165, 42, 42],
+	"burlywood": [222, 184, 135],
+	"cadetblue": [95, 158, 160],
+	"chartreuse": [127, 255, 0],
+	"chocolate": [210, 105, 30],
+	"coral": [255, 127, 80],
+	"cornflowerblue": [100, 149, 237],
+	"cornsilk": [255, 248, 220],
+	"crimson": [220, 20, 60],
+	"cyan": [0, 255, 255],
+	"darkblue": [0, 0, 139],
+	"darkcyan": [0, 139, 139],
+	"darkgoldenrod": [184, 134, 11],
+	"darkgray": [169, 169, 169],
+	"darkgreen": [0, 100, 0],
+	"darkgrey": [169, 169, 169],
+	"darkkhaki": [189, 183, 107],
+	"darkmagenta": [139, 0, 139],
+	"darkolivegreen": [85, 107, 47],
+	"darkorange": [255, 140, 0],
+	"darkorchid": [153, 50, 204],
+	"darkred": [139, 0, 0],
+	"darksalmon": [233, 150, 122],
+	"darkseagreen": [143, 188, 143],
+	"darkslateblue": [72, 61, 139],
+	"darkslategray": [47, 79, 79],
+	"darkslategrey": [47, 79, 79],
+	"darkturquoise": [0, 206, 209],
+	"darkviolet": [148, 0, 211],
+	"deeppink": [255, 20, 147],
+	"deepskyblue": [0, 191, 255],
+	"dimgray": [105, 105, 105],
+	"dimgrey": [105, 105, 105],
+	"dodgerblue": [30, 144, 255],
+	"firebrick": [178, 34, 34],
+	"floralwhite": [255, 250, 240],
+	"forestgreen": [34, 139, 34],
+	"fuchsia": [255, 0, 255],
+	"gainsboro": [220, 220, 220],
+	"ghostwhite": [248, 248, 255],
+	"gold": [255, 215, 0],
+	"goldenrod": [218, 165, 32],
+	"gray": [128, 128, 128],
+	"green": [0, 128, 0],
+	"greenyellow": [173, 255, 47],
+	"grey": [128, 128, 128],
+	"honeydew": [240, 255, 240],
+	"hotpink": [255, 105, 180],
+	"indianred": [205, 92, 92],
+	"indigo": [75, 0, 130],
+	"ivory": [255, 255, 240],
+	"khaki": [240, 230, 140],
+	"lavender": [230, 230, 250],
+	"lavenderblush": [255, 240, 245],
+	"lawngreen": [124, 252, 0],
+	"lemonchiffon": [255, 250, 205],
+	"lightblue": [173, 216, 230],
+	"lightcoral": [240, 128, 128],
+	"lightcyan": [224, 255, 255],
+	"lightgoldenrodyellow": [250, 250, 210],
+	"lightgray": [211, 211, 211],
+	"lightgreen": [144, 238, 144],
+	"lightgrey": [211, 211, 211],
+	"lightpink": [255, 182, 193],
+	"lightsalmon": [255, 160, 122],
+	"lightseagreen": [32, 178, 170],
+	"lightskyblue": [135, 206, 250],
+	"lightslategray": [119, 136, 153],
+	"lightslategrey": [119, 136, 153],
+	"lightsteelblue": [176, 196, 222],
+	"lightyellow": [255, 255, 224],
+	"lime": [0, 255, 0],
+	"limegreen": [50, 205, 50],
+	"linen": [250, 240, 230],
+	"magenta": [255, 0, 255],
+	"maroon": [128, 0, 0],
+	"mediumaquamarine": [102, 205, 170],
+	"mediumblue": [0, 0, 205],
+	"mediumorchid": [186, 85, 211],
+	"mediumpurple": [147, 112, 219],
+	"mediumseagreen": [60, 179, 113],
+	"mediumslateblue": [123, 104, 238],
+	"mediumspringgreen": [0, 250, 154],
+	"mediumturquoise": [72, 209, 204],
+	"mediumvioletred": [199, 21, 133],
+	"midnightblue": [25, 25, 112],
+	"mintcream": [245, 255, 250],
+	"mistyrose": [255, 228, 225],
+	"moccasin": [255, 228, 181],
+	"navajowhite": [255, 222, 173],
+	"navy": [0, 0, 128],
+	"oldlace": [253, 245, 230],
+	"olive": [128, 128, 0],
+	"olivedrab": [107, 142, 35],
+	"orange": [255, 165, 0],
+	"orangered": [255, 69, 0],
+	"orchid": [218, 112, 214],
+	"palegoldenrod": [238, 232, 170],
+	"palegreen": [152, 251, 152],
+	"paleturquoise": [175, 238, 238],
+	"palevioletred": [219, 112, 147],
+	"papayawhip": [255, 239, 213],
+	"peachpuff": [255, 218, 185],
+	"peru": [205, 133, 63],
+	"pink": [255, 192, 203],
+	"plum": [221, 160, 221],
+	"powderblue": [176, 224, 230],
+	"purple": [128, 0, 128],
+	"rebeccapurple": [102, 51, 153],
+	"red": [255, 0, 0],
+	"rosybrown": [188, 143, 143],
+	"royalblue": [65, 105, 225],
+	"saddlebrown": [139, 69, 19],
+	"salmon": [250, 128, 114],
+	"sandybrown": [244, 164, 96],
+	"seagreen": [46, 139, 87],
+	"seashell": [255, 245, 238],
+	"sienna": [160, 82, 45],
+	"silver": [192, 192, 192],
+	"skyblue": [135, 206, 235],
+	"slateblue": [106, 90, 205],
+	"slategray": [112, 128, 144],
+	"slategrey": [112, 128, 144],
+	"snow": [255, 250, 250],
+	"springgreen": [0, 255, 127],
+	"steelblue": [70, 130, 180],
+	"tan": [210, 180, 140],
+	"teal": [0, 128, 128],
+	"thistle": [216, 191, 216],
+	"tomato": [255, 99, 71],
+	"turquoise": [64, 224, 208],
+	"violet": [238, 130, 238],
+	"wheat": [245, 222, 179],
+	"white": [255, 255, 255],
+	"whitesmoke": [245, 245, 245],
+	"yellow": [255, 255, 0],
+	"yellowgreen": [154, 205, 50]
+};
+
+
+/***/ }),
+
+/***/ 7840:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const mkdirsSync = (__nccwpck_require__(5770).mkdirsSync)
+const utimesMillisSync = (__nccwpck_require__(8727).utimesMillisSync)
+const stat = __nccwpck_require__(7466)
+
+function copySync (src, dest, opts) {
+  if (typeof opts === 'function') {
+    opts = { filter: opts }
+  }
+
+  opts = opts || {}
+  opts.clobber = 'clobber' in opts ? !!opts.clobber : true // default to true for now
+  opts.overwrite = 'overwrite' in opts ? !!opts.overwrite : opts.clobber // overwrite falls back to clobber
+
+  // Warn about using preserveTimestamps on 32-bit node
+  if (opts.preserveTimestamps && process.arch === 'ia32') {
+    process.emitWarning(
+      'Using the preserveTimestamps option in 32-bit node is not recommended;\n\n' +
+      '\tsee https://github.com/jprichardson/node-fs-extra/issues/269',
+      'Warning', 'fs-extra-WARN0002'
+    )
+  }
+
+  const { srcStat, destStat } = stat.checkPathsSync(src, dest, 'copy', opts)
+  stat.checkParentPathsSync(src, srcStat, dest, 'copy')
+  return handleFilterAndCopy(destStat, src, dest, opts)
+}
+
+function handleFilterAndCopy (destStat, src, dest, opts) {
+  if (opts.filter && !opts.filter(src, dest)) return
+  const destParent = path.dirname(dest)
+  if (!fs.existsSync(destParent)) mkdirsSync(destParent)
+  return getStats(destStat, src, dest, opts)
+}
+
+function startCopy (destStat, src, dest, opts) {
+  if (opts.filter && !opts.filter(src, dest)) return
+  return getStats(destStat, src, dest, opts)
+}
+
+function getStats (destStat, src, dest, opts) {
+  const statSync = opts.dereference ? fs.statSync : fs.lstatSync
+  const srcStat = statSync(src)
+
+  if (srcStat.isDirectory()) return onDir(srcStat, destStat, src, dest, opts)
+  else if (srcStat.isFile() ||
+           srcStat.isCharacterDevice() ||
+           srcStat.isBlockDevice()) return onFile(srcStat, destStat, src, dest, opts)
+  else if (srcStat.isSymbolicLink()) return onLink(destStat, src, dest, opts)
+  else if (srcStat.isSocket()) throw new Error(`Cannot copy a socket file: ${src}`)
+  else if (srcStat.isFIFO()) throw new Error(`Cannot copy a FIFO pipe: ${src}`)
+  throw new Error(`Unknown file: ${src}`)
+}
+
+function onFile (srcStat, destStat, src, dest, opts) {
+  if (!destStat) return copyFile(srcStat, src, dest, opts)
+  return mayCopyFile(srcStat, src, dest, opts)
+}
+
+function mayCopyFile (srcStat, src, dest, opts) {
+  if (opts.overwrite) {
+    fs.unlinkSync(dest)
+    return copyFile(srcStat, src, dest, opts)
+  } else if (opts.errorOnExist) {
+    throw new Error(`'${dest}' already exists`)
+  }
+}
+
+function copyFile (srcStat, src, dest, opts) {
+  fs.copyFileSync(src, dest)
+  if (opts.preserveTimestamps) handleTimestamps(srcStat.mode, src, dest)
+  return setDestMode(dest, srcStat.mode)
+}
+
+function handleTimestamps (srcMode, src, dest) {
+  // Make sure the file is writable before setting the timestamp
+  // otherwise open fails with EPERM when invoked with 'r+'
+  // (through utimes call)
+  if (fileIsNotWritable(srcMode)) makeFileWritable(dest, srcMode)
+  return setDestTimestamps(src, dest)
+}
+
+function fileIsNotWritable (srcMode) {
+  return (srcMode & 0o200) === 0
+}
+
+function makeFileWritable (dest, srcMode) {
+  return setDestMode(dest, srcMode | 0o200)
+}
+
+function setDestMode (dest, srcMode) {
+  return fs.chmodSync(dest, srcMode)
+}
+
+function setDestTimestamps (src, dest) {
+  // The initial srcStat.atime cannot be trusted
+  // because it is modified by the read(2) system call
+  // (See https://nodejs.org/api/fs.html#fs_stat_time_values)
+  const updatedSrcStat = fs.statSync(src)
+  return utimesMillisSync(dest, updatedSrcStat.atime, updatedSrcStat.mtime)
+}
+
+function onDir (srcStat, destStat, src, dest, opts) {
+  if (!destStat) return mkDirAndCopy(srcStat.mode, src, dest, opts)
+  return copyDir(src, dest, opts)
+}
+
+function mkDirAndCopy (srcMode, src, dest, opts) {
+  fs.mkdirSync(dest)
+  copyDir(src, dest, opts)
+  return setDestMode(dest, srcMode)
+}
+
+function copyDir (src, dest, opts) {
+  fs.readdirSync(src).forEach(item => copyDirItem(item, src, dest, opts))
+}
+
+function copyDirItem (item, src, dest, opts) {
+  const srcItem = path.join(src, item)
+  const destItem = path.join(dest, item)
+  const { destStat } = stat.checkPathsSync(srcItem, destItem, 'copy', opts)
+  return startCopy(destStat, srcItem, destItem, opts)
+}
+
+function onLink (destStat, src, dest, opts) {
+  let resolvedSrc = fs.readlinkSync(src)
+  if (opts.dereference) {
+    resolvedSrc = path.resolve(process.cwd(), resolvedSrc)
+  }
+
+  if (!destStat) {
+    return fs.symlinkSync(resolvedSrc, dest)
+  } else {
+    let resolvedDest
+    try {
+      resolvedDest = fs.readlinkSync(dest)
+    } catch (err) {
+      // dest exists and is a regular file or directory,
+      // Windows may throw UNKNOWN error. If dest already exists,
+      // fs throws error anyway, so no need to guard against it here.
+      if (err.code === 'EINVAL' || err.code === 'UNKNOWN') return fs.symlinkSync(resolvedSrc, dest)
+      throw err
+    }
+    if (opts.dereference) {
+      resolvedDest = path.resolve(process.cwd(), resolvedDest)
+    }
+    if (stat.isSrcSubdir(resolvedSrc, resolvedDest)) {
+      throw new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`)
+    }
+
+    // prevent copy if src is a subdir of dest since unlinking
+    // dest in this case would result in removing src contents
+    // and therefore a broken symlink would be created.
+    if (fs.statSync(dest).isDirectory() && stat.isSrcSubdir(resolvedDest, resolvedSrc)) {
+      throw new Error(`Cannot overwrite '${resolvedDest}' with '${resolvedSrc}'.`)
+    }
+    return copyLink(resolvedSrc, dest)
+  }
+}
+
+function copyLink (resolvedSrc, dest) {
+  fs.unlinkSync(dest)
+  return fs.symlinkSync(resolvedSrc, dest)
+}
+
+module.exports = copySync
+
+
+/***/ }),
+
+/***/ 9510:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const mkdirs = (__nccwpck_require__(5770).mkdirs)
+const pathExists = (__nccwpck_require__(2564).pathExists)
+const utimesMillis = (__nccwpck_require__(8727).utimesMillis)
+const stat = __nccwpck_require__(7466)
+
+function copy (src, dest, opts, cb) {
+  if (typeof opts === 'function' && !cb) {
+    cb = opts
+    opts = {}
+  } else if (typeof opts === 'function') {
+    opts = { filter: opts }
+  }
+
+  cb = cb || function () {}
+  opts = opts || {}
+
+  opts.clobber = 'clobber' in opts ? !!opts.clobber : true // default to true for now
+  opts.overwrite = 'overwrite' in opts ? !!opts.overwrite : opts.clobber // overwrite falls back to clobber
+
+  // Warn about using preserveTimestamps on 32-bit node
+  if (opts.preserveTimestamps && process.arch === 'ia32') {
+    process.emitWarning(
+      'Using the preserveTimestamps option in 32-bit node is not recommended;\n\n' +
+      '\tsee https://github.com/jprichardson/node-fs-extra/issues/269',
+      'Warning', 'fs-extra-WARN0001'
+    )
+  }
+
+  stat.checkPaths(src, dest, 'copy', opts, (err, stats) => {
+    if (err) return cb(err)
+    const { srcStat, destStat } = stats
+    stat.checkParentPaths(src, srcStat, dest, 'copy', err => {
+      if (err) return cb(err)
+      if (opts.filter) return handleFilter(checkParentDir, destStat, src, dest, opts, cb)
+      return checkParentDir(destStat, src, dest, opts, cb)
+    })
+  })
+}
+
+function checkParentDir (destStat, src, dest, opts, cb) {
+  const destParent = path.dirname(dest)
+  pathExists(destParent, (err, dirExists) => {
+    if (err) return cb(err)
+    if (dirExists) return getStats(destStat, src, dest, opts, cb)
+    mkdirs(destParent, err => {
+      if (err) return cb(err)
+      return getStats(destStat, src, dest, opts, cb)
+    })
+  })
+}
+
+function handleFilter (onInclude, destStat, src, dest, opts, cb) {
+  Promise.resolve(opts.filter(src, dest)).then(include => {
+    if (include) return onInclude(destStat, src, dest, opts, cb)
+    return cb()
+  }, error => cb(error))
+}
+
+function startCopy (destStat, src, dest, opts, cb) {
+  if (opts.filter) return handleFilter(getStats, destStat, src, dest, opts, cb)
+  return getStats(destStat, src, dest, opts, cb)
+}
+
+function getStats (destStat, src, dest, opts, cb) {
+  const stat = opts.dereference ? fs.stat : fs.lstat
+  stat(src, (err, srcStat) => {
+    if (err) return cb(err)
+
+    if (srcStat.isDirectory()) return onDir(srcStat, destStat, src, dest, opts, cb)
+    else if (srcStat.isFile() ||
+             srcStat.isCharacterDevice() ||
+             srcStat.isBlockDevice()) return onFile(srcStat, destStat, src, dest, opts, cb)
+    else if (srcStat.isSymbolicLink()) return onLink(destStat, src, dest, opts, cb)
+    else if (srcStat.isSocket()) return cb(new Error(`Cannot copy a socket file: ${src}`))
+    else if (srcStat.isFIFO()) return cb(new Error(`Cannot copy a FIFO pipe: ${src}`))
+    return cb(new Error(`Unknown file: ${src}`))
+  })
+}
+
+function onFile (srcStat, destStat, src, dest, opts, cb) {
+  if (!destStat) return copyFile(srcStat, src, dest, opts, cb)
+  return mayCopyFile(srcStat, src, dest, opts, cb)
+}
+
+function mayCopyFile (srcStat, src, dest, opts, cb) {
+  if (opts.overwrite) {
+    fs.unlink(dest, err => {
+      if (err) return cb(err)
+      return copyFile(srcStat, src, dest, opts, cb)
+    })
+  } else if (opts.errorOnExist) {
+    return cb(new Error(`'${dest}' already exists`))
+  } else return cb()
+}
+
+function copyFile (srcStat, src, dest, opts, cb) {
+  fs.copyFile(src, dest, err => {
+    if (err) return cb(err)
+    if (opts.preserveTimestamps) return handleTimestampsAndMode(srcStat.mode, src, dest, cb)
+    return setDestMode(dest, srcStat.mode, cb)
+  })
+}
+
+function handleTimestampsAndMode (srcMode, src, dest, cb) {
+  // Make sure the file is writable before setting the timestamp
+  // otherwise open fails with EPERM when invoked with 'r+'
+  // (through utimes call)
+  if (fileIsNotWritable(srcMode)) {
+    return makeFileWritable(dest, srcMode, err => {
+      if (err) return cb(err)
+      return setDestTimestampsAndMode(srcMode, src, dest, cb)
+    })
+  }
+  return setDestTimestampsAndMode(srcMode, src, dest, cb)
+}
+
+function fileIsNotWritable (srcMode) {
+  return (srcMode & 0o200) === 0
+}
+
+function makeFileWritable (dest, srcMode, cb) {
+  return setDestMode(dest, srcMode | 0o200, cb)
+}
+
+function setDestTimestampsAndMode (srcMode, src, dest, cb) {
+  setDestTimestamps(src, dest, err => {
+    if (err) return cb(err)
+    return setDestMode(dest, srcMode, cb)
+  })
+}
+
+function setDestMode (dest, srcMode, cb) {
+  return fs.chmod(dest, srcMode, cb)
+}
+
+function setDestTimestamps (src, dest, cb) {
+  // The initial srcStat.atime cannot be trusted
+  // because it is modified by the read(2) system call
+  // (See https://nodejs.org/api/fs.html#fs_stat_time_values)
+  fs.stat(src, (err, updatedSrcStat) => {
+    if (err) return cb(err)
+    return utimesMillis(dest, updatedSrcStat.atime, updatedSrcStat.mtime, cb)
+  })
+}
+
+function onDir (srcStat, destStat, src, dest, opts, cb) {
+  if (!destStat) return mkDirAndCopy(srcStat.mode, src, dest, opts, cb)
+  return copyDir(src, dest, opts, cb)
+}
+
+function mkDirAndCopy (srcMode, src, dest, opts, cb) {
+  fs.mkdir(dest, err => {
+    if (err) return cb(err)
+    copyDir(src, dest, opts, err => {
+      if (err) return cb(err)
+      return setDestMode(dest, srcMode, cb)
+    })
+  })
+}
+
+function copyDir (src, dest, opts, cb) {
+  fs.readdir(src, (err, items) => {
+    if (err) return cb(err)
+    return copyDirItems(items, src, dest, opts, cb)
+  })
+}
+
+function copyDirItems (items, src, dest, opts, cb) {
+  const item = items.pop()
+  if (!item) return cb()
+  return copyDirItem(items, item, src, dest, opts, cb)
+}
+
+function copyDirItem (items, item, src, dest, opts, cb) {
+  const srcItem = path.join(src, item)
+  const destItem = path.join(dest, item)
+  stat.checkPaths(srcItem, destItem, 'copy', opts, (err, stats) => {
+    if (err) return cb(err)
+    const { destStat } = stats
+    startCopy(destStat, srcItem, destItem, opts, err => {
+      if (err) return cb(err)
+      return copyDirItems(items, src, dest, opts, cb)
+    })
+  })
+}
+
+function onLink (destStat, src, dest, opts, cb) {
+  fs.readlink(src, (err, resolvedSrc) => {
+    if (err) return cb(err)
+    if (opts.dereference) {
+      resolvedSrc = path.resolve(process.cwd(), resolvedSrc)
+    }
+
+    if (!destStat) {
+      return fs.symlink(resolvedSrc, dest, cb)
+    } else {
+      fs.readlink(dest, (err, resolvedDest) => {
+        if (err) {
+          // dest exists and is a regular file or directory,
+          // Windows may throw UNKNOWN error. If dest already exists,
+          // fs throws error anyway, so no need to guard against it here.
+          if (err.code === 'EINVAL' || err.code === 'UNKNOWN') return fs.symlink(resolvedSrc, dest, cb)
+          return cb(err)
+        }
+        if (opts.dereference) {
+          resolvedDest = path.resolve(process.cwd(), resolvedDest)
+        }
+        if (stat.isSrcSubdir(resolvedSrc, resolvedDest)) {
+          return cb(new Error(`Cannot copy '${resolvedSrc}' to a subdirectory of itself, '${resolvedDest}'.`))
+        }
+
+        // do not copy if src is a subdir of dest since unlinking
+        // dest in this case would result in removing src contents
+        // and therefore a broken symlink would be created.
+        if (destStat.isDirectory() && stat.isSrcSubdir(resolvedDest, resolvedSrc)) {
+          return cb(new Error(`Cannot overwrite '${resolvedDest}' with '${resolvedSrc}'.`))
+        }
+        return copyLink(resolvedSrc, dest, cb)
+      })
+    }
+  })
+}
+
+function copyLink (resolvedSrc, dest, cb) {
+  fs.unlink(dest, err => {
+    if (err) return cb(err)
+    return fs.symlink(resolvedSrc, dest, cb)
+  })
+}
+
+module.exports = copy
+
+
+/***/ }),
+
+/***/ 1475:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+module.exports = {
+  copy: u(__nccwpck_require__(9510)),
+  copySync: __nccwpck_require__(7840)
+}
+
+
+/***/ }),
+
+/***/ 7603:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromPromise)
+const fs = __nccwpck_require__(3981)
+const path = __nccwpck_require__(6928)
+const mkdir = __nccwpck_require__(5770)
+const remove = __nccwpck_require__(2410)
+
+const emptyDir = u(async function emptyDir (dir) {
+  let items
+  try {
+    items = await fs.readdir(dir)
+  } catch {
+    return mkdir.mkdirs(dir)
+  }
+
+  return Promise.all(items.map(item => remove.remove(path.join(dir, item))))
+})
+
+function emptyDirSync (dir) {
+  let items
+  try {
+    items = fs.readdirSync(dir)
+  } catch {
+    return mkdir.mkdirsSync(dir)
+  }
+
+  items.forEach(item => {
+    item = path.join(dir, item)
+    remove.removeSync(item)
+  })
+}
+
+module.exports = {
+  emptyDirSync,
+  emptydirSync: emptyDirSync,
+  emptyDir,
+  emptydir: emptyDir
+}
+
+
+/***/ }),
+
+/***/ 8940:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+const path = __nccwpck_require__(6928)
+const fs = __nccwpck_require__(7531)
+const mkdir = __nccwpck_require__(5770)
+
+function createFile (file, callback) {
+  function makeFile () {
+    fs.writeFile(file, '', err => {
+      if (err) return callback(err)
+      callback()
+    })
+  }
+
+  fs.stat(file, (err, stats) => { // eslint-disable-line handle-callback-err
+    if (!err && stats.isFile()) return callback()
+    const dir = path.dirname(file)
+    fs.stat(dir, (err, stats) => {
+      if (err) {
+        // if the directory doesn't exist, make it
+        if (err.code === 'ENOENT') {
+          return mkdir.mkdirs(dir, err => {
+            if (err) return callback(err)
+            makeFile()
+          })
+        }
+        return callback(err)
+      }
+
+      if (stats.isDirectory()) makeFile()
+      else {
+        // parent is not a directory
+        // This is just to cause an internal ENOTDIR error to be thrown
+        fs.readdir(dir, err => {
+          if (err) return callback(err)
+        })
+      }
+    })
+  })
+}
+
+function createFileSync (file) {
+  let stats
+  try {
+    stats = fs.statSync(file)
+  } catch {}
+  if (stats && stats.isFile()) return
+
+  const dir = path.dirname(file)
+  try {
+    if (!fs.statSync(dir).isDirectory()) {
+      // parent is not a directory
+      // This is just to cause an internal ENOTDIR error to be thrown
+      fs.readdirSync(dir)
+    }
+  } catch (err) {
+    // If the stat call above failed because the directory doesn't exist, create it
+    if (err && err.code === 'ENOENT') mkdir.mkdirsSync(dir)
+    else throw err
+  }
+
+  fs.writeFileSync(file, '')
+}
+
+module.exports = {
+  createFile: u(createFile),
+  createFileSync
+}
+
+
+/***/ }),
+
+/***/ 6164:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const { createFile, createFileSync } = __nccwpck_require__(8940)
+const { createLink, createLinkSync } = __nccwpck_require__(3574)
+const { createSymlink, createSymlinkSync } = __nccwpck_require__(6191)
+
+module.exports = {
+  // file
+  createFile,
+  createFileSync,
+  ensureFile: createFile,
+  ensureFileSync: createFileSync,
+  // link
+  createLink,
+  createLinkSync,
+  ensureLink: createLink,
+  ensureLinkSync: createLinkSync,
+  // symlink
+  createSymlink,
+  createSymlinkSync,
+  ensureSymlink: createSymlink,
+  ensureSymlinkSync: createSymlinkSync
+}
+
+
+/***/ }),
+
+/***/ 3574:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+const path = __nccwpck_require__(6928)
+const fs = __nccwpck_require__(7531)
+const mkdir = __nccwpck_require__(5770)
+const pathExists = (__nccwpck_require__(2564).pathExists)
+const { areIdentical } = __nccwpck_require__(7466)
+
+function createLink (srcpath, dstpath, callback) {
+  function makeLink (srcpath, dstpath) {
+    fs.link(srcpath, dstpath, err => {
+      if (err) return callback(err)
+      callback(null)
+    })
+  }
+
+  fs.lstat(dstpath, (_, dstStat) => {
+    fs.lstat(srcpath, (err, srcStat) => {
+      if (err) {
+        err.message = err.message.replace('lstat', 'ensureLink')
+        return callback(err)
+      }
+      if (dstStat && areIdentical(srcStat, dstStat)) return callback(null)
+
+      const dir = path.dirname(dstpath)
+      pathExists(dir, (err, dirExists) => {
+        if (err) return callback(err)
+        if (dirExists) return makeLink(srcpath, dstpath)
+        mkdir.mkdirs(dir, err => {
+          if (err) return callback(err)
+          makeLink(srcpath, dstpath)
+        })
+      })
+    })
+  })
+}
+
+function createLinkSync (srcpath, dstpath) {
+  let dstStat
+  try {
+    dstStat = fs.lstatSync(dstpath)
+  } catch {}
+
+  try {
+    const srcStat = fs.lstatSync(srcpath)
+    if (dstStat && areIdentical(srcStat, dstStat)) return
+  } catch (err) {
+    err.message = err.message.replace('lstat', 'ensureLink')
+    throw err
+  }
+
+  const dir = path.dirname(dstpath)
+  const dirExists = fs.existsSync(dir)
+  if (dirExists) return fs.linkSync(srcpath, dstpath)
+  mkdir.mkdirsSync(dir)
+
+  return fs.linkSync(srcpath, dstpath)
+}
+
+module.exports = {
+  createLink: u(createLink),
+  createLinkSync
+}
+
+
+/***/ }),
+
+/***/ 994:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const path = __nccwpck_require__(6928)
+const fs = __nccwpck_require__(7531)
+const pathExists = (__nccwpck_require__(2564).pathExists)
+
+/**
+ * Function that returns two types of paths, one relative to symlink, and one
+ * relative to the current working directory. Checks if path is absolute or
+ * relative. If the path is relative, this function checks if the path is
+ * relative to symlink or relative to current working directory. This is an
+ * initiative to find a smarter `srcpath` to supply when building symlinks.
+ * This allows you to determine which path to use out of one of three possible
+ * types of source paths. The first is an absolute path. This is detected by
+ * `path.isAbsolute()`. When an absolute path is provided, it is checked to
+ * see if it exists. If it does it's used, if not an error is returned
+ * (callback)/ thrown (sync). The other two options for `srcpath` are a
+ * relative url. By default Node's `fs.symlink` works by creating a symlink
+ * using `dstpath` and expects the `srcpath` to be relative to the newly
+ * created symlink. If you provide a `srcpath` that does not exist on the file
+ * system it results in a broken symlink. To minimize this, the function
+ * checks to see if the 'relative to symlink' source file exists, and if it
+ * does it will use it. If it does not, it checks if there's a file that
+ * exists that is relative to the current working directory, if does its used.
+ * This preserves the expectations of the original fs.symlink spec and adds
+ * the ability to pass in `relative to current working direcotry` paths.
+ */
+
+function symlinkPaths (srcpath, dstpath, callback) {
+  if (path.isAbsolute(srcpath)) {
+    return fs.lstat(srcpath, (err) => {
+      if (err) {
+        err.message = err.message.replace('lstat', 'ensureSymlink')
+        return callback(err)
+      }
+      return callback(null, {
+        toCwd: srcpath,
+        toDst: srcpath
+      })
+    })
+  } else {
+    const dstdir = path.dirname(dstpath)
+    const relativeToDst = path.join(dstdir, srcpath)
+    return pathExists(relativeToDst, (err, exists) => {
+      if (err) return callback(err)
+      if (exists) {
+        return callback(null, {
+          toCwd: relativeToDst,
+          toDst: srcpath
+        })
+      } else {
+        return fs.lstat(srcpath, (err) => {
+          if (err) {
+            err.message = err.message.replace('lstat', 'ensureSymlink')
+            return callback(err)
+          }
+          return callback(null, {
+            toCwd: srcpath,
+            toDst: path.relative(dstdir, srcpath)
+          })
+        })
+      }
+    })
+  }
+}
+
+function symlinkPathsSync (srcpath, dstpath) {
+  let exists
+  if (path.isAbsolute(srcpath)) {
+    exists = fs.existsSync(srcpath)
+    if (!exists) throw new Error('absolute srcpath does not exist')
+    return {
+      toCwd: srcpath,
+      toDst: srcpath
+    }
+  } else {
+    const dstdir = path.dirname(dstpath)
+    const relativeToDst = path.join(dstdir, srcpath)
+    exists = fs.existsSync(relativeToDst)
+    if (exists) {
+      return {
+        toCwd: relativeToDst,
+        toDst: srcpath
+      }
+    } else {
+      exists = fs.existsSync(srcpath)
+      if (!exists) throw new Error('relative srcpath does not exist')
+      return {
+        toCwd: srcpath,
+        toDst: path.relative(dstdir, srcpath)
+      }
+    }
+  }
+}
+
+module.exports = {
+  symlinkPaths,
+  symlinkPathsSync
+}
+
+
+/***/ }),
+
+/***/ 3772:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+
+function symlinkType (srcpath, type, callback) {
+  callback = (typeof type === 'function') ? type : callback
+  type = (typeof type === 'function') ? false : type
+  if (type) return callback(null, type)
+  fs.lstat(srcpath, (err, stats) => {
+    if (err) return callback(null, 'file')
+    type = (stats && stats.isDirectory()) ? 'dir' : 'file'
+    callback(null, type)
+  })
+}
+
+function symlinkTypeSync (srcpath, type) {
+  let stats
+
+  if (type) return type
+  try {
+    stats = fs.lstatSync(srcpath)
+  } catch {
+    return 'file'
+  }
+  return (stats && stats.isDirectory()) ? 'dir' : 'file'
+}
+
+module.exports = {
+  symlinkType,
+  symlinkTypeSync
+}
+
+
+/***/ }),
+
+/***/ 6191:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+const path = __nccwpck_require__(6928)
+const fs = __nccwpck_require__(3981)
+const _mkdirs = __nccwpck_require__(5770)
+const mkdirs = _mkdirs.mkdirs
+const mkdirsSync = _mkdirs.mkdirsSync
+
+const _symlinkPaths = __nccwpck_require__(994)
+const symlinkPaths = _symlinkPaths.symlinkPaths
+const symlinkPathsSync = _symlinkPaths.symlinkPathsSync
+
+const _symlinkType = __nccwpck_require__(3772)
+const symlinkType = _symlinkType.symlinkType
+const symlinkTypeSync = _symlinkType.symlinkTypeSync
+
+const pathExists = (__nccwpck_require__(2564).pathExists)
+
+const { areIdentical } = __nccwpck_require__(7466)
+
+function createSymlink (srcpath, dstpath, type, callback) {
+  callback = (typeof type === 'function') ? type : callback
+  type = (typeof type === 'function') ? false : type
+
+  fs.lstat(dstpath, (err, stats) => {
+    if (!err && stats.isSymbolicLink()) {
+      Promise.all([
+        fs.stat(srcpath),
+        fs.stat(dstpath)
+      ]).then(([srcStat, dstStat]) => {
+        if (areIdentical(srcStat, dstStat)) return callback(null)
+        _createSymlink(srcpath, dstpath, type, callback)
+      })
+    } else _createSymlink(srcpath, dstpath, type, callback)
+  })
+}
+
+function _createSymlink (srcpath, dstpath, type, callback) {
+  symlinkPaths(srcpath, dstpath, (err, relative) => {
+    if (err) return callback(err)
+    srcpath = relative.toDst
+    symlinkType(relative.toCwd, type, (err, type) => {
+      if (err) return callback(err)
+      const dir = path.dirname(dstpath)
+      pathExists(dir, (err, dirExists) => {
+        if (err) return callback(err)
+        if (dirExists) return fs.symlink(srcpath, dstpath, type, callback)
+        mkdirs(dir, err => {
+          if (err) return callback(err)
+          fs.symlink(srcpath, dstpath, type, callback)
+        })
+      })
+    })
+  })
+}
+
+function createSymlinkSync (srcpath, dstpath, type) {
+  let stats
+  try {
+    stats = fs.lstatSync(dstpath)
+  } catch {}
+  if (stats && stats.isSymbolicLink()) {
+    const srcStat = fs.statSync(srcpath)
+    const dstStat = fs.statSync(dstpath)
+    if (areIdentical(srcStat, dstStat)) return
+  }
+
+  const relative = symlinkPathsSync(srcpath, dstpath)
+  srcpath = relative.toDst
+  type = symlinkTypeSync(relative.toCwd, type)
+  const dir = path.dirname(dstpath)
+  const exists = fs.existsSync(dir)
+  if (exists) return fs.symlinkSync(srcpath, dstpath, type)
+  mkdirsSync(dir)
+  return fs.symlinkSync(srcpath, dstpath, type)
+}
+
+module.exports = {
+  createSymlink: u(createSymlink),
+  createSymlinkSync
+}
+
+
+/***/ }),
+
+/***/ 3981:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+// This is adapted from https://github.com/normalize/mz
+// Copyright (c) 2014-2016 Jonathan Ong me@jongleberry.com and Contributors
+const u = (__nccwpck_require__(1768).fromCallback)
+const fs = __nccwpck_require__(7531)
+
+const api = [
+  'access',
+  'appendFile',
+  'chmod',
+  'chown',
+  'close',
+  'copyFile',
+  'fchmod',
+  'fchown',
+  'fdatasync',
+  'fstat',
+  'fsync',
+  'ftruncate',
+  'futimes',
+  'lchmod',
+  'lchown',
+  'link',
+  'lstat',
+  'mkdir',
+  'mkdtemp',
+  'open',
+  'opendir',
+  'readdir',
+  'readFile',
+  'readlink',
+  'realpath',
+  'rename',
+  'rm',
+  'rmdir',
+  'stat',
+  'symlink',
+  'truncate',
+  'unlink',
+  'utimes',
+  'writeFile'
+].filter(key => {
+  // Some commands are not available on some systems. Ex:
+  // fs.opendir was added in Node.js v12.12.0
+  // fs.rm was added in Node.js v14.14.0
+  // fs.lchown is not available on at least some Linux
+  return typeof fs[key] === 'function'
+})
+
+// Export cloned fs:
+Object.assign(exports, fs)
+
+// Universalify async methods:
+api.forEach(method => {
+  exports[method] = u(fs[method])
+})
+
+// We differ from mz/fs in that we still ship the old, broken, fs.exists()
+// since we are a drop-in replacement for the native module
+exports.exists = function (filename, callback) {
+  if (typeof callback === 'function') {
+    return fs.exists(filename, callback)
+  }
+  return new Promise(resolve => {
+    return fs.exists(filename, resolve)
+  })
+}
+
+// fs.read(), fs.write(), & fs.writev() need special treatment due to multiple callback args
+
+exports.read = function (fd, buffer, offset, length, position, callback) {
+  if (typeof callback === 'function') {
+    return fs.read(fd, buffer, offset, length, position, callback)
+  }
+  return new Promise((resolve, reject) => {
+    fs.read(fd, buffer, offset, length, position, (err, bytesRead, buffer) => {
+      if (err) return reject(err)
+      resolve({ bytesRead, buffer })
+    })
+  })
+}
+
+// Function signature can be
+// fs.write(fd, buffer[, offset[, length[, position]]], callback)
+// OR
+// fs.write(fd, string[, position[, encoding]], callback)
+// We need to handle both cases, so we use ...args
+exports.write = function (fd, buffer, ...args) {
+  if (typeof args[args.length - 1] === 'function') {
+    return fs.write(fd, buffer, ...args)
+  }
+
+  return new Promise((resolve, reject) => {
+    fs.write(fd, buffer, ...args, (err, bytesWritten, buffer) => {
+      if (err) return reject(err)
+      resolve({ bytesWritten, buffer })
+    })
+  })
+}
+
+// fs.writev only available in Node v12.9.0+
+if (typeof fs.writev === 'function') {
+  // Function signature is
+  // s.writev(fd, buffers[, position], callback)
+  // We need to handle the optional arg, so we use ...args
+  exports.writev = function (fd, buffers, ...args) {
+    if (typeof args[args.length - 1] === 'function') {
+      return fs.writev(fd, buffers, ...args)
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.writev(fd, buffers, ...args, (err, bytesWritten, buffers) => {
+        if (err) return reject(err)
+        resolve({ bytesWritten, buffers })
+      })
+    })
+  }
+}
+
+// fs.realpath.native sometimes not available if fs is monkey-patched
+if (typeof fs.realpath.native === 'function') {
+  exports.realpath.native = u(fs.realpath.native)
+} else {
+  process.emitWarning(
+    'fs.realpath.native is not a function. Is fs being monkey-patched?',
+    'Warning', 'fs-extra-WARN0003'
+  )
+}
+
+
+/***/ }),
+
+/***/ 1881:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+module.exports = {
+  // Export promiseified graceful-fs:
+  ...__nccwpck_require__(3981),
+  // Export extra methods:
+  ...__nccwpck_require__(1475),
+  ...__nccwpck_require__(7603),
+  ...__nccwpck_require__(6164),
+  ...__nccwpck_require__(676),
+  ...__nccwpck_require__(5770),
+  ...__nccwpck_require__(7003),
+  ...__nccwpck_require__(4404),
+  ...__nccwpck_require__(2564),
+  ...__nccwpck_require__(2410)
+}
+
+
+/***/ }),
+
+/***/ 676:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromPromise)
+const jsonFile = __nccwpck_require__(6594)
+
+jsonFile.outputJson = u(__nccwpck_require__(454))
+jsonFile.outputJsonSync = __nccwpck_require__(7424)
+// aliases
+jsonFile.outputJSON = jsonFile.outputJson
+jsonFile.outputJSONSync = jsonFile.outputJsonSync
+jsonFile.writeJSON = jsonFile.writeJson
+jsonFile.writeJSONSync = jsonFile.writeJsonSync
+jsonFile.readJSON = jsonFile.readJson
+jsonFile.readJSONSync = jsonFile.readJsonSync
+
+module.exports = jsonFile
+
+
+/***/ }),
+
+/***/ 6594:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const jsonFile = __nccwpck_require__(7337)
+
+module.exports = {
+  // jsonfile exports
+  readJson: jsonFile.readFile,
+  readJsonSync: jsonFile.readFileSync,
+  writeJson: jsonFile.writeFile,
+  writeJsonSync: jsonFile.writeFileSync
+}
+
+
+/***/ }),
+
+/***/ 7424:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const { stringify } = __nccwpck_require__(4356)
+const { outputFileSync } = __nccwpck_require__(4404)
+
+function outputJsonSync (file, data, options) {
+  const str = stringify(data, options)
+
+  outputFileSync(file, str, options)
+}
+
+module.exports = outputJsonSync
+
+
+/***/ }),
+
+/***/ 454:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const { stringify } = __nccwpck_require__(4356)
+const { outputFile } = __nccwpck_require__(4404)
+
+async function outputJson (file, data, options = {}) {
+  const str = stringify(data, options)
+
+  await outputFile(file, str, options)
+}
+
+module.exports = outputJson
+
+
+/***/ }),
+
+/***/ 5770:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const u = (__nccwpck_require__(1768).fromPromise)
+const { makeDir: _makeDir, makeDirSync } = __nccwpck_require__(4888)
+const makeDir = u(_makeDir)
+
+module.exports = {
+  mkdirs: makeDir,
+  mkdirsSync: makeDirSync,
+  // alias
+  mkdirp: makeDir,
+  mkdirpSync: makeDirSync,
+  ensureDir: makeDir,
+  ensureDirSync: makeDirSync
+}
+
+
+/***/ }),
+
+/***/ 4888:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const fs = __nccwpck_require__(3981)
+const { checkPath } = __nccwpck_require__(5467)
+
+const getMode = options => {
+  const defaults = { mode: 0o777 }
+  if (typeof options === 'number') return options
+  return ({ ...defaults, ...options }).mode
+}
+
+module.exports.makeDir = async (dir, options) => {
+  checkPath(dir)
+
+  return fs.mkdir(dir, {
+    mode: getMode(options),
+    recursive: true
+  })
+}
+
+module.exports.makeDirSync = (dir, options) => {
+  checkPath(dir)
+
+  return fs.mkdirSync(dir, {
+    mode: getMode(options),
+    recursive: true
+  })
+}
+
+
+/***/ }),
+
+/***/ 5467:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+// Adapted from https://github.com/sindresorhus/make-dir
+// Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+const path = __nccwpck_require__(6928)
+
+// https://github.com/nodejs/node/issues/8987
+// https://github.com/libuv/libuv/pull/1088
+module.exports.checkPath = function checkPath (pth) {
+  if (process.platform === 'win32') {
+    const pathHasInvalidWinCharacters = /[<>:"|?*]/.test(pth.replace(path.parse(pth).root, ''))
+
+    if (pathHasInvalidWinCharacters) {
+      const error = new Error(`Path contains invalid characters: ${pth}`)
+      error.code = 'EINVAL'
+      throw error
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 7003:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+module.exports = {
+  move: u(__nccwpck_require__(2982)),
+  moveSync: __nccwpck_require__(5680)
+}
+
+
+/***/ }),
+
+/***/ 5680:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const copySync = (__nccwpck_require__(1475).copySync)
+const removeSync = (__nccwpck_require__(2410).removeSync)
+const mkdirpSync = (__nccwpck_require__(5770).mkdirpSync)
+const stat = __nccwpck_require__(7466)
+
+function moveSync (src, dest, opts) {
+  opts = opts || {}
+  const overwrite = opts.overwrite || opts.clobber || false
+
+  const { srcStat, isChangingCase = false } = stat.checkPathsSync(src, dest, 'move', opts)
+  stat.checkParentPathsSync(src, srcStat, dest, 'move')
+  if (!isParentRoot(dest)) mkdirpSync(path.dirname(dest))
+  return doRename(src, dest, overwrite, isChangingCase)
+}
+
+function isParentRoot (dest) {
+  const parent = path.dirname(dest)
+  const parsedPath = path.parse(parent)
+  return parsedPath.root === parent
+}
+
+function doRename (src, dest, overwrite, isChangingCase) {
+  if (isChangingCase) return rename(src, dest, overwrite)
+  if (overwrite) {
+    removeSync(dest)
+    return rename(src, dest, overwrite)
+  }
+  if (fs.existsSync(dest)) throw new Error('dest already exists.')
+  return rename(src, dest, overwrite)
+}
+
+function rename (src, dest, overwrite) {
+  try {
+    fs.renameSync(src, dest)
+  } catch (err) {
+    if (err.code !== 'EXDEV') throw err
+    return moveAcrossDevice(src, dest, overwrite)
+  }
+}
+
+function moveAcrossDevice (src, dest, overwrite) {
+  const opts = {
+    overwrite,
+    errorOnExist: true
+  }
+  copySync(src, dest, opts)
+  return removeSync(src)
+}
+
+module.exports = moveSync
+
+
+/***/ }),
+
+/***/ 2982:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const copy = (__nccwpck_require__(1475).copy)
+const remove = (__nccwpck_require__(2410).remove)
+const mkdirp = (__nccwpck_require__(5770).mkdirp)
+const pathExists = (__nccwpck_require__(2564).pathExists)
+const stat = __nccwpck_require__(7466)
+
+function move (src, dest, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts
+    opts = {}
+  }
+
+  opts = opts || {}
+
+  const overwrite = opts.overwrite || opts.clobber || false
+
+  stat.checkPaths(src, dest, 'move', opts, (err, stats) => {
+    if (err) return cb(err)
+    const { srcStat, isChangingCase = false } = stats
+    stat.checkParentPaths(src, srcStat, dest, 'move', err => {
+      if (err) return cb(err)
+      if (isParentRoot(dest)) return doRename(src, dest, overwrite, isChangingCase, cb)
+      mkdirp(path.dirname(dest), err => {
+        if (err) return cb(err)
+        return doRename(src, dest, overwrite, isChangingCase, cb)
+      })
+    })
+  })
+}
+
+function isParentRoot (dest) {
+  const parent = path.dirname(dest)
+  const parsedPath = path.parse(parent)
+  return parsedPath.root === parent
+}
+
+function doRename (src, dest, overwrite, isChangingCase, cb) {
+  if (isChangingCase) return rename(src, dest, overwrite, cb)
+  if (overwrite) {
+    return remove(dest, err => {
+      if (err) return cb(err)
+      return rename(src, dest, overwrite, cb)
+    })
+  }
+  pathExists(dest, (err, destExists) => {
+    if (err) return cb(err)
+    if (destExists) return cb(new Error('dest already exists.'))
+    return rename(src, dest, overwrite, cb)
+  })
+}
+
+function rename (src, dest, overwrite, cb) {
+  fs.rename(src, dest, err => {
+    if (!err) return cb()
+    if (err.code !== 'EXDEV') return cb(err)
+    return moveAcrossDevice(src, dest, overwrite, cb)
+  })
+}
+
+function moveAcrossDevice (src, dest, overwrite, cb) {
+  const opts = {
+    overwrite,
+    errorOnExist: true
+  }
+  copy(src, dest, opts, err => {
+    if (err) return cb(err)
+    return remove(src, cb)
+  })
+}
+
+module.exports = move
+
+
+/***/ }),
+
+/***/ 4404:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const u = (__nccwpck_require__(1768).fromCallback)
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const mkdir = __nccwpck_require__(5770)
+const pathExists = (__nccwpck_require__(2564).pathExists)
+
+function outputFile (file, data, encoding, callback) {
+  if (typeof encoding === 'function') {
+    callback = encoding
+    encoding = 'utf8'
+  }
+
+  const dir = path.dirname(file)
+  pathExists(dir, (err, itDoes) => {
+    if (err) return callback(err)
+    if (itDoes) return fs.writeFile(file, data, encoding, callback)
+
+    mkdir.mkdirs(dir, err => {
+      if (err) return callback(err)
+
+      fs.writeFile(file, data, encoding, callback)
+    })
+  })
+}
+
+function outputFileSync (file, ...args) {
+  const dir = path.dirname(file)
+  if (fs.existsSync(dir)) {
+    return fs.writeFileSync(file, ...args)
+  }
+  mkdir.mkdirsSync(dir)
+  fs.writeFileSync(file, ...args)
+}
+
+module.exports = {
+  outputFile: u(outputFile),
+  outputFileSync
+}
+
+
+/***/ }),
+
+/***/ 2564:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const u = (__nccwpck_require__(1768).fromPromise)
+const fs = __nccwpck_require__(3981)
+
+function pathExists (path) {
+  return fs.access(path).then(() => true).catch(() => false)
+}
+
+module.exports = {
+  pathExists: u(pathExists),
+  pathExistsSync: fs.existsSync
+}
+
+
+/***/ }),
+
+/***/ 2410:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const u = (__nccwpck_require__(1768).fromCallback)
+const rimraf = __nccwpck_require__(2397)
+
+function remove (path, callback) {
+  // Node 14.14.0+
+  if (fs.rm) return fs.rm(path, { recursive: true, force: true }, callback)
+  rimraf(path, callback)
+}
+
+function removeSync (path) {
+  // Node 14.14.0+
+  if (fs.rmSync) return fs.rmSync(path, { recursive: true, force: true })
+  rimraf.sync(path)
+}
+
+module.exports = {
+  remove: u(remove),
+  removeSync
+}
+
+
+/***/ }),
+
+/***/ 2397:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+const path = __nccwpck_require__(6928)
+const assert = __nccwpck_require__(2613)
+
+const isWindows = (process.platform === 'win32')
+
+function defaults (options) {
+  const methods = [
+    'unlink',
+    'chmod',
+    'stat',
+    'lstat',
+    'rmdir',
+    'readdir'
+  ]
+  methods.forEach(m => {
+    options[m] = options[m] || fs[m]
+    m = m + 'Sync'
+    options[m] = options[m] || fs[m]
+  })
+
+  options.maxBusyTries = options.maxBusyTries || 3
+}
+
+function rimraf (p, options, cb) {
+  let busyTries = 0
+
+  if (typeof options === 'function') {
+    cb = options
+    options = {}
+  }
+
+  assert(p, 'rimraf: missing path')
+  assert.strictEqual(typeof p, 'string', 'rimraf: path should be a string')
+  assert.strictEqual(typeof cb, 'function', 'rimraf: callback function required')
+  assert(options, 'rimraf: invalid options argument provided')
+  assert.strictEqual(typeof options, 'object', 'rimraf: options should be object')
+
+  defaults(options)
+
+  rimraf_(p, options, function CB (er) {
+    if (er) {
+      if ((er.code === 'EBUSY' || er.code === 'ENOTEMPTY' || er.code === 'EPERM') &&
+          busyTries < options.maxBusyTries) {
+        busyTries++
+        const time = busyTries * 100
+        // try again, with the same exact callback as this one.
+        return setTimeout(() => rimraf_(p, options, CB), time)
+      }
+
+      // already gone
+      if (er.code === 'ENOENT') er = null
+    }
+
+    cb(er)
+  })
+}
+
+// Two possible strategies.
+// 1. Assume it's a file.  unlink it, then do the dir stuff on EPERM or EISDIR
+// 2. Assume it's a directory.  readdir, then do the file stuff on ENOTDIR
+//
+// Both result in an extra syscall when you guess wrong.  However, there
+// are likely far more normal files in the world than directories.  This
+// is based on the assumption that a the average number of files per
+// directory is >= 1.
+//
+// If anyone ever complains about this, then I guess the strategy could
+// be made configurable somehow.  But until then, YAGNI.
+function rimraf_ (p, options, cb) {
+  assert(p)
+  assert(options)
+  assert(typeof cb === 'function')
+
+  // sunos lets the root user unlink directories, which is... weird.
+  // so we have to lstat here and make sure it's not a dir.
+  options.lstat(p, (er, st) => {
+    if (er && er.code === 'ENOENT') {
+      return cb(null)
+    }
+
+    // Windows can EPERM on stat.  Life is suffering.
+    if (er && er.code === 'EPERM' && isWindows) {
+      return fixWinEPERM(p, options, er, cb)
+    }
+
+    if (st && st.isDirectory()) {
+      return rmdir(p, options, er, cb)
+    }
+
+    options.unlink(p, er => {
+      if (er) {
+        if (er.code === 'ENOENT') {
+          return cb(null)
+        }
+        if (er.code === 'EPERM') {
+          return (isWindows)
+            ? fixWinEPERM(p, options, er, cb)
+            : rmdir(p, options, er, cb)
+        }
+        if (er.code === 'EISDIR') {
+          return rmdir(p, options, er, cb)
+        }
+      }
+      return cb(er)
+    })
+  })
+}
+
+function fixWinEPERM (p, options, er, cb) {
+  assert(p)
+  assert(options)
+  assert(typeof cb === 'function')
+
+  options.chmod(p, 0o666, er2 => {
+    if (er2) {
+      cb(er2.code === 'ENOENT' ? null : er)
+    } else {
+      options.stat(p, (er3, stats) => {
+        if (er3) {
+          cb(er3.code === 'ENOENT' ? null : er)
+        } else if (stats.isDirectory()) {
+          rmdir(p, options, er, cb)
+        } else {
+          options.unlink(p, cb)
+        }
+      })
+    }
+  })
+}
+
+function fixWinEPERMSync (p, options, er) {
+  let stats
+
+  assert(p)
+  assert(options)
+
+  try {
+    options.chmodSync(p, 0o666)
+  } catch (er2) {
+    if (er2.code === 'ENOENT') {
+      return
+    } else {
+      throw er
+    }
+  }
+
+  try {
+    stats = options.statSync(p)
+  } catch (er3) {
+    if (er3.code === 'ENOENT') {
+      return
+    } else {
+      throw er
+    }
+  }
+
+  if (stats.isDirectory()) {
+    rmdirSync(p, options, er)
+  } else {
+    options.unlinkSync(p)
+  }
+}
+
+function rmdir (p, options, originalEr, cb) {
+  assert(p)
+  assert(options)
+  assert(typeof cb === 'function')
+
+  // try to rmdir first, and only readdir on ENOTEMPTY or EEXIST (SunOS)
+  // if we guessed wrong, and it's not a directory, then
+  // raise the original error.
+  options.rmdir(p, er => {
+    if (er && (er.code === 'ENOTEMPTY' || er.code === 'EEXIST' || er.code === 'EPERM')) {
+      rmkids(p, options, cb)
+    } else if (er && er.code === 'ENOTDIR') {
+      cb(originalEr)
+    } else {
+      cb(er)
+    }
+  })
+}
+
+function rmkids (p, options, cb) {
+  assert(p)
+  assert(options)
+  assert(typeof cb === 'function')
+
+  options.readdir(p, (er, files) => {
+    if (er) return cb(er)
+
+    let n = files.length
+    let errState
+
+    if (n === 0) return options.rmdir(p, cb)
+
+    files.forEach(f => {
+      rimraf(path.join(p, f), options, er => {
+        if (errState) {
+          return
+        }
+        if (er) return cb(errState = er)
+        if (--n === 0) {
+          options.rmdir(p, cb)
+        }
+      })
+    })
+  })
+}
+
+// this looks simpler, and is strictly *faster*, but will
+// tie up the JavaScript thread and fail on excessively
+// deep directory trees.
+function rimrafSync (p, options) {
+  let st
+
+  options = options || {}
+  defaults(options)
+
+  assert(p, 'rimraf: missing path')
+  assert.strictEqual(typeof p, 'string', 'rimraf: path should be a string')
+  assert(options, 'rimraf: missing options')
+  assert.strictEqual(typeof options, 'object', 'rimraf: options should be object')
+
+  try {
+    st = options.lstatSync(p)
+  } catch (er) {
+    if (er.code === 'ENOENT') {
+      return
+    }
+
+    // Windows can EPERM on stat.  Life is suffering.
+    if (er.code === 'EPERM' && isWindows) {
+      fixWinEPERMSync(p, options, er)
+    }
+  }
+
+  try {
+    // sunos lets the root user unlink directories, which is... weird.
+    if (st && st.isDirectory()) {
+      rmdirSync(p, options, null)
+    } else {
+      options.unlinkSync(p)
+    }
+  } catch (er) {
+    if (er.code === 'ENOENT') {
+      return
+    } else if (er.code === 'EPERM') {
+      return isWindows ? fixWinEPERMSync(p, options, er) : rmdirSync(p, options, er)
+    } else if (er.code !== 'EISDIR') {
+      throw er
+    }
+    rmdirSync(p, options, er)
+  }
+}
+
+function rmdirSync (p, options, originalEr) {
+  assert(p)
+  assert(options)
+
+  try {
+    options.rmdirSync(p)
+  } catch (er) {
+    if (er.code === 'ENOTDIR') {
+      throw originalEr
+    } else if (er.code === 'ENOTEMPTY' || er.code === 'EEXIST' || er.code === 'EPERM') {
+      rmkidsSync(p, options)
+    } else if (er.code !== 'ENOENT') {
+      throw er
+    }
+  }
+}
+
+function rmkidsSync (p, options) {
+  assert(p)
+  assert(options)
+  options.readdirSync(p).forEach(f => rimrafSync(path.join(p, f), options))
+
+  if (isWindows) {
+    // We only end up here once we got ENOTEMPTY at least once, and
+    // at this point, we are guaranteed to have removed all the kids.
+    // So, we know that it won't be ENOENT or ENOTDIR or anything else.
+    // try really hard to delete stuff on windows, because it has a
+    // PROFOUNDLY annoying habit of not closing handles promptly when
+    // files are deleted, resulting in spurious ENOTEMPTY errors.
+    const startTime = Date.now()
+    do {
+      try {
+        const ret = options.rmdirSync(p, options)
+        return ret
+      } catch {}
+    } while (Date.now() - startTime < 500) // give up after 500ms
+  } else {
+    const ret = options.rmdirSync(p, options)
+    return ret
+  }
+}
+
+module.exports = rimraf
+rimraf.sync = rimrafSync
+
+
+/***/ }),
+
+/***/ 7466:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(3981)
+const path = __nccwpck_require__(6928)
+const util = __nccwpck_require__(9023)
+
+function getStats (src, dest, opts) {
+  const statFunc = opts.dereference
+    ? (file) => fs.stat(file, { bigint: true })
+    : (file) => fs.lstat(file, { bigint: true })
+  return Promise.all([
+    statFunc(src),
+    statFunc(dest).catch(err => {
+      if (err.code === 'ENOENT') return null
+      throw err
+    })
+  ]).then(([srcStat, destStat]) => ({ srcStat, destStat }))
+}
+
+function getStatsSync (src, dest, opts) {
+  let destStat
+  const statFunc = opts.dereference
+    ? (file) => fs.statSync(file, { bigint: true })
+    : (file) => fs.lstatSync(file, { bigint: true })
+  const srcStat = statFunc(src)
+  try {
+    destStat = statFunc(dest)
+  } catch (err) {
+    if (err.code === 'ENOENT') return { srcStat, destStat: null }
+    throw err
+  }
+  return { srcStat, destStat }
+}
+
+function checkPaths (src, dest, funcName, opts, cb) {
+  util.callbackify(getStats)(src, dest, opts, (err, stats) => {
+    if (err) return cb(err)
+    const { srcStat, destStat } = stats
+
+    if (destStat) {
+      if (areIdentical(srcStat, destStat)) {
+        const srcBaseName = path.basename(src)
+        const destBaseName = path.basename(dest)
+        if (funcName === 'move' &&
+          srcBaseName !== destBaseName &&
+          srcBaseName.toLowerCase() === destBaseName.toLowerCase()) {
+          return cb(null, { srcStat, destStat, isChangingCase: true })
+        }
+        return cb(new Error('Source and destination must not be the same.'))
+      }
+      if (srcStat.isDirectory() && !destStat.isDirectory()) {
+        return cb(new Error(`Cannot overwrite non-directory '${dest}' with directory '${src}'.`))
+      }
+      if (!srcStat.isDirectory() && destStat.isDirectory()) {
+        return cb(new Error(`Cannot overwrite directory '${dest}' with non-directory '${src}'.`))
+      }
+    }
+
+    if (srcStat.isDirectory() && isSrcSubdir(src, dest)) {
+      return cb(new Error(errMsg(src, dest, funcName)))
+    }
+    return cb(null, { srcStat, destStat })
+  })
+}
+
+function checkPathsSync (src, dest, funcName, opts) {
+  const { srcStat, destStat } = getStatsSync(src, dest, opts)
+
+  if (destStat) {
+    if (areIdentical(srcStat, destStat)) {
+      const srcBaseName = path.basename(src)
+      const destBaseName = path.basename(dest)
+      if (funcName === 'move' &&
+        srcBaseName !== destBaseName &&
+        srcBaseName.toLowerCase() === destBaseName.toLowerCase()) {
+        return { srcStat, destStat, isChangingCase: true }
+      }
+      throw new Error('Source and destination must not be the same.')
+    }
+    if (srcStat.isDirectory() && !destStat.isDirectory()) {
+      throw new Error(`Cannot overwrite non-directory '${dest}' with directory '${src}'.`)
+    }
+    if (!srcStat.isDirectory() && destStat.isDirectory()) {
+      throw new Error(`Cannot overwrite directory '${dest}' with non-directory '${src}'.`)
+    }
+  }
+
+  if (srcStat.isDirectory() && isSrcSubdir(src, dest)) {
+    throw new Error(errMsg(src, dest, funcName))
+  }
+  return { srcStat, destStat }
+}
+
+// recursively check if dest parent is a subdirectory of src.
+// It works for all file types including symlinks since it
+// checks the src and dest inodes. It starts from the deepest
+// parent and stops once it reaches the src parent or the root path.
+function checkParentPaths (src, srcStat, dest, funcName, cb) {
+  const srcParent = path.resolve(path.dirname(src))
+  const destParent = path.resolve(path.dirname(dest))
+  if (destParent === srcParent || destParent === path.parse(destParent).root) return cb()
+  fs.stat(destParent, { bigint: true }, (err, destStat) => {
+    if (err) {
+      if (err.code === 'ENOENT') return cb()
+      return cb(err)
+    }
+    if (areIdentical(srcStat, destStat)) {
+      return cb(new Error(errMsg(src, dest, funcName)))
+    }
+    return checkParentPaths(src, srcStat, destParent, funcName, cb)
+  })
+}
+
+function checkParentPathsSync (src, srcStat, dest, funcName) {
+  const srcParent = path.resolve(path.dirname(src))
+  const destParent = path.resolve(path.dirname(dest))
+  if (destParent === srcParent || destParent === path.parse(destParent).root) return
+  let destStat
+  try {
+    destStat = fs.statSync(destParent, { bigint: true })
+  } catch (err) {
+    if (err.code === 'ENOENT') return
+    throw err
+  }
+  if (areIdentical(srcStat, destStat)) {
+    throw new Error(errMsg(src, dest, funcName))
+  }
+  return checkParentPathsSync(src, srcStat, destParent, funcName)
+}
+
+function areIdentical (srcStat, destStat) {
+  return destStat.ino && destStat.dev && destStat.ino === srcStat.ino && destStat.dev === srcStat.dev
+}
+
+// return true if dest is a subdir of src, otherwise false.
+// It only checks the path strings.
+function isSrcSubdir (src, dest) {
+  const srcArr = path.resolve(src).split(path.sep).filter(i => i)
+  const destArr = path.resolve(dest).split(path.sep).filter(i => i)
+  return srcArr.reduce((acc, cur, i) => acc && destArr[i] === cur, true)
+}
+
+function errMsg (src, dest, funcName) {
+  return `Cannot ${funcName} '${src}' to a subdirectory of itself, '${dest}'.`
+}
+
+module.exports = {
+  checkPaths,
+  checkPathsSync,
+  checkParentPaths,
+  checkParentPathsSync,
+  isSrcSubdir,
+  areIdentical
+}
+
+
+/***/ }),
+
+/***/ 8727:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const fs = __nccwpck_require__(7531)
+
+function utimesMillis (path, atime, mtime, callback) {
+  // if (!HAS_MILLIS_RES) return fs.utimes(path, atime, mtime, callback)
+  fs.open(path, 'r+', (err, fd) => {
+    if (err) return callback(err)
+    fs.futimes(fd, atime, mtime, futimesErr => {
+      fs.close(fd, closeErr => {
+        if (callback) callback(futimesErr || closeErr)
+      })
+    })
+  })
+}
+
+function utimesMillisSync (path, atime, mtime) {
+  const fd = fs.openSync(path, 'r+')
+  fs.futimesSync(fd, atime, mtime)
+  return fs.closeSync(fd)
+}
+
+module.exports = {
+  utimesMillis,
+  utimesMillisSync
+}
+
+
+/***/ }),
+
+/***/ 1667:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = realpath
+realpath.realpath = realpath
+realpath.sync = realpathSync
+realpath.realpathSync = realpathSync
+realpath.monkeypatch = monkeypatch
+realpath.unmonkeypatch = unmonkeypatch
+
+var fs = __nccwpck_require__(9896)
+var origRealpath = fs.realpath
+var origRealpathSync = fs.realpathSync
+
+var version = process.version
+var ok = /^v[0-5]\./.test(version)
+var old = __nccwpck_require__(1318)
+
+function newError (er) {
+  return er && er.syscall === 'realpath' && (
+    er.code === 'ELOOP' ||
+    er.code === 'ENOMEM' ||
+    er.code === 'ENAMETOOLONG'
+  )
+}
+
+function realpath (p, cache, cb) {
+  if (ok) {
+    return origRealpath(p, cache, cb)
+  }
+
+  if (typeof cache === 'function') {
+    cb = cache
+    cache = null
+  }
+  origRealpath(p, cache, function (er, result) {
+    if (newError(er)) {
+      old.realpath(p, cache, cb)
+    } else {
+      cb(er, result)
+    }
+  })
+}
+
+function realpathSync (p, cache) {
+  if (ok) {
+    return origRealpathSync(p, cache)
+  }
+
+  try {
+    return origRealpathSync(p, cache)
+  } catch (er) {
+    if (newError(er)) {
+      return old.realpathSync(p, cache)
+    } else {
+      throw er
+    }
+  }
+}
+
+function monkeypatch () {
+  fs.realpath = realpath
+  fs.realpathSync = realpathSync
+}
+
+function unmonkeypatch () {
+  fs.realpath = origRealpath
+  fs.realpathSync = origRealpathSync
+}
+
+
+/***/ }),
+
+/***/ 1318:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var pathModule = __nccwpck_require__(6928);
+var isWindows = process.platform === 'win32';
+var fs = __nccwpck_require__(9896);
+
+// JavaScript implementation of realpath, ported from node pre-v6
+
+var DEBUG = process.env.NODE_DEBUG && /fs/.test(process.env.NODE_DEBUG);
+
+function rethrow() {
+  // Only enable in debug mode. A backtrace uses ~1000 bytes of heap space and
+  // is fairly slow to generate.
+  var callback;
+  if (DEBUG) {
+    var backtrace = new Error;
+    callback = debugCallback;
+  } else
+    callback = missingCallback;
+
+  return callback;
+
+  function debugCallback(err) {
+    if (err) {
+      backtrace.message = err.message;
+      err = backtrace;
+      missingCallback(err);
+    }
+  }
+
+  function missingCallback(err) {
+    if (err) {
+      if (process.throwDeprecation)
+        throw err;  // Forgot a callback but don't know where? Use NODE_DEBUG=fs
+      else if (!process.noDeprecation) {
+        var msg = 'fs: missing callback ' + (err.stack || err.message);
+        if (process.traceDeprecation)
+          console.trace(msg);
+        else
+          console.error(msg);
+      }
+    }
+  }
+}
+
+function maybeCallback(cb) {
+  return typeof cb === 'function' ? cb : rethrow();
+}
+
+var normalize = pathModule.normalize;
+
+// Regexp that finds the next partion of a (partial) path
+// result is [base_with_slash, base], e.g. ['somedir/', 'somedir']
+if (isWindows) {
+  var nextPartRe = /(.*?)(?:[\/\\]+|$)/g;
+} else {
+  var nextPartRe = /(.*?)(?:[\/]+|$)/g;
+}
+
+// Regex to find the device root, including trailing slash. E.g. 'c:\\'.
+if (isWindows) {
+  var splitRootRe = /^(?:[a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/][^\\\/]+)?[\\\/]*/;
+} else {
+  var splitRootRe = /^[\/]*/;
+}
+
+exports.realpathSync = function realpathSync(p, cache) {
+  // make p is absolute
+  p = pathModule.resolve(p);
+
+  if (cache && Object.prototype.hasOwnProperty.call(cache, p)) {
+    return cache[p];
+  }
+
+  var original = p,
+      seenLinks = {},
+      knownHard = {};
+
+  // current character position in p
+  var pos;
+  // the partial path so far, including a trailing slash if any
+  var current;
+  // the partial path without a trailing slash (except when pointing at a root)
+  var base;
+  // the partial path scanned in the previous round, with slash
+  var previous;
+
+  start();
+
+  function start() {
+    // Skip over roots
+    var m = splitRootRe.exec(p);
+    pos = m[0].length;
+    current = m[0];
+    base = m[0];
+    previous = '';
+
+    // On windows, check that the root exists. On unix there is no need.
+    if (isWindows && !knownHard[base]) {
+      fs.lstatSync(base);
+      knownHard[base] = true;
+    }
+  }
+
+  // walk down the path, swapping out linked pathparts for their real
+  // values
+  // NB: p.length changes.
+  while (pos < p.length) {
+    // find the next part
+    nextPartRe.lastIndex = pos;
+    var result = nextPartRe.exec(p);
+    previous = current;
+    current += result[0];
+    base = previous + result[1];
+    pos = nextPartRe.lastIndex;
+
+    // continue if not a symlink
+    if (knownHard[base] || (cache && cache[base] === base)) {
+      continue;
+    }
+
+    var resolvedLink;
+    if (cache && Object.prototype.hasOwnProperty.call(cache, base)) {
+      // some known symbolic link.  no need to stat again.
+      resolvedLink = cache[base];
+    } else {
+      var stat = fs.lstatSync(base);
+      if (!stat.isSymbolicLink()) {
+        knownHard[base] = true;
+        if (cache) cache[base] = base;
+        continue;
+      }
+
+      // read the link if it wasn't read before
+      // dev/ino always return 0 on windows, so skip the check.
+      var linkTarget = null;
+      if (!isWindows) {
+        var id = stat.dev.toString(32) + ':' + stat.ino.toString(32);
+        if (seenLinks.hasOwnProperty(id)) {
+          linkTarget = seenLinks[id];
+        }
+      }
+      if (linkTarget === null) {
+        fs.statSync(base);
+        linkTarget = fs.readlinkSync(base);
+      }
+      resolvedLink = pathModule.resolve(previous, linkTarget);
+      // track this, if given a cache.
+      if (cache) cache[base] = resolvedLink;
+      if (!isWindows) seenLinks[id] = linkTarget;
+    }
+
+    // resolve the link, then start over
+    p = pathModule.resolve(resolvedLink, p.slice(pos));
+    start();
+  }
+
+  if (cache) cache[original] = p;
+
+  return p;
+};
+
+
+exports.realpath = function realpath(p, cache, cb) {
+  if (typeof cb !== 'function') {
+    cb = maybeCallback(cache);
+    cache = null;
+  }
+
+  // make p is absolute
+  p = pathModule.resolve(p);
+
+  if (cache && Object.prototype.hasOwnProperty.call(cache, p)) {
+    return process.nextTick(cb.bind(null, null, cache[p]));
+  }
+
+  var original = p,
+      seenLinks = {},
+      knownHard = {};
+
+  // current character position in p
+  var pos;
+  // the partial path so far, including a trailing slash if any
+  var current;
+  // the partial path without a trailing slash (except when pointing at a root)
+  var base;
+  // the partial path scanned in the previous round, with slash
+  var previous;
+
+  start();
+
+  function start() {
+    // Skip over roots
+    var m = splitRootRe.exec(p);
+    pos = m[0].length;
+    current = m[0];
+    base = m[0];
+    previous = '';
+
+    // On windows, check that the root exists. On unix there is no need.
+    if (isWindows && !knownHard[base]) {
+      fs.lstat(base, function(err) {
+        if (err) return cb(err);
+        knownHard[base] = true;
+        LOOP();
+      });
+    } else {
+      process.nextTick(LOOP);
+    }
+  }
+
+  // walk down the path, swapping out linked pathparts for their real
+  // values
+  function LOOP() {
+    // stop if scanned past end of path
+    if (pos >= p.length) {
+      if (cache) cache[original] = p;
+      return cb(null, p);
+    }
+
+    // find the next part
+    nextPartRe.lastIndex = pos;
+    var result = nextPartRe.exec(p);
+    previous = current;
+    current += result[0];
+    base = previous + result[1];
+    pos = nextPartRe.lastIndex;
+
+    // continue if not a symlink
+    if (knownHard[base] || (cache && cache[base] === base)) {
+      return process.nextTick(LOOP);
+    }
+
+    if (cache && Object.prototype.hasOwnProperty.call(cache, base)) {
+      // known symbolic link.  no need to stat again.
+      return gotResolvedLink(cache[base]);
+    }
+
+    return fs.lstat(base, gotStat);
+  }
+
+  function gotStat(err, stat) {
+    if (err) return cb(err);
+
+    // if not a symlink, skip to the next path part
+    if (!stat.isSymbolicLink()) {
+      knownHard[base] = true;
+      if (cache) cache[base] = base;
+      return process.nextTick(LOOP);
+    }
+
+    // stat & read the link if not read before
+    // call gotTarget as soon as the link target is known
+    // dev/ino always return 0 on windows, so skip the check.
+    if (!isWindows) {
+      var id = stat.dev.toString(32) + ':' + stat.ino.toString(32);
+      if (seenLinks.hasOwnProperty(id)) {
+        return gotTarget(null, seenLinks[id], base);
+      }
+    }
+    fs.stat(base, function(err) {
+      if (err) return cb(err);
+
+      fs.readlink(base, function(err, target) {
+        if (!isWindows) seenLinks[id] = target;
+        gotTarget(err, target);
+      });
+    });
+  }
+
+  function gotTarget(err, target, base) {
+    if (err) return cb(err);
+
+    var resolvedLink = pathModule.resolve(previous, target);
+    if (cache) cache[base] = resolvedLink;
+    gotResolvedLink(resolvedLink);
+  }
+
+  function gotResolvedLink(resolvedLink) {
+    // resolve the link, then start over
+    p = pathModule.resolve(resolvedLink, p.slice(pos));
+    start();
+  }
+};
+
+
+/***/ }),
+
+/***/ 9823:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = clone
+
+var getPrototypeOf = Object.getPrototypeOf || function (obj) {
+  return obj.__proto__
+}
+
+function clone (obj) {
+  if (obj === null || typeof obj !== 'object')
+    return obj
+
+  if (obj instanceof Object)
+    var copy = { __proto__: getPrototypeOf(obj) }
+  else
+    var copy = Object.create(null)
+
+  Object.getOwnPropertyNames(obj).forEach(function (key) {
+    Object.defineProperty(copy, key, Object.getOwnPropertyDescriptor(obj, key))
+  })
+
+  return copy
+}
+
+
+/***/ }),
+
+/***/ 7531:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var fs = __nccwpck_require__(9896)
+var polyfills = __nccwpck_require__(5622)
+var legacy = __nccwpck_require__(7015)
+var clone = __nccwpck_require__(9823)
+
+var util = __nccwpck_require__(9023)
+
+/* istanbul ignore next - node 0.x polyfill */
+var gracefulQueue
+var previousSymbol
+
+/* istanbul ignore else - node 0.x polyfill */
+if (typeof Symbol === 'function' && typeof Symbol.for === 'function') {
+  gracefulQueue = Symbol.for('graceful-fs.queue')
+  // This is used in testing by future versions
+  previousSymbol = Symbol.for('graceful-fs.previous')
+} else {
+  gracefulQueue = '___graceful-fs.queue'
+  previousSymbol = '___graceful-fs.previous'
+}
+
+function noop () {}
+
+function publishQueue(context, queue) {
+  Object.defineProperty(context, gracefulQueue, {
+    get: function() {
+      return queue
+    }
+  })
+}
+
+var debug = noop
+if (util.debuglog)
+  debug = util.debuglog('gfs4')
+else if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || ''))
+  debug = function() {
+    var m = util.format.apply(util, arguments)
+    m = 'GFS4: ' + m.split(/\n/).join('\nGFS4: ')
+    console.error(m)
+  }
+
+// Once time initialization
+if (!fs[gracefulQueue]) {
+  // This queue can be shared by multiple loaded instances
+  var queue = global[gracefulQueue] || []
+  publishQueue(fs, queue)
+
+  // Patch fs.close/closeSync to shared queue version, because we need
+  // to retry() whenever a close happens *anywhere* in the program.
+  // This is essential when multiple graceful-fs instances are
+  // in play at the same time.
+  fs.close = (function (fs$close) {
+    function close (fd, cb) {
+      return fs$close.call(fs, fd, function (err) {
+        // This function uses the graceful-fs shared queue
+        if (!err) {
+          resetQueue()
+        }
+
+        if (typeof cb === 'function')
+          cb.apply(this, arguments)
+      })
+    }
+
+    Object.defineProperty(close, previousSymbol, {
+      value: fs$close
+    })
+    return close
+  })(fs.close)
+
+  fs.closeSync = (function (fs$closeSync) {
+    function closeSync (fd) {
+      // This function uses the graceful-fs shared queue
+      fs$closeSync.apply(fs, arguments)
+      resetQueue()
+    }
+
+    Object.defineProperty(closeSync, previousSymbol, {
+      value: fs$closeSync
+    })
+    return closeSync
+  })(fs.closeSync)
+
+  if (/\bgfs4\b/i.test(process.env.NODE_DEBUG || '')) {
+    process.on('exit', function() {
+      debug(fs[gracefulQueue])
+      __nccwpck_require__(2613).equal(fs[gracefulQueue].length, 0)
+    })
+  }
+}
+
+if (!global[gracefulQueue]) {
+  publishQueue(global, fs[gracefulQueue]);
+}
+
+module.exports = patch(clone(fs))
+if (process.env.TEST_GRACEFUL_FS_GLOBAL_PATCH && !fs.__patched) {
+    module.exports = patch(fs)
+    fs.__patched = true;
+}
+
+function patch (fs) {
+  // Everything that references the open() function needs to be in here
+  polyfills(fs)
+  fs.gracefulify = patch
+
+  fs.createReadStream = createReadStream
+  fs.createWriteStream = createWriteStream
+  var fs$readFile = fs.readFile
+  fs.readFile = readFile
+  function readFile (path, options, cb) {
+    if (typeof options === 'function')
+      cb = options, options = null
+
+    return go$readFile(path, options, cb)
+
+    function go$readFile (path, options, cb, startTime) {
+      return fs$readFile(path, options, function (err) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([go$readFile, [path, options, cb], err, startTime || Date.now(), Date.now()])
+        else {
+          if (typeof cb === 'function')
+            cb.apply(this, arguments)
+        }
+      })
+    }
+  }
+
+  var fs$writeFile = fs.writeFile
+  fs.writeFile = writeFile
+  function writeFile (path, data, options, cb) {
+    if (typeof options === 'function')
+      cb = options, options = null
+
+    return go$writeFile(path, data, options, cb)
+
+    function go$writeFile (path, data, options, cb, startTime) {
+      return fs$writeFile(path, data, options, function (err) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([go$writeFile, [path, data, options, cb], err, startTime || Date.now(), Date.now()])
+        else {
+          if (typeof cb === 'function')
+            cb.apply(this, arguments)
+        }
+      })
+    }
+  }
+
+  var fs$appendFile = fs.appendFile
+  if (fs$appendFile)
+    fs.appendFile = appendFile
+  function appendFile (path, data, options, cb) {
+    if (typeof options === 'function')
+      cb = options, options = null
+
+    return go$appendFile(path, data, options, cb)
+
+    function go$appendFile (path, data, options, cb, startTime) {
+      return fs$appendFile(path, data, options, function (err) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([go$appendFile, [path, data, options, cb], err, startTime || Date.now(), Date.now()])
+        else {
+          if (typeof cb === 'function')
+            cb.apply(this, arguments)
+        }
+      })
+    }
+  }
+
+  var fs$copyFile = fs.copyFile
+  if (fs$copyFile)
+    fs.copyFile = copyFile
+  function copyFile (src, dest, flags, cb) {
+    if (typeof flags === 'function') {
+      cb = flags
+      flags = 0
+    }
+    return go$copyFile(src, dest, flags, cb)
+
+    function go$copyFile (src, dest, flags, cb, startTime) {
+      return fs$copyFile(src, dest, flags, function (err) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([go$copyFile, [src, dest, flags, cb], err, startTime || Date.now(), Date.now()])
+        else {
+          if (typeof cb === 'function')
+            cb.apply(this, arguments)
+        }
+      })
+    }
+  }
+
+  var fs$readdir = fs.readdir
+  fs.readdir = readdir
+  var noReaddirOptionVersions = /^v[0-5]\./
+  function readdir (path, options, cb) {
+    if (typeof options === 'function')
+      cb = options, options = null
+
+    var go$readdir = noReaddirOptionVersions.test(process.version)
+      ? function go$readdir (path, options, cb, startTime) {
+        return fs$readdir(path, fs$readdirCallback(
+          path, options, cb, startTime
+        ))
+      }
+      : function go$readdir (path, options, cb, startTime) {
+        return fs$readdir(path, options, fs$readdirCallback(
+          path, options, cb, startTime
+        ))
+      }
+
+    return go$readdir(path, options, cb)
+
+    function fs$readdirCallback (path, options, cb, startTime) {
+      return function (err, files) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([
+            go$readdir,
+            [path, options, cb],
+            err,
+            startTime || Date.now(),
+            Date.now()
+          ])
+        else {
+          if (files && files.sort)
+            files.sort()
+
+          if (typeof cb === 'function')
+            cb.call(this, err, files)
+        }
+      }
+    }
+  }
+
+  if (process.version.substr(0, 4) === 'v0.8') {
+    var legStreams = legacy(fs)
+    ReadStream = legStreams.ReadStream
+    WriteStream = legStreams.WriteStream
+  }
+
+  var fs$ReadStream = fs.ReadStream
+  if (fs$ReadStream) {
+    ReadStream.prototype = Object.create(fs$ReadStream.prototype)
+    ReadStream.prototype.open = ReadStream$open
+  }
+
+  var fs$WriteStream = fs.WriteStream
+  if (fs$WriteStream) {
+    WriteStream.prototype = Object.create(fs$WriteStream.prototype)
+    WriteStream.prototype.open = WriteStream$open
+  }
+
+  Object.defineProperty(fs, 'ReadStream', {
+    get: function () {
+      return ReadStream
+    },
+    set: function (val) {
+      ReadStream = val
+    },
+    enumerable: true,
+    configurable: true
+  })
+  Object.defineProperty(fs, 'WriteStream', {
+    get: function () {
+      return WriteStream
+    },
+    set: function (val) {
+      WriteStream = val
+    },
+    enumerable: true,
+    configurable: true
+  })
+
+  // legacy names
+  var FileReadStream = ReadStream
+  Object.defineProperty(fs, 'FileReadStream', {
+    get: function () {
+      return FileReadStream
+    },
+    set: function (val) {
+      FileReadStream = val
+    },
+    enumerable: true,
+    configurable: true
+  })
+  var FileWriteStream = WriteStream
+  Object.defineProperty(fs, 'FileWriteStream', {
+    get: function () {
+      return FileWriteStream
+    },
+    set: function (val) {
+      FileWriteStream = val
+    },
+    enumerable: true,
+    configurable: true
+  })
+
+  function ReadStream (path, options) {
+    if (this instanceof ReadStream)
+      return fs$ReadStream.apply(this, arguments), this
+    else
+      return ReadStream.apply(Object.create(ReadStream.prototype), arguments)
+  }
+
+  function ReadStream$open () {
+    var that = this
+    open(that.path, that.flags, that.mode, function (err, fd) {
+      if (err) {
+        if (that.autoClose)
+          that.destroy()
+
+        that.emit('error', err)
+      } else {
+        that.fd = fd
+        that.emit('open', fd)
+        that.read()
+      }
+    })
+  }
+
+  function WriteStream (path, options) {
+    if (this instanceof WriteStream)
+      return fs$WriteStream.apply(this, arguments), this
+    else
+      return WriteStream.apply(Object.create(WriteStream.prototype), arguments)
+  }
+
+  function WriteStream$open () {
+    var that = this
+    open(that.path, that.flags, that.mode, function (err, fd) {
+      if (err) {
+        that.destroy()
+        that.emit('error', err)
+      } else {
+        that.fd = fd
+        that.emit('open', fd)
+      }
+    })
+  }
+
+  function createReadStream (path, options) {
+    return new fs.ReadStream(path, options)
+  }
+
+  function createWriteStream (path, options) {
+    return new fs.WriteStream(path, options)
+  }
+
+  var fs$open = fs.open
+  fs.open = open
+  function open (path, flags, mode, cb) {
+    if (typeof mode === 'function')
+      cb = mode, mode = null
+
+    return go$open(path, flags, mode, cb)
+
+    function go$open (path, flags, mode, cb, startTime) {
+      return fs$open(path, flags, mode, function (err, fd) {
+        if (err && (err.code === 'EMFILE' || err.code === 'ENFILE'))
+          enqueue([go$open, [path, flags, mode, cb], err, startTime || Date.now(), Date.now()])
+        else {
+          if (typeof cb === 'function')
+            cb.apply(this, arguments)
+        }
+      })
+    }
+  }
+
+  return fs
+}
+
+function enqueue (elem) {
+  debug('ENQUEUE', elem[0].name, elem[1])
+  fs[gracefulQueue].push(elem)
+  retry()
+}
+
+// keep track of the timeout between retry() calls
+var retryTimer
+
+// reset the startTime and lastTime to now
+// this resets the start of the 60 second overall timeout as well as the
+// delay between attempts so that we'll retry these jobs sooner
+function resetQueue () {
+  var now = Date.now()
+  for (var i = 0; i < fs[gracefulQueue].length; ++i) {
+    // entries that are only a length of 2 are from an older version, don't
+    // bother modifying those since they'll be retried anyway.
+    if (fs[gracefulQueue][i].length > 2) {
+      fs[gracefulQueue][i][3] = now // startTime
+      fs[gracefulQueue][i][4] = now // lastTime
+    }
+  }
+  // call retry to make sure we're actively processing the queue
+  retry()
+}
+
+function retry () {
+  // clear the timer and remove it to help prevent unintended concurrency
+  clearTimeout(retryTimer)
+  retryTimer = undefined
+
+  if (fs[gracefulQueue].length === 0)
+    return
+
+  var elem = fs[gracefulQueue].shift()
+  var fn = elem[0]
+  var args = elem[1]
+  // these items may be unset if they were added by an older graceful-fs
+  var err = elem[2]
+  var startTime = elem[3]
+  var lastTime = elem[4]
+
+  // if we don't have a startTime we have no way of knowing if we've waited
+  // long enough, so go ahead and retry this item now
+  if (startTime === undefined) {
+    debug('RETRY', fn.name, args)
+    fn.apply(null, args)
+  } else if (Date.now() - startTime >= 60000) {
+    // it's been more than 60 seconds total, bail now
+    debug('TIMEOUT', fn.name, args)
+    var cb = args.pop()
+    if (typeof cb === 'function')
+      cb.call(null, err)
+  } else {
+    // the amount of time between the last attempt and right now
+    var sinceAttempt = Date.now() - lastTime
+    // the amount of time between when we first tried, and when we last tried
+    // rounded up to at least 1
+    var sinceStart = Math.max(lastTime - startTime, 1)
+    // backoff. wait longer than the total time we've been retrying, but only
+    // up to a maximum of 100ms
+    var desiredDelay = Math.min(sinceStart * 1.2, 100)
+    // it's been long enough since the last retry, do it again
+    if (sinceAttempt >= desiredDelay) {
+      debug('RETRY', fn.name, args)
+      fn.apply(null, args.concat([startTime]))
+    } else {
+      // if we can't do this job yet, push it to the end of the queue
+      // and let the next iteration check again
+      fs[gracefulQueue].push(elem)
+    }
+  }
+
+  // schedule our next run if one isn't already scheduled
+  if (retryTimer === undefined) {
+    retryTimer = setTimeout(retry, 0)
+  }
+}
+
+
+/***/ }),
+
+/***/ 7015:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var Stream = (__nccwpck_require__(2203).Stream)
+
+module.exports = legacy
+
+function legacy (fs) {
+  return {
+    ReadStream: ReadStream,
+    WriteStream: WriteStream
+  }
+
+  function ReadStream (path, options) {
+    if (!(this instanceof ReadStream)) return new ReadStream(path, options);
+
+    Stream.call(this);
+
+    var self = this;
+
+    this.path = path;
+    this.fd = null;
+    this.readable = true;
+    this.paused = false;
+
+    this.flags = 'r';
+    this.mode = 438; /*=0666*/
+    this.bufferSize = 64 * 1024;
+
+    options = options || {};
+
+    // Mixin options into this
+    var keys = Object.keys(options);
+    for (var index = 0, length = keys.length; index < length; index++) {
+      var key = keys[index];
+      this[key] = options[key];
+    }
+
+    if (this.encoding) this.setEncoding(this.encoding);
+
+    if (this.start !== undefined) {
+      if ('number' !== typeof this.start) {
+        throw TypeError('start must be a Number');
+      }
+      if (this.end === undefined) {
+        this.end = Infinity;
+      } else if ('number' !== typeof this.end) {
+        throw TypeError('end must be a Number');
+      }
+
+      if (this.start > this.end) {
+        throw new Error('start must be <= end');
+      }
+
+      this.pos = this.start;
+    }
+
+    if (this.fd !== null) {
+      process.nextTick(function() {
+        self._read();
+      });
+      return;
+    }
+
+    fs.open(this.path, this.flags, this.mode, function (err, fd) {
+      if (err) {
+        self.emit('error', err);
+        self.readable = false;
+        return;
+      }
+
+      self.fd = fd;
+      self.emit('open', fd);
+      self._read();
+    })
+  }
+
+  function WriteStream (path, options) {
+    if (!(this instanceof WriteStream)) return new WriteStream(path, options);
+
+    Stream.call(this);
+
+    this.path = path;
+    this.fd = null;
+    this.writable = true;
+
+    this.flags = 'w';
+    this.encoding = 'binary';
+    this.mode = 438; /*=0666*/
+    this.bytesWritten = 0;
+
+    options = options || {};
+
+    // Mixin options into this
+    var keys = Object.keys(options);
+    for (var index = 0, length = keys.length; index < length; index++) {
+      var key = keys[index];
+      this[key] = options[key];
+    }
+
+    if (this.start !== undefined) {
+      if ('number' !== typeof this.start) {
+        throw TypeError('start must be a Number');
+      }
+      if (this.start < 0) {
+        throw new Error('start must be >= zero');
+      }
+
+      this.pos = this.start;
+    }
+
+    this.busy = false;
+    this._queue = [];
+
+    if (this.fd === null) {
+      this._open = fs.open;
+      this._queue.push([this._open, this.path, this.flags, this.mode, undefined]);
+      this.flush();
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 5622:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var constants = __nccwpck_require__(9140)
+
+var origCwd = process.cwd
+var cwd = null
+
+var platform = process.env.GRACEFUL_FS_PLATFORM || process.platform
+
+process.cwd = function() {
+  if (!cwd)
+    cwd = origCwd.call(process)
+  return cwd
+}
+try {
+  process.cwd()
+} catch (er) {}
+
+// This check is needed until node.js 12 is required
+if (typeof process.chdir === 'function') {
+  var chdir = process.chdir
+  process.chdir = function (d) {
+    cwd = null
+    chdir.call(process, d)
+  }
+  if (Object.setPrototypeOf) Object.setPrototypeOf(process.chdir, chdir)
+}
+
+module.exports = patch
+
+function patch (fs) {
+  // (re-)implement some things that are known busted or missing.
+
+  // lchmod, broken prior to 0.6.2
+  // back-port the fix here.
+  if (constants.hasOwnProperty('O_SYMLINK') &&
+      process.version.match(/^v0\.6\.[0-2]|^v0\.5\./)) {
+    patchLchmod(fs)
+  }
+
+  // lutimes implementation, or no-op
+  if (!fs.lutimes) {
+    patchLutimes(fs)
+  }
+
+  // https://github.com/isaacs/node-graceful-fs/issues/4
+  // Chown should not fail on einval or eperm if non-root.
+  // It should not fail on enosys ever, as this just indicates
+  // that a fs doesn't support the intended operation.
+
+  fs.chown = chownFix(fs.chown)
+  fs.fchown = chownFix(fs.fchown)
+  fs.lchown = chownFix(fs.lchown)
+
+  fs.chmod = chmodFix(fs.chmod)
+  fs.fchmod = chmodFix(fs.fchmod)
+  fs.lchmod = chmodFix(fs.lchmod)
+
+  fs.chownSync = chownFixSync(fs.chownSync)
+  fs.fchownSync = chownFixSync(fs.fchownSync)
+  fs.lchownSync = chownFixSync(fs.lchownSync)
+
+  fs.chmodSync = chmodFixSync(fs.chmodSync)
+  fs.fchmodSync = chmodFixSync(fs.fchmodSync)
+  fs.lchmodSync = chmodFixSync(fs.lchmodSync)
+
+  fs.stat = statFix(fs.stat)
+  fs.fstat = statFix(fs.fstat)
+  fs.lstat = statFix(fs.lstat)
+
+  fs.statSync = statFixSync(fs.statSync)
+  fs.fstatSync = statFixSync(fs.fstatSync)
+  fs.lstatSync = statFixSync(fs.lstatSync)
+
+  // if lchmod/lchown do not exist, then make them no-ops
+  if (fs.chmod && !fs.lchmod) {
+    fs.lchmod = function (path, mode, cb) {
+      if (cb) process.nextTick(cb)
+    }
+    fs.lchmodSync = function () {}
+  }
+  if (fs.chown && !fs.lchown) {
+    fs.lchown = function (path, uid, gid, cb) {
+      if (cb) process.nextTick(cb)
+    }
+    fs.lchownSync = function () {}
+  }
+
+  // on Windows, A/V software can lock the directory, causing this
+  // to fail with an EACCES or EPERM if the directory contains newly
+  // created files.  Try again on failure, for up to 60 seconds.
+
+  // Set the timeout this long because some Windows Anti-Virus, such as Parity
+  // bit9, may lock files for up to a minute, causing npm package install
+  // failures. Also, take care to yield the scheduler. Windows scheduling gives
+  // CPU to a busy looping process, which can cause the program causing the lock
+  // contention to be starved of CPU by node, so the contention doesn't resolve.
+  if (platform === "win32") {
+    fs.rename = typeof fs.rename !== 'function' ? fs.rename
+    : (function (fs$rename) {
+      function rename (from, to, cb) {
+        var start = Date.now()
+        var backoff = 0;
+        fs$rename(from, to, function CB (er) {
+          if (er
+              && (er.code === "EACCES" || er.code === "EPERM" || er.code === "EBUSY")
+              && Date.now() - start < 60000) {
+            setTimeout(function() {
+              fs.stat(to, function (stater, st) {
+                if (stater && stater.code === "ENOENT")
+                  fs$rename(from, to, CB);
+                else
+                  cb(er)
+              })
+            }, backoff)
+            if (backoff < 100)
+              backoff += 10;
+            return;
+          }
+          if (cb) cb(er)
+        })
+      }
+      if (Object.setPrototypeOf) Object.setPrototypeOf(rename, fs$rename)
+      return rename
+    })(fs.rename)
+  }
+
+  // if read() returns EAGAIN, then just try it again.
+  fs.read = typeof fs.read !== 'function' ? fs.read
+  : (function (fs$read) {
+    function read (fd, buffer, offset, length, position, callback_) {
+      var callback
+      if (callback_ && typeof callback_ === 'function') {
+        var eagCounter = 0
+        callback = function (er, _, __) {
+          if (er && er.code === 'EAGAIN' && eagCounter < 10) {
+            eagCounter ++
+            return fs$read.call(fs, fd, buffer, offset, length, position, callback)
+          }
+          callback_.apply(this, arguments)
+        }
+      }
+      return fs$read.call(fs, fd, buffer, offset, length, position, callback)
+    }
+
+    // This ensures `util.promisify` works as it does for native `fs.read`.
+    if (Object.setPrototypeOf) Object.setPrototypeOf(read, fs$read)
+    return read
+  })(fs.read)
+
+  fs.readSync = typeof fs.readSync !== 'function' ? fs.readSync
+  : (function (fs$readSync) { return function (fd, buffer, offset, length, position) {
+    var eagCounter = 0
+    while (true) {
+      try {
+        return fs$readSync.call(fs, fd, buffer, offset, length, position)
+      } catch (er) {
+        if (er.code === 'EAGAIN' && eagCounter < 10) {
+          eagCounter ++
+          continue
+        }
+        throw er
+      }
+    }
+  }})(fs.readSync)
+
+  function patchLchmod (fs) {
+    fs.lchmod = function (path, mode, callback) {
+      fs.open( path
+             , constants.O_WRONLY | constants.O_SYMLINK
+             , mode
+             , function (err, fd) {
+        if (err) {
+          if (callback) callback(err)
+          return
+        }
+        // prefer to return the chmod error, if one occurs,
+        // but still try to close, and report closing errors if they occur.
+        fs.fchmod(fd, mode, function (err) {
+          fs.close(fd, function(err2) {
+            if (callback) callback(err || err2)
+          })
+        })
+      })
+    }
+
+    fs.lchmodSync = function (path, mode) {
+      var fd = fs.openSync(path, constants.O_WRONLY | constants.O_SYMLINK, mode)
+
+      // prefer to return the chmod error, if one occurs,
+      // but still try to close, and report closing errors if they occur.
+      var threw = true
+      var ret
+      try {
+        ret = fs.fchmodSync(fd, mode)
+        threw = false
+      } finally {
+        if (threw) {
+          try {
+            fs.closeSync(fd)
+          } catch (er) {}
+        } else {
+          fs.closeSync(fd)
+        }
+      }
+      return ret
+    }
+  }
+
+  function patchLutimes (fs) {
+    if (constants.hasOwnProperty("O_SYMLINK") && fs.futimes) {
+      fs.lutimes = function (path, at, mt, cb) {
+        fs.open(path, constants.O_SYMLINK, function (er, fd) {
+          if (er) {
+            if (cb) cb(er)
+            return
+          }
+          fs.futimes(fd, at, mt, function (er) {
+            fs.close(fd, function (er2) {
+              if (cb) cb(er || er2)
+            })
+          })
+        })
+      }
+
+      fs.lutimesSync = function (path, at, mt) {
+        var fd = fs.openSync(path, constants.O_SYMLINK)
+        var ret
+        var threw = true
+        try {
+          ret = fs.futimesSync(fd, at, mt)
+          threw = false
+        } finally {
+          if (threw) {
+            try {
+              fs.closeSync(fd)
+            } catch (er) {}
+          } else {
+            fs.closeSync(fd)
+          }
+        }
+        return ret
+      }
+
+    } else if (fs.futimes) {
+      fs.lutimes = function (_a, _b, _c, cb) { if (cb) process.nextTick(cb) }
+      fs.lutimesSync = function () {}
+    }
+  }
+
+  function chmodFix (orig) {
+    if (!orig) return orig
+    return function (target, mode, cb) {
+      return orig.call(fs, target, mode, function (er) {
+        if (chownErOk(er)) er = null
+        if (cb) cb.apply(this, arguments)
+      })
+    }
+  }
+
+  function chmodFixSync (orig) {
+    if (!orig) return orig
+    return function (target, mode) {
+      try {
+        return orig.call(fs, target, mode)
+      } catch (er) {
+        if (!chownErOk(er)) throw er
+      }
+    }
+  }
+
+
+  function chownFix (orig) {
+    if (!orig) return orig
+    return function (target, uid, gid, cb) {
+      return orig.call(fs, target, uid, gid, function (er) {
+        if (chownErOk(er)) er = null
+        if (cb) cb.apply(this, arguments)
+      })
+    }
+  }
+
+  function chownFixSync (orig) {
+    if (!orig) return orig
+    return function (target, uid, gid) {
+      try {
+        return orig.call(fs, target, uid, gid)
+      } catch (er) {
+        if (!chownErOk(er)) throw er
+      }
+    }
+  }
+
+  function statFix (orig) {
+    if (!orig) return orig
+    // Older versions of Node erroneously returned signed integers for
+    // uid + gid.
+    return function (target, options, cb) {
+      if (typeof options === 'function') {
+        cb = options
+        options = null
+      }
+      function callback (er, stats) {
+        if (stats) {
+          if (stats.uid < 0) stats.uid += 0x100000000
+          if (stats.gid < 0) stats.gid += 0x100000000
+        }
+        if (cb) cb.apply(this, arguments)
+      }
+      return options ? orig.call(fs, target, options, callback)
+        : orig.call(fs, target, callback)
+    }
+  }
+
+  function statFixSync (orig) {
+    if (!orig) return orig
+    // Older versions of Node erroneously returned signed integers for
+    // uid + gid.
+    return function (target, options) {
+      var stats = options ? orig.call(fs, target, options)
+        : orig.call(fs, target)
+      if (stats) {
+        if (stats.uid < 0) stats.uid += 0x100000000
+        if (stats.gid < 0) stats.gid += 0x100000000
+      }
+      return stats;
+    }
+  }
+
+  // ENOSYS means that the fs doesn't support the op. Just ignore
+  // that, because it doesn't matter.
+  //
+  // if there's no getuid, or if getuid() is something other
+  // than 0, and the error is EINVAL or EPERM, then just ignore
+  // it.
+  //
+  // This specific case is a silent failure in cp, install, tar,
+  // and most other unix tools that manage permissions.
+  //
+  // When running as root, or if other types of errors are
+  // encountered, then it's strict.
+  function chownErOk (er) {
+    if (!er)
+      return true
+
+    if (er.code === "ENOSYS")
+      return true
+
+    var nonroot = !process.getuid || process.getuid() !== 0
+    if (nonroot) {
+      if (er.code === "EINVAL" || er.code === "EPERM")
+        return true
+    }
+
+    return false
+  }
+}
+
+
+/***/ }),
+
+/***/ 1136:
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = (flag, argv = process.argv) => {
+	const prefix = flag.startsWith('-') ? '' : (flag.length === 1 ? '-' : '--');
+	const position = argv.indexOf(prefix + flag);
+	const terminatorPosition = argv.indexOf('--');
+	return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+};
+
+
+/***/ }),
+
+/***/ 387:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var wrappy = __nccwpck_require__(9375)
+var reqs = Object.create(null)
+var once = __nccwpck_require__(835)
+
+module.exports = wrappy(inflight)
+
+function inflight (key, cb) {
+  if (reqs[key]) {
+    reqs[key].push(cb)
+    return null
+  } else {
+    reqs[key] = [cb]
+    return makeres(key)
+  }
+}
+
+function makeres (key) {
+  return once(function RES () {
+    var cbs = reqs[key]
+    var len = cbs.length
+    var args = slice(arguments)
+
+    // XXX It's somewhat ambiguous whether a new callback added in this
+    // pass should be queued for later execution if something in the
+    // list of callbacks throws, or if it should just be discarded.
+    // However, it's such an edge case that it hardly matters, and either
+    // choice is likely as surprising as the other.
+    // As it happens, we do go ahead and schedule it for later execution.
+    try {
+      for (var i = 0; i < len; i++) {
+        cbs[i].apply(null, args)
+      }
+    } finally {
+      if (cbs.length > len) {
+        // added more in the interim.
+        // de-zalgo, just in case, but don't call again.
+        cbs.splice(0, len)
+        process.nextTick(function () {
+          RES.apply(null, args)
+        })
+      } else {
+        delete reqs[key]
+      }
+    }
+  })
+}
+
+function slice (args) {
+  var length = args.length
+  var array = []
+
+  for (var i = 0; i < length; i++) array[i] = args[i]
+  return array
+}
+
+
+/***/ }),
+
+/***/ 7285:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+try {
+  var util = __nccwpck_require__(9023);
+  /* istanbul ignore next */
+  if (typeof util.inherits !== 'function') throw '';
+  module.exports = util.inherits;
+} catch (e) {
+  /* istanbul ignore next */
+  module.exports = __nccwpck_require__(9646);
+}
+
+
+/***/ }),
+
+/***/ 9646:
+/***/ ((module) => {
+
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    if (superCtor) {
+      ctor.super_ = superCtor
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      })
+    }
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    if (superCtor) {
+      ctor.super_ = superCtor
+      var TempCtor = function () {}
+      TempCtor.prototype = superCtor.prototype
+      ctor.prototype = new TempCtor()
+      ctor.prototype.constructor = ctor
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ 7337:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+let _fs
+try {
+  _fs = __nccwpck_require__(7531)
+} catch (_) {
+  _fs = __nccwpck_require__(9896)
+}
+const universalify = __nccwpck_require__(1768)
+const { stringify, stripBom } = __nccwpck_require__(4356)
+
+async function _readFile (file, options = {}) {
+  if (typeof options === 'string') {
+    options = { encoding: options }
+  }
+
+  const fs = options.fs || _fs
+
+  const shouldThrow = 'throws' in options ? options.throws : true
+
+  let data = await universalify.fromCallback(fs.readFile)(file, options)
+
+  data = stripBom(data)
+
+  let obj
+  try {
+    obj = JSON.parse(data, options ? options.reviver : null)
+  } catch (err) {
+    if (shouldThrow) {
+      err.message = `${file}: ${err.message}`
+      throw err
+    } else {
+      return null
+    }
+  }
+
+  return obj
+}
+
+const readFile = universalify.fromPromise(_readFile)
+
+function readFileSync (file, options = {}) {
+  if (typeof options === 'string') {
+    options = { encoding: options }
+  }
+
+  const fs = options.fs || _fs
+
+  const shouldThrow = 'throws' in options ? options.throws : true
+
+  try {
+    let content = fs.readFileSync(file, options)
+    content = stripBom(content)
+    return JSON.parse(content, options.reviver)
+  } catch (err) {
+    if (shouldThrow) {
+      err.message = `${file}: ${err.message}`
+      throw err
+    } else {
+      return null
+    }
+  }
+}
+
+async function _writeFile (file, obj, options = {}) {
+  const fs = options.fs || _fs
+
+  const str = stringify(obj, options)
+
+  await universalify.fromCallback(fs.writeFile)(file, str, options)
+}
+
+const writeFile = universalify.fromPromise(_writeFile)
+
+function writeFileSync (file, obj, options = {}) {
+  const fs = options.fs || _fs
+
+  const str = stringify(obj, options)
+  // not sure if fs.writeFileSync returns anything, but just in case
+  return fs.writeFileSync(file, str, options)
+}
+
+const jsonfile = {
+  readFile,
+  readFileSync,
+  writeFile,
+  writeFileSync
+}
+
+module.exports = jsonfile
+
+
+/***/ }),
+
+/***/ 4356:
+/***/ ((module) => {
+
+function stringify (obj, { EOL = '\n', finalEOL = true, replacer = null, spaces } = {}) {
+  const EOF = finalEOL ? EOL : ''
+  const str = JSON.stringify(obj, replacer, spaces)
+
+  return str.replace(/\n/g, EOL) + EOF
+}
+
+function stripBom (content) {
+  // we do this because JSON.parse would convert it to a utf8 string if encoding wasn't specified
+  if (Buffer.isBuffer(content)) content = content.toString('utf8')
+  return content.replace(/^\uFEFF/, '')
+}
+
+module.exports = { stringify, stripBom }
+
+
+/***/ }),
+
+/***/ 6784:
+/***/ ((module) => {
+
+
+class InvalidCaseError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidCaseError";
+    }
+}
+
+//<!-- MODULE -->//
+if( true && module.exports) {
+    module.exports = InvalidCaseError;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 3560:
+/***/ ((module) => {
+
+
+class InvalidConstantError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidConstantError";
+    }
+}
+
+//<!-- MODULE -->//
+if( true && module.exports) {
+    module.exports = InvalidConstantError;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 5552:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if (true) {
+    var InvalidCaseError = __nccwpck_require__(6784);
+    var InvalidConstantError = __nccwpck_require__(3560);
+}
+//<!-- /MODULE -->//
+/**
+ * LuckyCase
+ *
+ * Convert and detect various letter cases in strings
+ *
+ */
+class LuckyCase {
+    /**
+     * Get the version of the used library
+     * @returns {string}
+     */
+    static getVersion() {
+        const self = LuckyCase;
+        return self._version;
+    }
+
+    /**
+     * Get type of case of string (one key of LuckyCase.CASES)
+     *
+     * If more than one case matches, the first match wins.
+     * Match prio is the order of the regex in LuckyCase.CASES
+     *
+     * If you want or need to know all cases, use plural version of this method
+     *
+     * If you want to check explicitly for one case, use its check method,
+     * e.g. isSnakeCase() for SNAKE_CASE, etc...
+     *
+     * @param {string} string
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {string|null} symbol of type, null if no match
+     */
+    static case(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if (allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        let resulting_case = null;
+        for (let case_type of Object.keys(self.CASES)) {
+            // due js bug we need explicitly check twice, because the regex sometimes does only match each second time
+            const regex = self.CASES[case_type.toString()];
+            regex.lastIndex = 0; // In JavaScript, global regexen have state: you call them the first time, you get the first match in a given string. Call them again and you get the next match, and so on until you get no match and it resets to the start of the next string. You can also write regex.lastIndex= 0 to reset this state.
+            if (self.CASES[case_type].test(s)) {
+                resulting_case = case_type;
+                break;
+            }
+        }
+        return resulting_case;
+    }
+
+    /**
+     * Get types of cases of string (keys of LuckyCase.CASES)
+     *
+     * @param {string} string
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {string[]|null} symbols of types, null if no one matches
+     */
+    static cases(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if (allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        let matched_cases = [];
+        for (let case_type of Object.keys(self.CASES)) {
+            const regex = self.CASES[case_type];
+            regex.lastIndex = 0; // reset state
+            if (regex.test(s)) {
+                matched_cases.push(case_type);
+            }
+        }
+        if (matched_cases.length === 0) {
+            return null;
+        } else if (matched_cases.length > 1) {
+            // reject MIXED_CASE if there are other matches
+            // because it would always be included if one other case matches
+            return matched_cases.filter((el) => {
+                return el !== self.MIXED_CASE;
+            });
+        } else {
+            return matched_cases;
+        }
+    }
+
+    /**
+     * Convert a string into the given case type
+     *
+     * @param {string} string to convert
+     * @param {string} case_type can be UPPER_CASE or lower_case, e.g. 'SNAKE_CASE' or 'snake_case'
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static convertCase(string, case_type, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        case_type = self.toUpperCase(case_type);
+        if (Object.keys(self.CASES).includes(case_type)) {
+            return self['to' + self.toPascalCase(case_type)](string, preserve_prefixed_underscores);
+        }
+        const error_message = `Invalid case type '${case_type}'. Valid types are: ${Object.keys(self.CASES).join(', ')}`;
+        throw new InvalidCaseError(error_message);
+    }
+
+    /**
+     * Check if given case type is a valid case type
+     *
+     * @param {string} case_type to check
+     * @returns {boolean}
+     */
+    static isValidCaseType(case_type) {
+        const self = LuckyCase;
+        if (Object.keys(self.CASES).includes(case_type)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if the string matches any of the available cases
+     *
+     * @param {string} string to check
+     * @returns {boolean}
+     */
+    static isValidCaseString(string) {
+        const self = LuckyCase;
+        return self.case(string) !== null;
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // UPPER CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert all characters inside the string
+     * into upper case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS-ISANEXAMPLE_STRING'
+     *
+     * @param {string} string to convert
+     * @returns {string}
+     */
+    static toUpperCase(string) {
+        return string.toLocaleUpperCase();
+    }
+
+    /**
+     * Check if all characters inside the string are upper case
+     *
+     * @param {string} string to check
+     * @returns {boolean}
+     */
+    static isUpperCase(string) {
+        const self = LuckyCase;
+        return string === self.toUpperCase(string);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // LOWER CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert all characters inside the string
+     * into lower case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'this-isanexample_string'
+     *
+     * @param {string} string to convert
+     * @returns {string}
+     */
+    static toLowerCase(string) {
+        return string.toLocaleLowerCase();
+    }
+
+    /**
+     * Check if all characters inside the string are lower case
+     *
+     * @param {string} string to check
+     * @returns {boolean}
+     */
+    static isLowerCase(string) {
+        const self = LuckyCase;
+        return string === self.toLowerCase(string);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // SNAKE CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into snake case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'this_is_an_example_string'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toSnakeCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.join('_');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is snake case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isSnakeCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.SNAKE_CASE);
+    }
+
+    /**
+     * Convert the given string from any case
+     * into upper snake case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS_IS_AN_EXAMPLE_STRING'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toUpperSnakeCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.map((e) => { return self.toUpperCase(e) }).join('_');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is upper snake case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isUpperSnakeCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.UPPER_SNAKE_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // PASCAL CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into pascal case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'ThisIsAnExampleString'
+     *
+     * @param string to convert
+     * @param preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toPascalCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.map((e) => { return self.toCapital(e); }).join('');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is upper pascal case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isPascalCase(string, allow_prefixed_underscores = true)  {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.PASCAL_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // CAMEL CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into camel case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'thisIsAnExampleString'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toCamelCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a[0] + (a.slice(1).map((e) => { return self.toCapital(e); })).join('');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is camel case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isCamelCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.CAMEL_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // DASH CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into dash case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'this-is-an-example-string'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toDashCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.join('-');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is dash case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isDashCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.DASH_CASE);
+    }
+
+    /**
+     * Convert the given string from any case
+     * into upper dash case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS-IS-AN-EXAMPLE-STRING'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toUpperDashCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const s = self.toDashCase(string, preserve_prefixed_underscores);
+        return self.toUpperCase(s);
+    }
+
+    /**
+     * Check if the string is upper dash case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isUpperDashCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.UPPER_DASH_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // TRAIN CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into train case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'This-Is-An-Example-String'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toTrainCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.map((e) => { return self.toCapital(e); }).join('-');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is train case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isTrainCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.TRAIN_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // WORD CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into word case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'this is an example string'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toWordCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.join(' ');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is word case
+     *
+     * @param {string} string to check
+     * @param allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isWordCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.WORD_CASE);
+    }
+
+    /**
+     * Convert the given string from any case
+     * into upper word case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS IS AN EXAMPLE STRING'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toUpperWordCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.map((e) => { return self.toUpperCase(e); }).join(' ');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is upper word case
+     *
+     * @param string to check
+     * @param allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isUpperWordCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.UPPER_WORD_CASE);
+    }
+
+    /**
+     * Convert the given string from any case
+     * into capital word case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'This Is An Example String'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toCapitalWordCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = a.map((e) => { return self.toCapital(e); }).join(' ');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is capital word case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isCapitalWordCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.CAPITAL_WORD_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // SENTENCE CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into sentence case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'This is an example string'
+     *
+     * @param {string} string to convert
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toSentenceCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        const converted = self.toCapital(a.join(' '));
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is sentence case
+     *
+     * @param {string} string to check
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isSentenceCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.SENTENCE_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // CAPITALIZE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the first character to capital
+     *
+     * @param {string} string to convert
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {string}
+     */
+    static toCapital(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        if(!string || string === '') {
+            return string;
+        }
+        let s;
+        if(skip_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        s = self.toUpperCase(s[0]) + s.substr(1);
+        if(skip_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + s;
+        } else {
+            return s;
+        }
+    }
+
+    /**
+     * Convert the first character to capital
+     *
+     * @param {string} string to convert
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {string}
+     */
+    static capitalize(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        return self.toCapital(string, skip_prefixed_underscores);
+    }
+
+    /**
+     * Check if the strings first character is a capital letter
+     *
+     * @param {string} string
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isCapital(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        let s;
+        if(skip_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self.isUpperCase(s[0]);
+    }
+
+    /**
+     * Check if the strings first character is a capital letter
+     *
+     * @param {string} string
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isCapitalized(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        return self.isCapital(string, skip_prefixed_underscores);
+    }
+
+    /**
+     * Convert the first character to lower case
+     *
+     * @param {string} string to convert
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {string}
+     */
+    static decapitalize(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        if(!string || string === '') {
+            return string;
+        }
+        let s;
+        if(skip_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        s = self.toLowerCase(s[0]) + s.substr(1);
+        if(skip_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + s;
+        } else {
+            return s;
+        }
+    }
+
+    /**
+     * Check if the strings first character is a lower case letter
+     *
+     * @param {string} string
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isNotCapital(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        return !self.isCapital(string, skip_prefixed_underscores);
+    }
+
+    /**
+     * Check if the strings first character is a lower case letter
+     *
+     * @param {string} string
+     * @param {boolean} skip_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isDecapitalized(string, skip_prefixed_underscores = false) {
+        const self = LuckyCase;
+        return self.isNotCapital(string, skip_prefixed_underscores);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // MIXED CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the given string from any case
+     * into mixed case.
+     *
+     * The new string is ensured to be different from the input.
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'This-Is_anExample-string'
+     *
+     * @param {string} string
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static toMixedCase(string, preserve_prefixed_underscores = true) {
+        const self = LuckyCase;
+        const a = self.splitCaseString(string);
+        let converted = null;
+        do {
+            converted = '';
+            for(let part of a) {
+                converted += self.convertCase(part, self._sampleFromArray(Object.keys(self.CASES)), preserve_prefixed_underscores)
+            }
+            converted = self.convertCase(converted, self._sampleFromArray(Object.keys(self.CASES)), preserve_prefixed_underscores)
+        } while (!(converted !== string && self.getUnderscoresAtStart(string) + converted !== string));
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + converted;
+        } else {
+            return converted;
+        }
+    }
+
+    /**
+     * Check if the string is a valid mixed case (without special characters!)
+     *
+     * @param {string} string
+     * @param {boolean} allow_prefixed_underscores
+     * @returns {boolean}
+     */
+    static isMixedCase(string, allow_prefixed_underscores = true) {
+        const self = LuckyCase;
+        let s;
+        if(allow_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        return self._isCaseMatch(s, self.MIXED_CASE);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // SWAP CASE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Swaps character cases in string
+     *
+     * lower case to upper case
+     * upper case to lower case
+     * dash to underscore
+     * underscore to dash
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS_ISaNeXAMPLE-STRING'
+     *
+     * @param {string} string
+     * @param {boolean} preserve_prefixed_underscores
+     * @returns {string}
+     */
+    static swapCase(string, preserve_prefixed_underscores = false) {
+        const self = LuckyCase;
+        let s;
+        if(preserve_prefixed_underscores) {
+            s = self.cutUnderscoresAtStart(string);
+        } else {
+            s = string;
+        }
+        let sp = s.split('');
+        for(let i = 0; i < sp.length; ++i) {
+            let char = sp[i];
+            if(char === '_') {
+                sp[i] = '-';
+            } else if(char === '-') {
+                sp[i] = '_';
+            } else if(self.isLowerCase(char)) {
+                sp[i] = self.toUpperCase(char);
+            } else if(self.isUpperCase(char)) {
+                sp[i] = self.toLowerCase(char);
+            }
+        }
+        sp = sp.join('');
+        if(preserve_prefixed_underscores) {
+            return self.getUnderscoresAtStart(string) + sp;
+        } else {
+            return sp;
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // CONSTANTIZE
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Convert the string from any case
+     * into pascal case and casts it into a constant
+     *
+     * Does not work in all node js contexts because of scopes, where the constant is not available here.
+     * Then you might use eval(LuckyCase.toPascalCase) instead.
+     * Or you may use it with global defined variables, global.<variable_name>
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => ThisIsAnExampleString
+     *      'this/is_an/example_path' => ThisIsAnExamplePath
+     *
+     * @param {string} string
+     * @returns {any}
+     */
+    static constantize(string) {
+        const self = LuckyCase;
+        let s = string.replace(/\//g,'_');
+        let constant_string = self.toPascalCase(s, false);
+        return eval(constant_string);
+    }
+
+    /**
+     * Deconverts the constant back into specified target type
+     *
+     * Does not work in special scopes in node js
+     *
+     * @example deconversion
+     *      ThisAweSomeConstant => 'thisAweSomeConstant'
+     *      function myFunction() {} => 'myFunction'
+     *
+     * @param {function} constant
+     * @param {string} case_type
+     * @returns {string}
+     */
+    static deconstantize(constant, case_type = LuckyCase.CAMEL_CASE) {
+        const self = LuckyCase;
+        let s;
+        if(typeof constant === 'function') {
+            s = constant.name;
+        } else {
+            throw new InvalidConstantError("Constant must be of type 'function'");
+        }
+        return self.convertCase(s, case_type);
+    }
+
+    //----------------------------------------------------------------------------------------------------
+    // HELPERS
+    //----------------------------------------------------------------------------------------------------
+
+    /**
+     * Return string without underscores at the start
+     *
+     * @param {string} string
+     * @returns {string} string without prefixed underscores
+     */
+    static cutUnderscoresAtStart(string) {
+        let underscore_counter = 0;
+        const characters = string.split('');
+        for (let c of characters) {
+            if (c === '_') {
+                ++underscore_counter;
+            } else {
+                break;
+            }
+        }
+        return string.substr(underscore_counter);
+    }
+
+    /**
+     * Return the underscores at the start of the string
+     *
+     * @param {string} string
+     * @returns {string} string of underscores or empty if none found
+     */
+    static getUnderscoresAtStart(string) {
+        let underscores = '';
+        for (let c of string.split('')) {
+            if (c === '_') {
+                underscores += '_';
+            } else {
+                break;
+            }
+        }
+        return underscores;
+    }
+
+    /**
+     * Split the string into parts
+     * It is splitted by all (different) case separators
+     *
+     * @param {string} string
+     * @returns {string[]}
+     */
+    static splitCaseString(string) {
+        const self = LuckyCase;
+        let s = self.cutUnderscoresAtStart(string);
+        if (!self.isUpperCase(s)) {
+            // prepend all upper characters with underscore
+            s = s.replace(makeUpperLowerRegExp(`([::upper::])`), "_$1");
+        }
+        s = s.replace(/ /g,'_');  // replace all spaces with underscore
+        s = s.replace(/\-/g,'_'); // replace all dashes with underscore
+        s = self.cutUnderscoresAtStart(s);
+        return s.toLocaleLowerCase().split('_').filter((el) => { return !!el; }); // split everything by underscore
+    }
+
+    /**
+     * Check if the given case matches the string
+     *
+     * @param {string} string
+     * @param {string} case_type
+     * @returns {boolean}
+     * @private
+     */
+    static _isCaseMatch(string, case_type) {
+        const self = LuckyCase;
+        if(self.isValidCaseType(case_type)) {
+            const regex = self.CASES[case_type];
+            regex.lastIndex = 0; // reset state
+            return self.CASES[case_type].test(string);
+        } else if(self.FORMATS[case_type]) {
+            const regex = self.FORMATS[case_type];
+            regex.lastIndex = 0;
+            return self.FORMATS[case_type].test(string);
+        } else {
+            const error_message = `Invalid case type '${case_type}'. Valid types are: ${Object.keys(self.CASES).join(', ')}`;
+            throw new InvalidCaseError(error_message);
+        }
+    }
+
+    /**
+     * Return a random sample from given array
+     *
+     * @param {Array} array
+     * @returns {*} sample item of given array
+     * @private
+     */
+    static _sampleFromArray(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
+}
+
+/**
+ * @type {string}
+ * @private
+ */
+LuckyCase._version = "1.1.8";
+
+// Last update @ 2020-11-23
+LuckyCase._lower = "\\u0061-\\u007A\\u00B5\\u00DF-\\u00F6\\u00F8-\\u00FF\\u0101\\u0103\\u0105\\u0107\\u0109\\u010B\\u010D\\u010F\\u0111\\u0113\\u0115\\u0117\\u0119\\u011B\\u011D\\u011F\\u0121\\u0123\\u0125\\u0127\\u0129\\u012B\\u012D\\u012F\\u0131\\u0133\\u0135\\u0137-\\u0138\\u013A\\u013C\\u013E\\u0140\\u0142\\u0144\\u0146\\u0148-\\u0149\\u014B\\u014D\\u014F\\u0151\\u0153\\u0155\\u0157\\u0159\\u015B\\u015D\\u015F\\u0161\\u0163\\u0165\\u0167\\u0169\\u016B\\u016D\\u016F\\u0171\\u0173\\u0175\\u0177\\u017A\\u017C\\u017E-\\u0180\\u0183\\u0185\\u0188\\u018C-\\u018D\\u0192\\u0195\\u0199-\\u019B\\u019E\\u01A1\\u01A3\\u01A5\\u01A8\\u01AA-\\u01AB\\u01AD\\u01B0\\u01B4\\u01B6\\u01B9-\\u01BA\\u01BD-\\u01BF\\u01C6\\u01C9\\u01CC\\u01CE\\u01D0\\u01D2\\u01D4\\u01D6\\u01D8\\u01DA\\u01DC-\\u01DD\\u01DF\\u01E1\\u01E3\\u01E5\\u01E7\\u01E9\\u01EB\\u01ED\\u01EF-\\u01F0\\u01F3\\u01F5\\u01F9\\u01FB\\u01FD\\u01FF\\u0201\\u0203\\u0205\\u0207\\u0209\\u020B\\u020D\\u020F\\u0211\\u0213\\u0215\\u0217\\u0219\\u021B\\u021D\\u021F\\u0221\\u0223\\u0225\\u0227\\u0229\\u022B\\u022D\\u022F\\u0231\\u0233-\\u0239\\u023C\\u023F-\\u0240\\u0242\\u0247\\u0249\\u024B\\u024D\\u024F-\\u0293\\u0295-\\u02AF\\u0371\\u0373\\u0377\\u037B-\\u037D\\u0390\\u03AC-\\u03CE\\u03D0-\\u03D1\\u03D5-\\u03D7\\u03D9\\u03DB\\u03DD\\u03DF\\u03E1\\u03E3\\u03E5\\u03E7\\u03E9\\u03EB\\u03ED\\u03EF-\\u03F3\\u03F5\\u03F8\\u03FB-\\u03FC\\u0428-\\u045F\\u0461\\u0463\\u0465\\u0467\\u0469\\u046B\\u046D\\u046F\\u0471\\u0473\\u0475\\u0477\\u0479\\u047B\\u047D\\u047F\\u0481\\u048B\\u048D\\u048F\\u0491\\u0493\\u0495\\u0497\\u0499\\u049B\\u049D\\u049F\\u04A1\\u04A3\\u04A5\\u04A7\\u04A9\\u04AB\\u04AD\\u04AF\\u04B1\\u04B3\\u04B5\\u04B7\\u04B9\\u04BB\\u04BD\\u04BF\\u04C2\\u04C4\\u04C6\\u04C8\\u04CA\\u04CC\\u04CE-\\u04CF\\u04D1\\u04D3\\u04D5\\u04D7-\\u04FB\\u04FD\\u04FF\\u0501\\u0503\\u0505\\u0507\\u0509\\u050B\\u050D\\u050F\\u0511\\u0513\\u0515\\u0517\\u0519\\u051B\\u051D\\u051F\\u0521\\u0523\\u0525\\u0527\\u0529\\u052B\\u052D\\u052F\\u0560-\\u0588\\u0CC0-\\u0CF2\\u10D0-\\u10FA\\u10FD-\\u10FF\\u13F8-\\u13FD\\u18C0-\\u18DF\\u1C80-\\u1C88\\u1D00-\\u1D2B\\u1D6B-\\u1D77\\u1D79-\\u1D9A\\u1E01\\u1E03\\u1E05\\u1E07\\u1E09\\u1E0B\\u1E0D\\u1E0F\\u1E11\\u1E13\\u1E15\\u1E17\\u1E19\\u1E1B\\u1E1D\\u1E1F\\u1E21\\u1E23\\u1E25\\u1E27\\u1E29\\u1E2B\\u1E2D\\u1E2F\\u1E31\\u1E33\\u1E35\\u1E37\\u1E39\\u1E3B\\u1E3D\\u1E3F\\u1E41\\u1E43\\u1E45\\u1E47\\u1E49\\u1E4B\\u1E4D\\u1E4F\\u1E51\\u1E53\\u1E55\\u1E57\\u1E59\\u1E5B\\u1E5D\\u1E5F\\u1E61\\u1E63\\u1E65\\u1E67\\u1E69\\u1E6B\\u1E6D\\u1E6F\\u1E71\\u1E73\\u1E75\\u1E77\\u1E79\\u1E7B\\u1E7D\\u1E7F\\u1E81\\u1E83\\u1E85\\u1E87\\u1E89\\u1E8B\\u1E8D\\u1E8F\\u1E91\\u1E93\\u1E95-\\u1E9D\\u1E9F\\u1EA1\\u1EA3\\u1EA5\\u1EA7\\u1EA9\\u1EAB\\u1EAD\\u1EAF\\u1EB1\\u1EB3\\u1EB5\\u1EB7\\u1EB9\\u1EBB\\u1EBD\\u1EBF\\u1EC1\\u1EC3\\u1EC5\\u1EC7\\u1EC9\\u1ECB\\u1ECD\\u1ECF\\u1ED1\\u1ED3\\u1ED5\\u1ED7\\u1ED9\\u1EDB\\u1EDD\\u1EDF\\u1EE1\\u1EE3\\u1EE5\\u1EE7\\u1EE9\\u1EEB\\u1EED\\u1EEF\\u1EF1\\u1EF3\\u1EF5\\u1EF7\\u1EF9\\u1EFB\\u1EFD\\u1EFF-\\u1F07\\u1F10-\\u1F15\\u1F20-\\u1F27\\u1F30-\\u1F37\\u1F40-\\u1F45\\u1F50-\\u1F57\\u1F60-\\u1F67\\u1F70-\\u1F7D\\u1F80-\\u1F87\\u1F90-\\u1F97\\u1FA0-\\u1FA7\\u1FB0-\\u1FB4\\u1FB6-\\u1FB7\\u1FBE\\u1FC2-\\u1FC4\\u1FC6-\\u1FC7\\u1FD0-\\u1FD3\\u1FD6-\\u1FD7\\u1FE0-\\u1FE7\\u1FF2-\\u1FF4\\u1FF6-\\u1FF7\\u210A\\u210E-\\u210F\\u2113\\u212F\\u2134\\u2139\\u213C-\\u213D\\u2146-\\u2149\\u214E\\u2184\\u2C30-\\u2C5E\\u2C61\\u2C65-\\u2C66\\u2C68\\u2C6A\\u2C6C\\u2C71\\u2C73-\\u2C74\\u2C76-\\u2C7B\\u2C81\\u2C83\\u2C85\\u2C87\\u2C89\\u2C8B\\u2C8D\\u2C8F\\u2C91\\u2C93\\u2C95\\u2C97\\u2C99\\u2C9B\\u2C9D\\u2C9F\\u2CA1\\u2CA3\\u2CA5\\u2CA7\\u2CA9\\u2CAB\\u2CAD\\u2CAF\\u2CB1\\u2CB3\\u2CB5\\u2CB7\\u2CB9\\u2CBB\\u2CBD\\u2CBF\\u2CC1\\u2CC3\\u2CC5\\u2CC7\\u2CC9\\u2CCB\\u2CCD\\u2CCF\\u2CD1\\u2CD3\\u2CD5\\u2CD7\\u2CD9\\u2CDB\\u2CDD\\u2CDF\\u2CE1\\u2CE3-\\u2CE4\\u2CEC\\u2CEE\\u2CF3\\u2D00-\\u2D25\\u2D27\\u2D2D\\u6E60-\\u6E7F\\uA641\\uA643\\uA645\\uA647\\uA649\\uA64B\\uA64D\\uA64F\\uA651\\uA653\\uA655\\uA657\\uA659\\uA65B\\uA65D\\uA65F\\uA661\\uA663\\uA665\\uA667\\uA669\\uA66B\\uA66D\\uA681\\uA683\\uA685\\uA687\\uA689\\uA68B\\uA68D\\uA68F\\uA691\\uA693\\uA695\\uA697\\uA699\\uA69B\\uA723\\uA725\\uA727\\uA729\\uA72B\\uA72D\\uA72F-\\uA731\\uA733\\uA735\\uA737\\uA739\\uA73B\\uA73D\\uA73F\\uA741\\uA743\\uA745\\uA747\\uA749\\uA74B\\uA74D\\uA74F\\uA751\\uA753\\uA755\\uA757\\uA759\\uA75B\\uA75D\\uA75F\\uA761\\uA763\\uA765\\uA767\\uA769\\uA76B\\uA76D\\uA76F\\uA771-\\uA778\\uA77A\\uA77C\\uA77F\\uA781\\uA783\\uA785\\uA787\\uA78C\\uA78E\\uA791\\uA793-\\uA795\\uA797\\uA799\\uA79B\\uA79D\\uA79F\\uA7A1\\uA7A3\\uA7A5\\uA7A7\\uA7A9\\uA7AF\\uA7B5\\uA7B7\\uA7B9\\uA7BB\\uA7BD\\uA7BF\\uA7C3\\uA7FA\\uAB30-\\uAB5A\\uAB60-\\uAB67\\uAB70-\\uABBF\\uD41A-\\uD433\\uD44E-\\uD454\\uD456-\\uD467\\uD482-\\uD49B\\uD4B6-\\uD4B9\\uD4BB\\uD4BD-\\uD4C3\\uD4C5-\\uD4CF\\uD4EA-\\uD503\\uD51E-\\uD537\\uD552-\\uD56B\\uD586-\\uD59F\\uD5BA-\\uD5D3\\uD5EE-\\uD607\\uD622-\\uD63B\\uD656-\\uD66F\\uD68A-\\uD6A5\\uD6C2-\\uD6DA\\uD6DC-\\uD6E1\\uD6FC-\\uD714\\uD716-\\uD71B\\uD736-\\uD74E\\uD750-\\uD755\\uD770-\\uD788\\uD78A-\\uD78F\\uD7AA-\\uD7C2\\uD7C4-\\uD7C9\\uD7CB\\uE922-\\uE943\\uFB00-\\uFB06\\uFB13-\\uFB17\\uFF41-\\uFF5A";
+LuckyCase._upper = "\\u0041-\\u005A\\u00C0-\\u00D6\\u00D8-\\u00DE\\u0100\\u0102\\u0104\\u0106\\u0108\\u010A\\u010C\\u010E\\u0110\\u0112\\u0114\\u0116\\u0118\\u011A\\u011C\\u011E\\u0120\\u0122\\u0124\\u0126\\u0128\\u012A\\u012C\\u012E\\u0130\\u0132\\u0134\\u0136\\u0139\\u013B\\u013D\\u013F\\u0141\\u0143\\u0145\\u0147\\u014A\\u014C\\u014E\\u0150\\u0152\\u0154\\u0156\\u0158\\u015A\\u015C\\u015E\\u0160\\u0162\\u0164\\u0166\\u0168\\u016A\\u016C\\u016E\\u0170\\u0172\\u0174\\u0176\\u0178-\\u0179\\u017B\\u017D\\u0181-\\u0182\\u0184\\u0186-\\u0187\\u0189-\\u018B\\u018E-\\u0191\\u0193-\\u0194\\u0196-\\u0198\\u019C-\\u019D\\u019F-\\u01A0\\u01A2\\u01A4\\u01A6-\\u01A7\\u01A9\\u01AC\\u01AE-\\u01AF\\u01B1-\\u01B3\\u01B5\\u01B7-\\u01B8\\u01BC\\u01C4\\u01C7\\u01CA\\u01CD\\u01CF\\u01D1\\u01D3\\u01D5\\u01D7\\u01D9\\u01DB\\u01DE\\u01E0\\u01E2\\u01E4\\u01E6\\u01E8\\u01EA\\u01EC\\u01EE\\u01F1\\u01F4\\u01F6-\\u01F8\\u01FA\\u01FC\\u01FE\\u0200\\u0202\\u0204\\u0206\\u0208\\u020A\\u020C\\u020E\\u0210\\u0212\\u0214\\u0216\\u0218\\u021A\\u021C\\u021E\\u0220\\u0222\\u0224\\u0226\\u0228\\u022A\\u022C\\u022E\\u0230\\u0232\\u023A-\\u023B\\u023D-\\u023E\\u0241\\u0243-\\u0246\\u0248\\u024A\\u024C\\u024E\\u0370\\u0372\\u0376\\u037F\\u0386\\u0388-\\u038A\\u038C\\u038E-\\u038F\\u0391-\\u03A1\\u03A3-\\u03AB\\u03CF\\u03D2-\\u03D4\\u03D8\\u03DA\\u03DC\\u03DE\\u03E0\\u03E2\\u03E4\\u03E6\\u03E8\\u03EA\\u03EC\\u03EE\\u03F4\\u03F7\\u03F9-\\u03FA\\u03FD-\\u042F\\u0460\\u0462\\u0464\\u0466\\u0468\\u046A\\u046C\\u046E\\u0470\\u0472\\u0474\\u0476\\u0478\\u047A\\u047C\\u047E\\u0480\\u048A\\u048C\\u048E\\u0490\\u0492\\u0494\\u0496\\u0498\\u049A\\u049C\\u049E\\u04A0\\u04A2\\u04A4\\u04A6\\u04A8\\u04AA\\u04AC\\u04AE\\u04B0-\\u04D4\\u04D6\\u04D8\\u04DA\\u04DC\\u04DE\\u04E0\\u04E2\\u04E4\\u04E6\\u04E8\\u04EA\\u04EC\\u04EE\\u04F0\\u04F2\\u04F4\\u04F6\\u04F8\\u04FA\\u04FC\\u04FE\\u0500\\u0502\\u0504\\u0506\\u0508\\u050A\\u050C\\u050E\\u0510\\u0512\\u0514\\u0516\\u0518\\u051A\\u051C\\u051E\\u0520\\u0522\\u0524\\u0526\\u0528\\u052A\\u052C\\u052E\\u0531-\\u0556\\u0C80-\\u0CB2\\u10A0-\\u10C5\\u10C7\\u10CD\\u13A0-\\u13F5\\u18A0-\\u18BF\\u1C90-\\u1CBA\\u1CBD-\\u1CBF\\u1E00\\u1E02\\u1E04\\u1E06\\u1E08\\u1E0A\\u1E0C\\u1E0E\\u1E10\\u1E12\\u1E14\\u1E16\\u1E18\\u1E1A\\u1E1C\\u1E1E\\u1E20\\u1E22\\u1E24\\u1E26\\u1E28\\u1E2A\\u1E2C\\u1E2E\\u1E30\\u1E32\\u1E34\\u1E36\\u1E38\\u1E3A\\u1E3C\\u1E3E\\u1E40\\u1E42\\u1E44\\u1E46\\u1E48\\u1E4A\\u1E4C\\u1E4E\\u1E50\\u1E52\\u1E54\\u1E56\\u1E58\\u1E5A\\u1E5C\\u1E5E\\u1E60\\u1E62\\u1E64\\u1E66\\u1E68\\u1E6A\\u1E6C\\u1E6E\\u1E70\\u1E72\\u1E74\\u1E76\\u1E78\\u1E7A\\u1E7C\\u1E7E\\u1E80\\u1E82\\u1E84\\u1E86\\u1E88\\u1E8A\\u1E8C\\u1E8E\\u1E90\\u1E92\\u1E94\\u1E9E\\u1EA0\\u1EA2\\u1EA4\\u1EA6\\u1EA8\\u1EAA\\u1EAC\\u1EAE\\u1EB0\\u1EB2\\u1EB4\\u1EB6\\u1EB8\\u1EBA\\u1EBC\\u1EBE\\u1EC0\\u1EC2\\u1EC4\\u1EC6\\u1EC8\\u1ECA\\u1ECC\\u1ECE\\u1ED0\\u1ED2\\u1ED4\\u1ED6\\u1ED8\\u1EDA\\u1EDC\\u1EDE\\u1EE0\\u1EE2\\u1EE4\\u1EE6\\u1EE8\\u1EEA\\u1EEC\\u1EEE\\u1EF0\\u1EF2\\u1EF4\\u1EF6\\u1EF8\\u1EFA\\u1EFC\\u1EFE\\u1F08-\\u1F0F\\u1F18-\\u1F1D\\u1F28-\\u1F2F\\u1F38-\\u1F3F\\u1F48-\\u1F4D\\u1F59\\u1F5B\\u1F5D\\u1F5F\\u1F68-\\u1F6F\\u1FB8-\\u1FBB\\u1FC8-\\u1FCB\\u1FD8-\\u1FDB\\u1FE8-\\u1FEC\\u1FF8-\\u1FFB\\u2102\\u2107\\u210B-\\u210D\\u2110-\\u2112\\u2115\\u2119-\\u211D\\u2124\\u2126\\u2128\\u212A-\\u212D\\u2130-\\u2133\\u213E-\\u213F\\u2145\\u2183\\u2C00-\\u2C2E\\u2C60\\u2C62-\\u2C64\\u2C67\\u2C69\\u2C6B\\u2C6D-\\u2C70\\u2C72\\u2C75\\u2C7E-\\u2C80\\u2C82\\u2C84\\u2C86\\u2C88\\u2C8A\\u2C8C\\u2C8E\\u2C90\\u2C92\\u2C94\\u2C96\\u2C98\\u2C9A\\u2C9C\\u2C9E\\u2CA0\\u2CA2\\u2CA4\\u2CA6\\u2CA8\\u2CAA\\u2CAC\\u2CAE\\u2CB0\\u2CB2\\u2CB4\\u2CB6\\u2CB8\\u2CBA\\u2CBC\\u2CBE\\u2CC0\\u2CC2\\u2CC4\\u2CC6\\u2CC8\\u2CCA\\u2CCC\\u2CCE\\u2CD0\\u2CD2\\u2CD4\\u2CD6\\u2CD8\\u2CDA\\u2CDC\\u2CDE\\u2CE0\\u2CE2\\u2CEB\\u2CED\\u2CF2\\u6E40-\\u6E5F\\uA640\\uA642\\uA644\\uA646\\uA648\\uA64A\\uA64C\\uA64E\\uA650\\uA652\\uA654\\uA656\\uA658\\uA65A\\uA65C\\uA65E\\uA660\\uA662\\uA664\\uA666\\uA668\\uA66A\\uA66C\\uA680\\uA682\\uA684\\uA686\\uA688\\uA68A\\uA68C\\uA68E\\uA690\\uA692\\uA694\\uA696\\uA698\\uA69A\\uA722\\uA724\\uA726\\uA728\\uA72A\\uA72C\\uA72E\\uA732\\uA734\\uA736\\uA738\\uA73A\\uA73C\\uA73E\\uA740\\uA742\\uA744\\uA746\\uA748\\uA74A\\uA74C\\uA74E\\uA750\\uA752\\uA754\\uA756\\uA758\\uA75A\\uA75C\\uA75E\\uA760\\uA762\\uA764\\uA766\\uA768\\uA76A\\uA76C\\uA76E\\uA779\\uA77B\\uA77D-\\uA77E\\uA780\\uA782\\uA784\\uA786\\uA78B\\uA78D\\uA790\\uA792\\uA796\\uA798\\uA79A\\uA79C\\uA79E\\uA7A0\\uA7A2\\uA7A4\\uA7A6\\uA7A8\\uA7AA-\\uA7AE\\uA7B0-\\uA7B4\\uA7B6\\uA7B8\\uA7BA\\uA7BC\\uA7BE\\uA7C2\\uA7C4-\\uA7C6\\uD400-\\uD419\\uD434-\\uD44D\\uD468-\\uD481\\uD49C\\uD49E-\\uD49F\\uD4A2\\uD4A5-\\uD4A6\\uD4A9-\\uD4AC\\uD4AE-\\uD4B5\\uD4D0-\\uD4E9\\uD504-\\uD505\\uD507-\\uD50A\\uD50D-\\uD514\\uD516-\\uD51C\\uD538-\\uD539\\uD53B-\\uD53E\\uD540-\\uD544\\uD546\\uD54A-\\uD550\\uD56C-\\uD585\\uD5A0-\\uD5B9\\uD5D4-\\uD5ED\\uD608-\\uD621\\uD63C-\\uD655\\uD670-\\uD689\\uD6A8-\\uD6C0\\uD6E2-\\uD6FA\\uD71C-\\uD734\\uD756-\\uD76E\\uD790-\\uD7A8\\uD7CA\\uE900-\\uE921\\uFF21-\\uFF3A";
+
+function makeUpperLowerRegExp(regex_string) {
+    return new RegExp(regex_string.replace(/::lower::/g, LuckyCase._lower).replace(/::upper::/g, LuckyCase._upper), 'g');
+}
+
+// regexp for cases
+LuckyCase.CASES = {
+    SNAKE_CASE: makeUpperLowerRegExp("^[::lower::]{1}[::lower::_0-9]+$"),
+    UPPER_SNAKE_CASE: makeUpperLowerRegExp("^[::upper::]{1}[::upper::_0-9]+$"),
+    PASCAL_CASE: makeUpperLowerRegExp("^[::upper::]{1}[::upper::::lower::0-9]+$"),
+    CAMEL_CASE: makeUpperLowerRegExp("^[::lower::]{1}[::upper::::lower::0-9]+$"),
+    DASH_CASE: makeUpperLowerRegExp("^([::lower::]){1}[::lower::\\-0-9]*[::lower::0-9]+$"),
+    UPPER_DASH_CASE: makeUpperLowerRegExp("^([::upper::]){1}[::upper::\\-0-9]*[::upper::0-9]+$"),
+    TRAIN_CASE: makeUpperLowerRegExp("^([::upper::][::lower::0-9]*\\-|[0-9]+\\-)*([::upper::][::lower::0-9]*)$"),
+    WORD_CASE: makeUpperLowerRegExp("^[::lower::]{1}[::lower:: 0-9]+$"),
+    UPPER_WORD_CASE: makeUpperLowerRegExp("^[::upper::]{1}[::upper:: 0-9]+$"),
+    CAPITAL_WORD_CASE: makeUpperLowerRegExp("^([::upper::][::lower::0-9]*\\ |[0-9]+\\ )*([::upper::][::lower::0-9]*)$"),
+    SENTENCE_CASE: makeUpperLowerRegExp("^[::upper::]{1}[::lower:: 0-9]+$"),
+    MIXED_CASE: makeUpperLowerRegExp("^[::upper::::lower::][::upper::::lower::_\\-0-9 ]*$"),
+}
+
+// regexp for formats
+LuckyCase.FORMATS = {
+    CAPITAL: makeUpperLowerRegExp("^[::upper::]{1}.*$"),
+    UPPER_CASE: makeUpperLowerRegExp("^[^::lower::]+$"),
+    LOWER_CASE: makeUpperLowerRegExp("^[^::upper::]+$"),
+}
+
+// constants for case_types
+LuckyCase.SNAKE_CASE = 'SNAKE_CASE';
+LuckyCase.UPPER_SNAKE_CASE = 'UPPER_SNAKE_CASE';
+LuckyCase.PASCAL_CASE = 'PASCAL_CASE';
+LuckyCase.CAMEL_CASE = 'CAMEL_CASE';
+LuckyCase.DASH_CASE = 'DASH_CASE';
+LuckyCase.UPPER_DASH_CASE = 'UPPER_DASH_CASE';
+LuckyCase.TRAIN_CASE = 'TRAIN_CASE';
+LuckyCase.WORD_CASE = 'WORD_CASE';
+LuckyCase.UPPER_WORD_CASE = 'UPPER_WORD_CASE';
+LuckyCase.CAPITAL_WORD_CASE = 'CAPITAL_WORD_CASE';
+LuckyCase.SENTENCE_CASE = 'SENTENCE_CASE';
+LuckyCase.MIXED_CASE = 'MIXED_CASE';
+
+// constants for formats
+LuckyCase.CAPITAL = 'CAPITAL';
+LuckyCase.UPPER_CASE = 'UPPER_CASE';
+LuckyCase.LOWER_CASE = 'LOWER_CASE';
+
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = LuckyCase;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 7029:
+/***/ ((module) => {
+
+"use strict";
+
+
+/**
+ * @param typeMap [Object] Map of MIME type -> Array[extensions]
+ * @param ...
+ */
+function Mime() {
+  this._types = Object.create(null);
+  this._extensions = Object.create(null);
+
+  for (let i = 0; i < arguments.length; i++) {
+    this.define(arguments[i]);
+  }
+
+  this.define = this.define.bind(this);
+  this.getType = this.getType.bind(this);
+  this.getExtension = this.getExtension.bind(this);
+}
+
+/**
+ * Define mimetype -> extension mappings.  Each key is a mime-type that maps
+ * to an array of extensions associated with the type.  The first extension is
+ * used as the default extension for the type.
+ *
+ * e.g. mime.define({'audio/ogg', ['oga', 'ogg', 'spx']});
+ *
+ * If a type declares an extension that has already been defined, an error will
+ * be thrown.  To suppress this error and force the extension to be associated
+ * with the new type, pass `force`=true.  Alternatively, you may prefix the
+ * extension with "*" to map the type to extension, without mapping the
+ * extension to the type.
+ *
+ * e.g. mime.define({'audio/wav', ['wav']}, {'audio/x-wav', ['*wav']});
+ *
+ *
+ * @param map (Object) type definitions
+ * @param force (Boolean) if true, force overriding of existing definitions
+ */
+Mime.prototype.define = function(typeMap, force) {
+  for (let type in typeMap) {
+    let extensions = typeMap[type].map(function(t) {
+      return t.toLowerCase();
+    });
+    type = type.toLowerCase();
+
+    for (let i = 0; i < extensions.length; i++) {
+      const ext = extensions[i];
+
+      // '*' prefix = not the preferred type for this extension.  So fixup the
+      // extension, and skip it.
+      if (ext[0] === '*') {
+        continue;
+      }
+
+      if (!force && (ext in this._types)) {
+        throw new Error(
+          'Attempt to change mapping for "' + ext +
+          '" extension from "' + this._types[ext] + '" to "' + type +
+          '". Pass `force=true` to allow this, otherwise remove "' + ext +
+          '" from the list of extensions for "' + type + '".'
+        );
+      }
+
+      this._types[ext] = type;
+    }
+
+    // Use first extension as default
+    if (force || !this._extensions[type]) {
+      const ext = extensions[0];
+      this._extensions[type] = (ext[0] !== '*') ? ext : ext.substr(1);
+    }
+  }
+};
+
+/**
+ * Lookup a mime type based on extension
+ */
+Mime.prototype.getType = function(path) {
+  path = String(path);
+  let last = path.replace(/^.*[/\\]/, '').toLowerCase();
+  let ext = last.replace(/^.*\./, '').toLowerCase();
+
+  let hasPath = last.length < path.length;
+  let hasDot = ext.length < last.length - 1;
+
+  return (hasDot || !hasPath) && this._types[ext] || null;
+};
+
+/**
+ * Return file extension associated with a mime type
+ */
+Mime.prototype.getExtension = function(type) {
+  type = /^\s*([^;\s]*)/.test(type) && RegExp.$1;
+  return type && this._extensions[type.toLowerCase()] || null;
+};
+
+module.exports = Mime;
+
+
+/***/ }),
+
+/***/ 5881:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+let Mime = __nccwpck_require__(7029);
+module.exports = new Mime(__nccwpck_require__(6450), __nccwpck_require__(1441));
+
+
+/***/ }),
+
+/***/ 1441:
+/***/ ((module) => {
+
+module.exports = {"application/prs.cww":["cww"],"application/vnd.1000minds.decision-model+xml":["1km"],"application/vnd.3gpp.pic-bw-large":["plb"],"application/vnd.3gpp.pic-bw-small":["psb"],"application/vnd.3gpp.pic-bw-var":["pvb"],"application/vnd.3gpp2.tcap":["tcap"],"application/vnd.3m.post-it-notes":["pwn"],"application/vnd.accpac.simply.aso":["aso"],"application/vnd.accpac.simply.imp":["imp"],"application/vnd.acucobol":["acu"],"application/vnd.acucorp":["atc","acutc"],"application/vnd.adobe.air-application-installer-package+zip":["air"],"application/vnd.adobe.formscentral.fcdt":["fcdt"],"application/vnd.adobe.fxp":["fxp","fxpl"],"application/vnd.adobe.xdp+xml":["xdp"],"application/vnd.adobe.xfdf":["xfdf"],"application/vnd.ahead.space":["ahead"],"application/vnd.airzip.filesecure.azf":["azf"],"application/vnd.airzip.filesecure.azs":["azs"],"application/vnd.amazon.ebook":["azw"],"application/vnd.americandynamics.acc":["acc"],"application/vnd.amiga.ami":["ami"],"application/vnd.android.package-archive":["apk"],"application/vnd.anser-web-certificate-issue-initiation":["cii"],"application/vnd.anser-web-funds-transfer-initiation":["fti"],"application/vnd.antix.game-component":["atx"],"application/vnd.apple.installer+xml":["mpkg"],"application/vnd.apple.keynote":["key"],"application/vnd.apple.mpegurl":["m3u8"],"application/vnd.apple.numbers":["numbers"],"application/vnd.apple.pages":["pages"],"application/vnd.apple.pkpass":["pkpass"],"application/vnd.aristanetworks.swi":["swi"],"application/vnd.astraea-software.iota":["iota"],"application/vnd.audiograph":["aep"],"application/vnd.balsamiq.bmml+xml":["bmml"],"application/vnd.blueice.multipass":["mpm"],"application/vnd.bmi":["bmi"],"application/vnd.businessobjects":["rep"],"application/vnd.chemdraw+xml":["cdxml"],"application/vnd.chipnuts.karaoke-mmd":["mmd"],"application/vnd.cinderella":["cdy"],"application/vnd.citationstyles.style+xml":["csl"],"application/vnd.claymore":["cla"],"application/vnd.cloanto.rp9":["rp9"],"application/vnd.clonk.c4group":["c4g","c4d","c4f","c4p","c4u"],"application/vnd.cluetrust.cartomobile-config":["c11amc"],"application/vnd.cluetrust.cartomobile-config-pkg":["c11amz"],"application/vnd.commonspace":["csp"],"application/vnd.contact.cmsg":["cdbcmsg"],"application/vnd.cosmocaller":["cmc"],"application/vnd.crick.clicker":["clkx"],"application/vnd.crick.clicker.keyboard":["clkk"],"application/vnd.crick.clicker.palette":["clkp"],"application/vnd.crick.clicker.template":["clkt"],"application/vnd.crick.clicker.wordbank":["clkw"],"application/vnd.criticaltools.wbs+xml":["wbs"],"application/vnd.ctc-posml":["pml"],"application/vnd.cups-ppd":["ppd"],"application/vnd.curl.car":["car"],"application/vnd.curl.pcurl":["pcurl"],"application/vnd.dart":["dart"],"application/vnd.data-vision.rdz":["rdz"],"application/vnd.dbf":["dbf"],"application/vnd.dece.data":["uvf","uvvf","uvd","uvvd"],"application/vnd.dece.ttml+xml":["uvt","uvvt"],"application/vnd.dece.unspecified":["uvx","uvvx"],"application/vnd.dece.zip":["uvz","uvvz"],"application/vnd.denovo.fcselayout-link":["fe_launch"],"application/vnd.dna":["dna"],"application/vnd.dolby.mlp":["mlp"],"application/vnd.dpgraph":["dpg"],"application/vnd.dreamfactory":["dfac"],"application/vnd.ds-keypoint":["kpxx"],"application/vnd.dvb.ait":["ait"],"application/vnd.dvb.service":["svc"],"application/vnd.dynageo":["geo"],"application/vnd.ecowin.chart":["mag"],"application/vnd.enliven":["nml"],"application/vnd.epson.esf":["esf"],"application/vnd.epson.msf":["msf"],"application/vnd.epson.quickanime":["qam"],"application/vnd.epson.salt":["slt"],"application/vnd.epson.ssf":["ssf"],"application/vnd.eszigno3+xml":["es3","et3"],"application/vnd.ezpix-album":["ez2"],"application/vnd.ezpix-package":["ez3"],"application/vnd.fdf":["fdf"],"application/vnd.fdsn.mseed":["mseed"],"application/vnd.fdsn.seed":["seed","dataless"],"application/vnd.flographit":["gph"],"application/vnd.fluxtime.clip":["ftc"],"application/vnd.framemaker":["fm","frame","maker","book"],"application/vnd.frogans.fnc":["fnc"],"application/vnd.frogans.ltf":["ltf"],"application/vnd.fsc.weblaunch":["fsc"],"application/vnd.fujitsu.oasys":["oas"],"application/vnd.fujitsu.oasys2":["oa2"],"application/vnd.fujitsu.oasys3":["oa3"],"application/vnd.fujitsu.oasysgp":["fg5"],"application/vnd.fujitsu.oasysprs":["bh2"],"application/vnd.fujixerox.ddd":["ddd"],"application/vnd.fujixerox.docuworks":["xdw"],"application/vnd.fujixerox.docuworks.binder":["xbd"],"application/vnd.fuzzysheet":["fzs"],"application/vnd.genomatix.tuxedo":["txd"],"application/vnd.geogebra.file":["ggb"],"application/vnd.geogebra.tool":["ggt"],"application/vnd.geometry-explorer":["gex","gre"],"application/vnd.geonext":["gxt"],"application/vnd.geoplan":["g2w"],"application/vnd.geospace":["g3w"],"application/vnd.gmx":["gmx"],"application/vnd.google-apps.document":["gdoc"],"application/vnd.google-apps.presentation":["gslides"],"application/vnd.google-apps.spreadsheet":["gsheet"],"application/vnd.google-earth.kml+xml":["kml"],"application/vnd.google-earth.kmz":["kmz"],"application/vnd.grafeq":["gqf","gqs"],"application/vnd.groove-account":["gac"],"application/vnd.groove-help":["ghf"],"application/vnd.groove-identity-message":["gim"],"application/vnd.groove-injector":["grv"],"application/vnd.groove-tool-message":["gtm"],"application/vnd.groove-tool-template":["tpl"],"application/vnd.groove-vcard":["vcg"],"application/vnd.hal+xml":["hal"],"application/vnd.handheld-entertainment+xml":["zmm"],"application/vnd.hbci":["hbci"],"application/vnd.hhe.lesson-player":["les"],"application/vnd.hp-hpgl":["hpgl"],"application/vnd.hp-hpid":["hpid"],"application/vnd.hp-hps":["hps"],"application/vnd.hp-jlyt":["jlt"],"application/vnd.hp-pcl":["pcl"],"application/vnd.hp-pclxl":["pclxl"],"application/vnd.hydrostatix.sof-data":["sfd-hdstx"],"application/vnd.ibm.minipay":["mpy"],"application/vnd.ibm.modcap":["afp","listafp","list3820"],"application/vnd.ibm.rights-management":["irm"],"application/vnd.ibm.secure-container":["sc"],"application/vnd.iccprofile":["icc","icm"],"application/vnd.igloader":["igl"],"application/vnd.immervision-ivp":["ivp"],"application/vnd.immervision-ivu":["ivu"],"application/vnd.insors.igm":["igm"],"application/vnd.intercon.formnet":["xpw","xpx"],"application/vnd.intergeo":["i2g"],"application/vnd.intu.qbo":["qbo"],"application/vnd.intu.qfx":["qfx"],"application/vnd.ipunplugged.rcprofile":["rcprofile"],"application/vnd.irepository.package+xml":["irp"],"application/vnd.is-xpr":["xpr"],"application/vnd.isac.fcs":["fcs"],"application/vnd.jam":["jam"],"application/vnd.jcp.javame.midlet-rms":["rms"],"application/vnd.jisp":["jisp"],"application/vnd.joost.joda-archive":["joda"],"application/vnd.kahootz":["ktz","ktr"],"application/vnd.kde.karbon":["karbon"],"application/vnd.kde.kchart":["chrt"],"application/vnd.kde.kformula":["kfo"],"application/vnd.kde.kivio":["flw"],"application/vnd.kde.kontour":["kon"],"application/vnd.kde.kpresenter":["kpr","kpt"],"application/vnd.kde.kspread":["ksp"],"application/vnd.kde.kword":["kwd","kwt"],"application/vnd.kenameaapp":["htke"],"application/vnd.kidspiration":["kia"],"application/vnd.kinar":["kne","knp"],"application/vnd.koan":["skp","skd","skt","skm"],"application/vnd.kodak-descriptor":["sse"],"application/vnd.las.las+xml":["lasxml"],"application/vnd.llamagraphics.life-balance.desktop":["lbd"],"application/vnd.llamagraphics.life-balance.exchange+xml":["lbe"],"application/vnd.lotus-1-2-3":["123"],"application/vnd.lotus-approach":["apr"],"application/vnd.lotus-freelance":["pre"],"application/vnd.lotus-notes":["nsf"],"application/vnd.lotus-organizer":["org"],"application/vnd.lotus-screencam":["scm"],"application/vnd.lotus-wordpro":["lwp"],"application/vnd.macports.portpkg":["portpkg"],"application/vnd.mapbox-vector-tile":["mvt"],"application/vnd.mcd":["mcd"],"application/vnd.medcalcdata":["mc1"],"application/vnd.mediastation.cdkey":["cdkey"],"application/vnd.mfer":["mwf"],"application/vnd.mfmp":["mfm"],"application/vnd.micrografx.flo":["flo"],"application/vnd.micrografx.igx":["igx"],"application/vnd.mif":["mif"],"application/vnd.mobius.daf":["daf"],"application/vnd.mobius.dis":["dis"],"application/vnd.mobius.mbk":["mbk"],"application/vnd.mobius.mqy":["mqy"],"application/vnd.mobius.msl":["msl"],"application/vnd.mobius.plc":["plc"],"application/vnd.mobius.txf":["txf"],"application/vnd.mophun.application":["mpn"],"application/vnd.mophun.certificate":["mpc"],"application/vnd.mozilla.xul+xml":["xul"],"application/vnd.ms-artgalry":["cil"],"application/vnd.ms-cab-compressed":["cab"],"application/vnd.ms-excel":["xls","xlm","xla","xlc","xlt","xlw"],"application/vnd.ms-excel.addin.macroenabled.12":["xlam"],"application/vnd.ms-excel.sheet.binary.macroenabled.12":["xlsb"],"application/vnd.ms-excel.sheet.macroenabled.12":["xlsm"],"application/vnd.ms-excel.template.macroenabled.12":["xltm"],"application/vnd.ms-fontobject":["eot"],"application/vnd.ms-htmlhelp":["chm"],"application/vnd.ms-ims":["ims"],"application/vnd.ms-lrm":["lrm"],"application/vnd.ms-officetheme":["thmx"],"application/vnd.ms-outlook":["msg"],"application/vnd.ms-pki.seccat":["cat"],"application/vnd.ms-pki.stl":["*stl"],"application/vnd.ms-powerpoint":["ppt","pps","pot"],"application/vnd.ms-powerpoint.addin.macroenabled.12":["ppam"],"application/vnd.ms-powerpoint.presentation.macroenabled.12":["pptm"],"application/vnd.ms-powerpoint.slide.macroenabled.12":["sldm"],"application/vnd.ms-powerpoint.slideshow.macroenabled.12":["ppsm"],"application/vnd.ms-powerpoint.template.macroenabled.12":["potm"],"application/vnd.ms-project":["mpp","mpt"],"application/vnd.ms-word.document.macroenabled.12":["docm"],"application/vnd.ms-word.template.macroenabled.12":["dotm"],"application/vnd.ms-works":["wps","wks","wcm","wdb"],"application/vnd.ms-wpl":["wpl"],"application/vnd.ms-xpsdocument":["xps"],"application/vnd.mseq":["mseq"],"application/vnd.musician":["mus"],"application/vnd.muvee.style":["msty"],"application/vnd.mynfc":["taglet"],"application/vnd.neurolanguage.nlu":["nlu"],"application/vnd.nitf":["ntf","nitf"],"application/vnd.noblenet-directory":["nnd"],"application/vnd.noblenet-sealer":["nns"],"application/vnd.noblenet-web":["nnw"],"application/vnd.nokia.n-gage.ac+xml":["*ac"],"application/vnd.nokia.n-gage.data":["ngdat"],"application/vnd.nokia.n-gage.symbian.install":["n-gage"],"application/vnd.nokia.radio-preset":["rpst"],"application/vnd.nokia.radio-presets":["rpss"],"application/vnd.novadigm.edm":["edm"],"application/vnd.novadigm.edx":["edx"],"application/vnd.novadigm.ext":["ext"],"application/vnd.oasis.opendocument.chart":["odc"],"application/vnd.oasis.opendocument.chart-template":["otc"],"application/vnd.oasis.opendocument.database":["odb"],"application/vnd.oasis.opendocument.formula":["odf"],"application/vnd.oasis.opendocument.formula-template":["odft"],"application/vnd.oasis.opendocument.graphics":["odg"],"application/vnd.oasis.opendocument.graphics-template":["otg"],"application/vnd.oasis.opendocument.image":["odi"],"application/vnd.oasis.opendocument.image-template":["oti"],"application/vnd.oasis.opendocument.presentation":["odp"],"application/vnd.oasis.opendocument.presentation-template":["otp"],"application/vnd.oasis.opendocument.spreadsheet":["ods"],"application/vnd.oasis.opendocument.spreadsheet-template":["ots"],"application/vnd.oasis.opendocument.text":["odt"],"application/vnd.oasis.opendocument.text-master":["odm"],"application/vnd.oasis.opendocument.text-template":["ott"],"application/vnd.oasis.opendocument.text-web":["oth"],"application/vnd.olpc-sugar":["xo"],"application/vnd.oma.dd2+xml":["dd2"],"application/vnd.openblox.game+xml":["obgx"],"application/vnd.openofficeorg.extension":["oxt"],"application/vnd.openstreetmap.data+xml":["osm"],"application/vnd.openxmlformats-officedocument.presentationml.presentation":["pptx"],"application/vnd.openxmlformats-officedocument.presentationml.slide":["sldx"],"application/vnd.openxmlformats-officedocument.presentationml.slideshow":["ppsx"],"application/vnd.openxmlformats-officedocument.presentationml.template":["potx"],"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":["xlsx"],"application/vnd.openxmlformats-officedocument.spreadsheetml.template":["xltx"],"application/vnd.openxmlformats-officedocument.wordprocessingml.document":["docx"],"application/vnd.openxmlformats-officedocument.wordprocessingml.template":["dotx"],"application/vnd.osgeo.mapguide.package":["mgp"],"application/vnd.osgi.dp":["dp"],"application/vnd.osgi.subsystem":["esa"],"application/vnd.palm":["pdb","pqa","oprc"],"application/vnd.pawaafile":["paw"],"application/vnd.pg.format":["str"],"application/vnd.pg.osasli":["ei6"],"application/vnd.picsel":["efif"],"application/vnd.pmi.widget":["wg"],"application/vnd.pocketlearn":["plf"],"application/vnd.powerbuilder6":["pbd"],"application/vnd.previewsystems.box":["box"],"application/vnd.proteus.magazine":["mgz"],"application/vnd.publishare-delta-tree":["qps"],"application/vnd.pvi.ptid1":["ptid"],"application/vnd.quark.quarkxpress":["qxd","qxt","qwd","qwt","qxl","qxb"],"application/vnd.rar":["rar"],"application/vnd.realvnc.bed":["bed"],"application/vnd.recordare.musicxml":["mxl"],"application/vnd.recordare.musicxml+xml":["musicxml"],"application/vnd.rig.cryptonote":["cryptonote"],"application/vnd.rim.cod":["cod"],"application/vnd.rn-realmedia":["rm"],"application/vnd.rn-realmedia-vbr":["rmvb"],"application/vnd.route66.link66+xml":["link66"],"application/vnd.sailingtracker.track":["st"],"application/vnd.seemail":["see"],"application/vnd.sema":["sema"],"application/vnd.semd":["semd"],"application/vnd.semf":["semf"],"application/vnd.shana.informed.formdata":["ifm"],"application/vnd.shana.informed.formtemplate":["itp"],"application/vnd.shana.informed.interchange":["iif"],"application/vnd.shana.informed.package":["ipk"],"application/vnd.simtech-mindmapper":["twd","twds"],"application/vnd.smaf":["mmf"],"application/vnd.smart.teacher":["teacher"],"application/vnd.software602.filler.form+xml":["fo"],"application/vnd.solent.sdkm+xml":["sdkm","sdkd"],"application/vnd.spotfire.dxp":["dxp"],"application/vnd.spotfire.sfs":["sfs"],"application/vnd.stardivision.calc":["sdc"],"application/vnd.stardivision.draw":["sda"],"application/vnd.stardivision.impress":["sdd"],"application/vnd.stardivision.math":["smf"],"application/vnd.stardivision.writer":["sdw","vor"],"application/vnd.stardivision.writer-global":["sgl"],"application/vnd.stepmania.package":["smzip"],"application/vnd.stepmania.stepchart":["sm"],"application/vnd.sun.wadl+xml":["wadl"],"application/vnd.sun.xml.calc":["sxc"],"application/vnd.sun.xml.calc.template":["stc"],"application/vnd.sun.xml.draw":["sxd"],"application/vnd.sun.xml.draw.template":["std"],"application/vnd.sun.xml.impress":["sxi"],"application/vnd.sun.xml.impress.template":["sti"],"application/vnd.sun.xml.math":["sxm"],"application/vnd.sun.xml.writer":["sxw"],"application/vnd.sun.xml.writer.global":["sxg"],"application/vnd.sun.xml.writer.template":["stw"],"application/vnd.sus-calendar":["sus","susp"],"application/vnd.svd":["svd"],"application/vnd.symbian.install":["sis","sisx"],"application/vnd.syncml+xml":["xsm"],"application/vnd.syncml.dm+wbxml":["bdm"],"application/vnd.syncml.dm+xml":["xdm"],"application/vnd.syncml.dmddf+xml":["ddf"],"application/vnd.tao.intent-module-archive":["tao"],"application/vnd.tcpdump.pcap":["pcap","cap","dmp"],"application/vnd.tmobile-livetv":["tmo"],"application/vnd.trid.tpt":["tpt"],"application/vnd.triscape.mxs":["mxs"],"application/vnd.trueapp":["tra"],"application/vnd.ufdl":["ufd","ufdl"],"application/vnd.uiq.theme":["utz"],"application/vnd.umajin":["umj"],"application/vnd.unity":["unityweb"],"application/vnd.uoml+xml":["uoml"],"application/vnd.vcx":["vcx"],"application/vnd.visio":["vsd","vst","vss","vsw"],"application/vnd.visionary":["vis"],"application/vnd.vsf":["vsf"],"application/vnd.wap.wbxml":["wbxml"],"application/vnd.wap.wmlc":["wmlc"],"application/vnd.wap.wmlscriptc":["wmlsc"],"application/vnd.webturbo":["wtb"],"application/vnd.wolfram.player":["nbp"],"application/vnd.wordperfect":["wpd"],"application/vnd.wqd":["wqd"],"application/vnd.wt.stf":["stf"],"application/vnd.xara":["xar"],"application/vnd.xfdl":["xfdl"],"application/vnd.yamaha.hv-dic":["hvd"],"application/vnd.yamaha.hv-script":["hvs"],"application/vnd.yamaha.hv-voice":["hvp"],"application/vnd.yamaha.openscoreformat":["osf"],"application/vnd.yamaha.openscoreformat.osfpvg+xml":["osfpvg"],"application/vnd.yamaha.smaf-audio":["saf"],"application/vnd.yamaha.smaf-phrase":["spf"],"application/vnd.yellowriver-custom-menu":["cmp"],"application/vnd.zul":["zir","zirz"],"application/vnd.zzazz.deck+xml":["zaz"],"application/x-7z-compressed":["7z"],"application/x-abiword":["abw"],"application/x-ace-compressed":["ace"],"application/x-apple-diskimage":["*dmg"],"application/x-arj":["arj"],"application/x-authorware-bin":["aab","x32","u32","vox"],"application/x-authorware-map":["aam"],"application/x-authorware-seg":["aas"],"application/x-bcpio":["bcpio"],"application/x-bdoc":["*bdoc"],"application/x-bittorrent":["torrent"],"application/x-blorb":["blb","blorb"],"application/x-bzip":["bz"],"application/x-bzip2":["bz2","boz"],"application/x-cbr":["cbr","cba","cbt","cbz","cb7"],"application/x-cdlink":["vcd"],"application/x-cfs-compressed":["cfs"],"application/x-chat":["chat"],"application/x-chess-pgn":["pgn"],"application/x-chrome-extension":["crx"],"application/x-cocoa":["cco"],"application/x-conference":["nsc"],"application/x-cpio":["cpio"],"application/x-csh":["csh"],"application/x-debian-package":["*deb","udeb"],"application/x-dgc-compressed":["dgc"],"application/x-director":["dir","dcr","dxr","cst","cct","cxt","w3d","fgd","swa"],"application/x-doom":["wad"],"application/x-dtbncx+xml":["ncx"],"application/x-dtbook+xml":["dtb"],"application/x-dtbresource+xml":["res"],"application/x-dvi":["dvi"],"application/x-envoy":["evy"],"application/x-eva":["eva"],"application/x-font-bdf":["bdf"],"application/x-font-ghostscript":["gsf"],"application/x-font-linux-psf":["psf"],"application/x-font-pcf":["pcf"],"application/x-font-snf":["snf"],"application/x-font-type1":["pfa","pfb","pfm","afm"],"application/x-freearc":["arc"],"application/x-futuresplash":["spl"],"application/x-gca-compressed":["gca"],"application/x-glulx":["ulx"],"application/x-gnumeric":["gnumeric"],"application/x-gramps-xml":["gramps"],"application/x-gtar":["gtar"],"application/x-hdf":["hdf"],"application/x-httpd-php":["php"],"application/x-install-instructions":["install"],"application/x-iso9660-image":["*iso"],"application/x-iwork-keynote-sffkey":["*key"],"application/x-iwork-numbers-sffnumbers":["*numbers"],"application/x-iwork-pages-sffpages":["*pages"],"application/x-java-archive-diff":["jardiff"],"application/x-java-jnlp-file":["jnlp"],"application/x-keepass2":["kdbx"],"application/x-latex":["latex"],"application/x-lua-bytecode":["luac"],"application/x-lzh-compressed":["lzh","lha"],"application/x-makeself":["run"],"application/x-mie":["mie"],"application/x-mobipocket-ebook":["prc","mobi"],"application/x-ms-application":["application"],"application/x-ms-shortcut":["lnk"],"application/x-ms-wmd":["wmd"],"application/x-ms-wmz":["wmz"],"application/x-ms-xbap":["xbap"],"application/x-msaccess":["mdb"],"application/x-msbinder":["obd"],"application/x-mscardfile":["crd"],"application/x-msclip":["clp"],"application/x-msdos-program":["*exe"],"application/x-msdownload":["*exe","*dll","com","bat","*msi"],"application/x-msmediaview":["mvb","m13","m14"],"application/x-msmetafile":["*wmf","*wmz","*emf","emz"],"application/x-msmoney":["mny"],"application/x-mspublisher":["pub"],"application/x-msschedule":["scd"],"application/x-msterminal":["trm"],"application/x-mswrite":["wri"],"application/x-netcdf":["nc","cdf"],"application/x-ns-proxy-autoconfig":["pac"],"application/x-nzb":["nzb"],"application/x-perl":["pl","pm"],"application/x-pilot":["*prc","*pdb"],"application/x-pkcs12":["p12","pfx"],"application/x-pkcs7-certificates":["p7b","spc"],"application/x-pkcs7-certreqresp":["p7r"],"application/x-rar-compressed":["*rar"],"application/x-redhat-package-manager":["rpm"],"application/x-research-info-systems":["ris"],"application/x-sea":["sea"],"application/x-sh":["sh"],"application/x-shar":["shar"],"application/x-shockwave-flash":["swf"],"application/x-silverlight-app":["xap"],"application/x-sql":["sql"],"application/x-stuffit":["sit"],"application/x-stuffitx":["sitx"],"application/x-subrip":["srt"],"application/x-sv4cpio":["sv4cpio"],"application/x-sv4crc":["sv4crc"],"application/x-t3vm-image":["t3"],"application/x-tads":["gam"],"application/x-tar":["tar"],"application/x-tcl":["tcl","tk"],"application/x-tex":["tex"],"application/x-tex-tfm":["tfm"],"application/x-texinfo":["texinfo","texi"],"application/x-tgif":["*obj"],"application/x-ustar":["ustar"],"application/x-virtualbox-hdd":["hdd"],"application/x-virtualbox-ova":["ova"],"application/x-virtualbox-ovf":["ovf"],"application/x-virtualbox-vbox":["vbox"],"application/x-virtualbox-vbox-extpack":["vbox-extpack"],"application/x-virtualbox-vdi":["vdi"],"application/x-virtualbox-vhd":["vhd"],"application/x-virtualbox-vmdk":["vmdk"],"application/x-wais-source":["src"],"application/x-web-app-manifest+json":["webapp"],"application/x-x509-ca-cert":["der","crt","pem"],"application/x-xfig":["fig"],"application/x-xliff+xml":["*xlf"],"application/x-xpinstall":["xpi"],"application/x-xz":["xz"],"application/x-zmachine":["z1","z2","z3","z4","z5","z6","z7","z8"],"audio/vnd.dece.audio":["uva","uvva"],"audio/vnd.digital-winds":["eol"],"audio/vnd.dra":["dra"],"audio/vnd.dts":["dts"],"audio/vnd.dts.hd":["dtshd"],"audio/vnd.lucent.voice":["lvp"],"audio/vnd.ms-playready.media.pya":["pya"],"audio/vnd.nuera.ecelp4800":["ecelp4800"],"audio/vnd.nuera.ecelp7470":["ecelp7470"],"audio/vnd.nuera.ecelp9600":["ecelp9600"],"audio/vnd.rip":["rip"],"audio/x-aac":["aac"],"audio/x-aiff":["aif","aiff","aifc"],"audio/x-caf":["caf"],"audio/x-flac":["flac"],"audio/x-m4a":["*m4a"],"audio/x-matroska":["mka"],"audio/x-mpegurl":["m3u"],"audio/x-ms-wax":["wax"],"audio/x-ms-wma":["wma"],"audio/x-pn-realaudio":["ram","ra"],"audio/x-pn-realaudio-plugin":["rmp"],"audio/x-realaudio":["*ra"],"audio/x-wav":["*wav"],"chemical/x-cdx":["cdx"],"chemical/x-cif":["cif"],"chemical/x-cmdf":["cmdf"],"chemical/x-cml":["cml"],"chemical/x-csml":["csml"],"chemical/x-xyz":["xyz"],"image/prs.btif":["btif"],"image/prs.pti":["pti"],"image/vnd.adobe.photoshop":["psd"],"image/vnd.airzip.accelerator.azv":["azv"],"image/vnd.dece.graphic":["uvi","uvvi","uvg","uvvg"],"image/vnd.djvu":["djvu","djv"],"image/vnd.dvb.subtitle":["*sub"],"image/vnd.dwg":["dwg"],"image/vnd.dxf":["dxf"],"image/vnd.fastbidsheet":["fbs"],"image/vnd.fpx":["fpx"],"image/vnd.fst":["fst"],"image/vnd.fujixerox.edmics-mmr":["mmr"],"image/vnd.fujixerox.edmics-rlc":["rlc"],"image/vnd.microsoft.icon":["ico"],"image/vnd.ms-dds":["dds"],"image/vnd.ms-modi":["mdi"],"image/vnd.ms-photo":["wdp"],"image/vnd.net-fpx":["npx"],"image/vnd.pco.b16":["b16"],"image/vnd.tencent.tap":["tap"],"image/vnd.valve.source.texture":["vtf"],"image/vnd.wap.wbmp":["wbmp"],"image/vnd.xiff":["xif"],"image/vnd.zbrush.pcx":["pcx"],"image/x-3ds":["3ds"],"image/x-cmu-raster":["ras"],"image/x-cmx":["cmx"],"image/x-freehand":["fh","fhc","fh4","fh5","fh7"],"image/x-icon":["*ico"],"image/x-jng":["jng"],"image/x-mrsid-image":["sid"],"image/x-ms-bmp":["*bmp"],"image/x-pcx":["*pcx"],"image/x-pict":["pic","pct"],"image/x-portable-anymap":["pnm"],"image/x-portable-bitmap":["pbm"],"image/x-portable-graymap":["pgm"],"image/x-portable-pixmap":["ppm"],"image/x-rgb":["rgb"],"image/x-tga":["tga"],"image/x-xbitmap":["xbm"],"image/x-xpixmap":["xpm"],"image/x-xwindowdump":["xwd"],"message/vnd.wfa.wsc":["wsc"],"model/vnd.collada+xml":["dae"],"model/vnd.dwf":["dwf"],"model/vnd.gdl":["gdl"],"model/vnd.gtw":["gtw"],"model/vnd.mts":["mts"],"model/vnd.opengex":["ogex"],"model/vnd.parasolid.transmit.binary":["x_b"],"model/vnd.parasolid.transmit.text":["x_t"],"model/vnd.sap.vds":["vds"],"model/vnd.usdz+zip":["usdz"],"model/vnd.valve.source.compiled-map":["bsp"],"model/vnd.vtu":["vtu"],"text/prs.lines.tag":["dsc"],"text/vnd.curl":["curl"],"text/vnd.curl.dcurl":["dcurl"],"text/vnd.curl.mcurl":["mcurl"],"text/vnd.curl.scurl":["scurl"],"text/vnd.dvb.subtitle":["sub"],"text/vnd.fly":["fly"],"text/vnd.fmi.flexstor":["flx"],"text/vnd.graphviz":["gv"],"text/vnd.in3d.3dml":["3dml"],"text/vnd.in3d.spot":["spot"],"text/vnd.sun.j2me.app-descriptor":["jad"],"text/vnd.wap.wml":["wml"],"text/vnd.wap.wmlscript":["wmls"],"text/x-asm":["s","asm"],"text/x-c":["c","cc","cxx","cpp","h","hh","dic"],"text/x-component":["htc"],"text/x-fortran":["f","for","f77","f90"],"text/x-handlebars-template":["hbs"],"text/x-java-source":["java"],"text/x-lua":["lua"],"text/x-markdown":["mkd"],"text/x-nfo":["nfo"],"text/x-opml":["opml"],"text/x-org":["*org"],"text/x-pascal":["p","pas"],"text/x-processing":["pde"],"text/x-sass":["sass"],"text/x-scss":["scss"],"text/x-setext":["etx"],"text/x-sfv":["sfv"],"text/x-suse-ymp":["ymp"],"text/x-uuencode":["uu"],"text/x-vcalendar":["vcs"],"text/x-vcard":["vcf"],"video/vnd.dece.hd":["uvh","uvvh"],"video/vnd.dece.mobile":["uvm","uvvm"],"video/vnd.dece.pd":["uvp","uvvp"],"video/vnd.dece.sd":["uvs","uvvs"],"video/vnd.dece.video":["uvv","uvvv"],"video/vnd.dvb.file":["dvb"],"video/vnd.fvt":["fvt"],"video/vnd.mpegurl":["mxu","m4u"],"video/vnd.ms-playready.media.pyv":["pyv"],"video/vnd.uvvu.mp4":["uvu","uvvu"],"video/vnd.vivo":["viv"],"video/x-f4v":["f4v"],"video/x-fli":["fli"],"video/x-flv":["flv"],"video/x-m4v":["m4v"],"video/x-matroska":["mkv","mk3d","mks"],"video/x-mng":["mng"],"video/x-ms-asf":["asf","asx"],"video/x-ms-vob":["vob"],"video/x-ms-wm":["wm"],"video/x-ms-wmv":["wmv"],"video/x-ms-wmx":["wmx"],"video/x-ms-wvx":["wvx"],"video/x-msvideo":["avi"],"video/x-sgi-movie":["movie"],"video/x-smv":["smv"],"x-conference/x-cooltalk":["ice"]};
+
+/***/ }),
+
+/***/ 6450:
+/***/ ((module) => {
+
+module.exports = {"application/andrew-inset":["ez"],"application/applixware":["aw"],"application/atom+xml":["atom"],"application/atomcat+xml":["atomcat"],"application/atomdeleted+xml":["atomdeleted"],"application/atomsvc+xml":["atomsvc"],"application/atsc-dwd+xml":["dwd"],"application/atsc-held+xml":["held"],"application/atsc-rsat+xml":["rsat"],"application/bdoc":["bdoc"],"application/calendar+xml":["xcs"],"application/ccxml+xml":["ccxml"],"application/cdfx+xml":["cdfx"],"application/cdmi-capability":["cdmia"],"application/cdmi-container":["cdmic"],"application/cdmi-domain":["cdmid"],"application/cdmi-object":["cdmio"],"application/cdmi-queue":["cdmiq"],"application/cu-seeme":["cu"],"application/dash+xml":["mpd"],"application/davmount+xml":["davmount"],"application/docbook+xml":["dbk"],"application/dssc+der":["dssc"],"application/dssc+xml":["xdssc"],"application/ecmascript":["es","ecma"],"application/emma+xml":["emma"],"application/emotionml+xml":["emotionml"],"application/epub+zip":["epub"],"application/exi":["exi"],"application/express":["exp"],"application/fdt+xml":["fdt"],"application/font-tdpfr":["pfr"],"application/geo+json":["geojson"],"application/gml+xml":["gml"],"application/gpx+xml":["gpx"],"application/gxf":["gxf"],"application/gzip":["gz"],"application/hjson":["hjson"],"application/hyperstudio":["stk"],"application/inkml+xml":["ink","inkml"],"application/ipfix":["ipfix"],"application/its+xml":["its"],"application/java-archive":["jar","war","ear"],"application/java-serialized-object":["ser"],"application/java-vm":["class"],"application/javascript":["js","mjs"],"application/json":["json","map"],"application/json5":["json5"],"application/jsonml+json":["jsonml"],"application/ld+json":["jsonld"],"application/lgr+xml":["lgr"],"application/lost+xml":["lostxml"],"application/mac-binhex40":["hqx"],"application/mac-compactpro":["cpt"],"application/mads+xml":["mads"],"application/manifest+json":["webmanifest"],"application/marc":["mrc"],"application/marcxml+xml":["mrcx"],"application/mathematica":["ma","nb","mb"],"application/mathml+xml":["mathml"],"application/mbox":["mbox"],"application/mediaservercontrol+xml":["mscml"],"application/metalink+xml":["metalink"],"application/metalink4+xml":["meta4"],"application/mets+xml":["mets"],"application/mmt-aei+xml":["maei"],"application/mmt-usd+xml":["musd"],"application/mods+xml":["mods"],"application/mp21":["m21","mp21"],"application/mp4":["mp4s","m4p"],"application/msword":["doc","dot"],"application/mxf":["mxf"],"application/n-quads":["nq"],"application/n-triples":["nt"],"application/node":["cjs"],"application/octet-stream":["bin","dms","lrf","mar","so","dist","distz","pkg","bpk","dump","elc","deploy","exe","dll","deb","dmg","iso","img","msi","msp","msm","buffer"],"application/oda":["oda"],"application/oebps-package+xml":["opf"],"application/ogg":["ogx"],"application/omdoc+xml":["omdoc"],"application/onenote":["onetoc","onetoc2","onetmp","onepkg"],"application/oxps":["oxps"],"application/p2p-overlay+xml":["relo"],"application/patch-ops-error+xml":["xer"],"application/pdf":["pdf"],"application/pgp-encrypted":["pgp"],"application/pgp-signature":["asc","sig"],"application/pics-rules":["prf"],"application/pkcs10":["p10"],"application/pkcs7-mime":["p7m","p7c"],"application/pkcs7-signature":["p7s"],"application/pkcs8":["p8"],"application/pkix-attr-cert":["ac"],"application/pkix-cert":["cer"],"application/pkix-crl":["crl"],"application/pkix-pkipath":["pkipath"],"application/pkixcmp":["pki"],"application/pls+xml":["pls"],"application/postscript":["ai","eps","ps"],"application/provenance+xml":["provx"],"application/pskc+xml":["pskcxml"],"application/raml+yaml":["raml"],"application/rdf+xml":["rdf","owl"],"application/reginfo+xml":["rif"],"application/relax-ng-compact-syntax":["rnc"],"application/resource-lists+xml":["rl"],"application/resource-lists-diff+xml":["rld"],"application/rls-services+xml":["rs"],"application/route-apd+xml":["rapd"],"application/route-s-tsid+xml":["sls"],"application/route-usd+xml":["rusd"],"application/rpki-ghostbusters":["gbr"],"application/rpki-manifest":["mft"],"application/rpki-roa":["roa"],"application/rsd+xml":["rsd"],"application/rss+xml":["rss"],"application/rtf":["rtf"],"application/sbml+xml":["sbml"],"application/scvp-cv-request":["scq"],"application/scvp-cv-response":["scs"],"application/scvp-vp-request":["spq"],"application/scvp-vp-response":["spp"],"application/sdp":["sdp"],"application/senml+xml":["senmlx"],"application/sensml+xml":["sensmlx"],"application/set-payment-initiation":["setpay"],"application/set-registration-initiation":["setreg"],"application/shf+xml":["shf"],"application/sieve":["siv","sieve"],"application/smil+xml":["smi","smil"],"application/sparql-query":["rq"],"application/sparql-results+xml":["srx"],"application/srgs":["gram"],"application/srgs+xml":["grxml"],"application/sru+xml":["sru"],"application/ssdl+xml":["ssdl"],"application/ssml+xml":["ssml"],"application/swid+xml":["swidtag"],"application/tei+xml":["tei","teicorpus"],"application/thraud+xml":["tfi"],"application/timestamped-data":["tsd"],"application/toml":["toml"],"application/trig":["trig"],"application/ttml+xml":["ttml"],"application/ubjson":["ubj"],"application/urc-ressheet+xml":["rsheet"],"application/urc-targetdesc+xml":["td"],"application/voicexml+xml":["vxml"],"application/wasm":["wasm"],"application/widget":["wgt"],"application/winhlp":["hlp"],"application/wsdl+xml":["wsdl"],"application/wspolicy+xml":["wspolicy"],"application/xaml+xml":["xaml"],"application/xcap-att+xml":["xav"],"application/xcap-caps+xml":["xca"],"application/xcap-diff+xml":["xdf"],"application/xcap-el+xml":["xel"],"application/xcap-ns+xml":["xns"],"application/xenc+xml":["xenc"],"application/xhtml+xml":["xhtml","xht"],"application/xliff+xml":["xlf"],"application/xml":["xml","xsl","xsd","rng"],"application/xml-dtd":["dtd"],"application/xop+xml":["xop"],"application/xproc+xml":["xpl"],"application/xslt+xml":["*xsl","xslt"],"application/xspf+xml":["xspf"],"application/xv+xml":["mxml","xhvml","xvml","xvm"],"application/yang":["yang"],"application/yin+xml":["yin"],"application/zip":["zip"],"audio/3gpp":["*3gpp"],"audio/adpcm":["adp"],"audio/amr":["amr"],"audio/basic":["au","snd"],"audio/midi":["mid","midi","kar","rmi"],"audio/mobile-xmf":["mxmf"],"audio/mp3":["*mp3"],"audio/mp4":["m4a","mp4a"],"audio/mpeg":["mpga","mp2","mp2a","mp3","m2a","m3a"],"audio/ogg":["oga","ogg","spx","opus"],"audio/s3m":["s3m"],"audio/silk":["sil"],"audio/wav":["wav"],"audio/wave":["*wav"],"audio/webm":["weba"],"audio/xm":["xm"],"font/collection":["ttc"],"font/otf":["otf"],"font/ttf":["ttf"],"font/woff":["woff"],"font/woff2":["woff2"],"image/aces":["exr"],"image/apng":["apng"],"image/avif":["avif"],"image/bmp":["bmp"],"image/cgm":["cgm"],"image/dicom-rle":["drle"],"image/emf":["emf"],"image/fits":["fits"],"image/g3fax":["g3"],"image/gif":["gif"],"image/heic":["heic"],"image/heic-sequence":["heics"],"image/heif":["heif"],"image/heif-sequence":["heifs"],"image/hej2k":["hej2"],"image/hsj2":["hsj2"],"image/ief":["ief"],"image/jls":["jls"],"image/jp2":["jp2","jpg2"],"image/jpeg":["jpeg","jpg","jpe"],"image/jph":["jph"],"image/jphc":["jhc"],"image/jpm":["jpm"],"image/jpx":["jpx","jpf"],"image/jxr":["jxr"],"image/jxra":["jxra"],"image/jxrs":["jxrs"],"image/jxs":["jxs"],"image/jxsc":["jxsc"],"image/jxsi":["jxsi"],"image/jxss":["jxss"],"image/ktx":["ktx"],"image/ktx2":["ktx2"],"image/png":["png"],"image/sgi":["sgi"],"image/svg+xml":["svg","svgz"],"image/t38":["t38"],"image/tiff":["tif","tiff"],"image/tiff-fx":["tfx"],"image/webp":["webp"],"image/wmf":["wmf"],"message/disposition-notification":["disposition-notification"],"message/global":["u8msg"],"message/global-delivery-status":["u8dsn"],"message/global-disposition-notification":["u8mdn"],"message/global-headers":["u8hdr"],"message/rfc822":["eml","mime"],"model/3mf":["3mf"],"model/gltf+json":["gltf"],"model/gltf-binary":["glb"],"model/iges":["igs","iges"],"model/mesh":["msh","mesh","silo"],"model/mtl":["mtl"],"model/obj":["obj"],"model/step+xml":["stpx"],"model/step+zip":["stpz"],"model/step-xml+zip":["stpxz"],"model/stl":["stl"],"model/vrml":["wrl","vrml"],"model/x3d+binary":["*x3db","x3dbz"],"model/x3d+fastinfoset":["x3db"],"model/x3d+vrml":["*x3dv","x3dvz"],"model/x3d+xml":["x3d","x3dz"],"model/x3d-vrml":["x3dv"],"text/cache-manifest":["appcache","manifest"],"text/calendar":["ics","ifb"],"text/coffeescript":["coffee","litcoffee"],"text/css":["css"],"text/csv":["csv"],"text/html":["html","htm","shtml"],"text/jade":["jade"],"text/jsx":["jsx"],"text/less":["less"],"text/markdown":["markdown","md"],"text/mathml":["mml"],"text/mdx":["mdx"],"text/n3":["n3"],"text/plain":["txt","text","conf","def","list","log","in","ini"],"text/richtext":["rtx"],"text/rtf":["*rtf"],"text/sgml":["sgml","sgm"],"text/shex":["shex"],"text/slim":["slim","slm"],"text/spdx":["spdx"],"text/stylus":["stylus","styl"],"text/tab-separated-values":["tsv"],"text/troff":["t","tr","roff","man","me","ms"],"text/turtle":["ttl"],"text/uri-list":["uri","uris","urls"],"text/vcard":["vcard"],"text/vtt":["vtt"],"text/xml":["*xml"],"text/yaml":["yaml","yml"],"video/3gpp":["3gp","3gpp"],"video/3gpp2":["3g2"],"video/h261":["h261"],"video/h263":["h263"],"video/h264":["h264"],"video/iso.segment":["m4s"],"video/jpeg":["jpgv"],"video/jpm":["*jpm","jpgm"],"video/mj2":["mj2","mjp2"],"video/mp2t":["ts"],"video/mp4":["mp4","mp4v","mpg4"],"video/mpeg":["mpeg","mpg","mpe","m1v","m2v"],"video/ogg":["ogv"],"video/quicktime":["qt","mov"],"video/webm":["webm"]};
+
+/***/ }),
+
+/***/ 835:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var wrappy = __nccwpck_require__(9375)
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
+
+
+/***/ }),
+
+/***/ 189:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+var fs = __nccwpck_require__(9896);
+var stripAnsi = __nccwpck_require__(5571);
+var term = 13; // carriage return
+
+/**
+ * create -- sync function for reading user input from stdin
+ * @param   {Object} config {
+ *   sigint: {Boolean} exit on ^C
+ *   autocomplete: {StringArray} function({String})
+ *   history: {String} a history control object (see `prompt-sync-history`)
+ * }
+ * @returns {Function} prompt function
+ */
+
+ // for ANSI escape codes reference see https://en.wikipedia.org/wiki/ANSI_escape_code
+
+function create(config) {
+
+  config = config || {};
+  var sigint = config.sigint;
+  var eot = config.eot;
+  var autocomplete = config.autocomplete =
+    config.autocomplete || function(){return []};
+  var history = config.history;
+  prompt.history = history || {save: function(){}};
+  prompt.hide = function (ask) { return prompt(ask, {echo: ''}) };
+
+  return prompt;
+
+
+  /**
+   * prompt -- sync function for reading user input from stdin
+   *  @param {String} ask opening question/statement to prompt for
+   *  @param {String} value initial value for the prompt
+   *  @param   {Object} opts {
+   *   echo: set to a character to be echoed, default is '*'. Use '' for no echo
+   *   value: {String} initial value for the prompt
+   *   ask: {String} opening question/statement to prompt for, does not override ask param
+   *   autocomplete: {StringArray} function({String})
+   * }
+   *
+   * @returns {string} Returns the string input or (if sigint === false)
+   *                   null if user terminates with a ^C
+   */
+
+
+  function prompt(ask, value, opts) {
+    var insert = 0, savedinsert = 0, res, i, savedstr;
+    opts = opts || {};
+
+    if (Object(ask) === ask) {
+      opts = ask;
+      ask = opts.ask;
+    } else if (Object(value) === value) {
+      opts = value;
+      value = opts.value;
+    }
+    ask = ask || '';
+    var echo = opts.echo;
+    var masked = 'echo' in opts;
+    autocomplete = opts.autocomplete || autocomplete;
+
+    var fd = (process.platform === 'win32') ?
+      process.stdin.fd :
+      fs.openSync('/dev/tty', 'rs');
+
+    var wasRaw = process.stdin.isRaw;
+    if (!wasRaw) { process.stdin.setRawMode && process.stdin.setRawMode(true); }
+
+    var buf = Buffer.alloc(3);
+    var str = '', character, read;
+
+    savedstr = '';
+
+    if (ask) {
+      process.stdout.write(ask);
+    }
+
+    var cycle = 0;
+    var prevComplete;
+
+    while (true) {
+      read = fs.readSync(fd, buf, 0, 3);
+      if (read > 1) { // received a control sequence
+        switch(buf.toString()) {
+          case '\u001b[A':  //up arrow
+            if (masked) break;
+            if (!history) break;
+            if (history.atStart()) break;
+
+            if (history.atEnd()) {
+              savedstr = str;
+              savedinsert = insert;
+            }
+            str = history.prev();
+            insert = str.length;
+            process.stdout.write('\u001b[2K\u001b[0G' + ask + str);
+            break;
+          case '\u001b[B':  //down arrow
+            if (masked) break;
+            if (!history) break;
+            if (history.pastEnd()) break;
+
+            if (history.atPenultimate()) {
+              str = savedstr;
+              insert = savedinsert;
+              history.next();
+            } else {
+              str = history.next();
+              insert = str.length;
+            }
+            process.stdout.write('\u001b[2K\u001b[0G'+ ask + str + '\u001b['+(insert+ask.length+1)+'G');
+            break;
+          case '\u001b[D': //left arrow
+            if (masked) break;
+            var before = insert;
+            insert = (--insert < 0) ? 0 : insert;
+            if (before - insert)
+              process.stdout.write('\u001b[1D');
+            break;
+          case '\u001b[C': //right arrow
+            if (masked) break;
+            insert = (++insert > str.length) ? str.length : insert;
+            process.stdout.write('\u001b[' + (insert+ask.length+1) + 'G');
+            break;
+          default:
+            if (buf.toString()) {
+              str = str + buf.toString();
+              str = str.replace(/\0/g, '');
+              insert = str.length;
+              promptPrint(masked, ask, echo, str, insert);
+              process.stdout.write('\u001b[' + (insert+ask.length+1) + 'G');
+              buf = Buffer.alloc(3);
+            }
+        }
+        continue; // any other 3 character sequence is ignored
+      }
+
+      // if it is not a control character seq, assume only one character is read
+      character = buf[read-1];
+
+      // catch a ^C and return null
+      if (character == 3){
+        process.stdout.write('^C\n');
+        fs.closeSync(fd);
+
+        if (sigint) process.exit(130);
+
+        process.stdin.setRawMode && process.stdin.setRawMode(wasRaw);
+
+        return null;
+      }
+
+      // catch a ^D and exit
+      if (character == 4) {
+        if (str.length == 0 && eot) {
+          process.stdout.write('exit\n');
+          process.exit(0);
+        }
+      }
+
+      // catch the terminating character
+      if (character == term) {
+        fs.closeSync(fd);
+        if (!history) break;
+        if (!masked && str.length) history.push(str);
+        history.reset();
+        break;
+      }
+
+      // catch a TAB and implement autocomplete
+      if (character == 9) { // TAB
+        res = autocomplete(str);
+
+        if (str == res[0]) {
+          res = autocomplete('');
+        } else {
+          prevComplete = res.length;
+        }
+
+        if (res.length == 0) {
+          process.stdout.write('\t');
+          continue;
+        }
+
+        var item = res[cycle++] || res[cycle = 0, cycle++];
+
+        if (item) {
+          process.stdout.write('\r\u001b[K' + ask + item);
+          str = item;
+          insert = item.length;
+        }
+      }
+
+      if (character == 127 || (process.platform == 'win32' && character == 8)) { //backspace
+        if (!insert) continue;
+        str = str.slice(0, insert-1) + str.slice(insert);
+        insert--;
+        process.stdout.write('\u001b[2D');
+      } else {
+        if ((character < 32 ) || (character > 126))
+            continue;
+        str = str.slice(0, insert) + String.fromCharCode(character) + str.slice(insert);
+        insert++;
+      };
+
+      promptPrint(masked, ask, echo, str, insert);
+
+    }
+
+    process.stdout.write('\n')
+
+    process.stdin.setRawMode && process.stdin.setRawMode(wasRaw);
+
+    return str || value || '';
+  };
+
+
+  function promptPrint(masked, ask, echo, str, insert) {
+    if (masked) {
+        process.stdout.write('\u001b[2K\u001b[0G' + ask + Array(str.length+1).join(echo));
+    } else {
+      process.stdout.write('\u001b[s');
+      if (insert == str.length) {
+          process.stdout.write('\u001b[2K\u001b[0G'+ ask + str);
+      } else {
+        if (ask) {
+          process.stdout.write('\u001b[2K\u001b[0G'+ ask + str);
+        } else {
+          process.stdout.write('\u001b[2K\u001b[0G'+ str + '\u001b[' + (str.length - insert) + 'D');
+        }
+      }
+
+      // Reposition the cursor to the right of the insertion point
+      var askLength = stripAnsi(ask).length;
+      process.stdout.write(`\u001b[${askLength+1+(echo==''? 0:insert)}G`);
+    }
+  }
+};
+
+module.exports = create;
+
+
+/***/ }),
+
+/***/ 2624:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var balanced = __nccwpck_require__(1381);
+
+module.exports = expandTop;
+
+var escSlash = '\0SLASH'+Math.random()+'\0';
+var escOpen = '\0OPEN'+Math.random()+'\0';
+var escClose = '\0CLOSE'+Math.random()+'\0';
+var escComma = '\0COMMA'+Math.random()+'\0';
+var escPeriod = '\0PERIOD'+Math.random()+'\0';
+
+function numeric(str) {
+  return parseInt(str, 10) == str
+    ? parseInt(str, 10)
+    : str.charCodeAt(0);
+}
+
+function escapeBraces(str) {
+  return str.split('\\\\').join(escSlash)
+            .split('\\{').join(escOpen)
+            .split('\\}').join(escClose)
+            .split('\\,').join(escComma)
+            .split('\\.').join(escPeriod);
+}
+
+function unescapeBraces(str) {
+  return str.split(escSlash).join('\\')
+            .split(escOpen).join('{')
+            .split(escClose).join('}')
+            .split(escComma).join(',')
+            .split(escPeriod).join('.');
+}
+
+
+// Basically just str.split(","), but handling cases
+// where we have nested braced sections, which should be
+// treated as individual members, like {a,{b,c},d}
+function parseCommaParts(str) {
+  if (!str)
+    return [''];
+
+  var parts = [];
+  var m = balanced('{', '}', str);
+
+  if (!m)
+    return str.split(',');
+
+  var pre = m.pre;
+  var body = m.body;
+  var post = m.post;
+  var p = pre.split(',');
+
+  p[p.length-1] += '{' + body + '}';
+  var postParts = parseCommaParts(post);
+  if (post.length) {
+    p[p.length-1] += postParts.shift();
+    p.push.apply(p, postParts);
+  }
+
+  parts.push.apply(parts, p);
+
+  return parts;
+}
+
+function expandTop(str) {
+  if (!str)
+    return [];
+
+  // I don't know why Bash 4.3 does this, but it does.
+  // Anything starting with {} will have the first two bytes preserved
+  // but *only* at the top level, so {},a}b will not expand to anything,
+  // but a{},b}c will be expanded to [a}c,abc].
+  // One could argue that this is a bug in Bash, but since the goal of
+  // this module is to match Bash's rules, we escape a leading {}
+  if (str.substr(0, 2) === '{}') {
+    str = '\\{\\}' + str.substr(2);
+  }
+
+  return expand(escapeBraces(str), true).map(unescapeBraces);
+}
+
+function embrace(str) {
+  return '{' + str + '}';
+}
+function isPadded(el) {
+  return /^-?0\d/.test(el);
+}
+
+function lte(i, y) {
+  return i <= y;
+}
+function gte(i, y) {
+  return i >= y;
+}
+
+function expand(str, isTop) {
+  var expansions = [];
+
+  var m = balanced('{', '}', str);
+  if (!m) return [str];
+
+  // no need to expand pre, since it is guaranteed to be free of brace-sets
+  var pre = m.pre;
+  var post = m.post.length
+    ? expand(m.post, false)
+    : [''];
+
+  if (/\$$/.test(m.pre)) {    
+    for (var k = 0; k < post.length; k++) {
+      var expansion = pre+ '{' + m.body + '}' + post[k];
+      expansions.push(expansion);
+    }
+  } else {
+    var isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m.body);
+    var isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m.body);
+    var isSequence = isNumericSequence || isAlphaSequence;
+    var isOptions = m.body.indexOf(',') >= 0;
+    if (!isSequence && !isOptions) {
+      // {a},b}
+      if (m.post.match(/,.*\}/)) {
+        str = m.pre + '{' + m.body + escClose + m.post;
+        return expand(str);
+      }
+      return [str];
+    }
+
+    var n;
+    if (isSequence) {
+      n = m.body.split(/\.\./);
+    } else {
+      n = parseCommaParts(m.body);
+      if (n.length === 1) {
+        // x{{a,b}}y ==> x{a}y x{b}y
+        n = expand(n[0], false).map(embrace);
+        if (n.length === 1) {
+          return post.map(function(p) {
+            return m.pre + n[0] + p;
+          });
+        }
+      }
+    }
+
+    // at this point, n is the parts, and we know it's not a comma set
+    // with a single entry.
+    var N;
+
+    if (isSequence) {
+      var x = numeric(n[0]);
+      var y = numeric(n[1]);
+      var width = Math.max(n[0].length, n[1].length)
+      var incr = n.length == 3
+        ? Math.abs(numeric(n[2]))
+        : 1;
+      var test = lte;
+      var reverse = y < x;
+      if (reverse) {
+        incr *= -1;
+        test = gte;
+      }
+      var pad = n.some(isPadded);
+
+      N = [];
+
+      for (var i = x; test(i, y); i += incr) {
+        var c;
+        if (isAlphaSequence) {
+          c = String.fromCharCode(i);
+          if (c === '\\')
+            c = '';
+        } else {
+          c = String(i);
+          if (pad) {
+            var need = width - c.length;
+            if (need > 0) {
+              var z = new Array(need + 1).join('0');
+              if (i < 0)
+                c = '-' + z + c.slice(1);
+              else
+                c = z + c;
+            }
+          }
+        }
+        N.push(c);
+      }
+    } else {
+      N = [];
+
+      for (var j = 0; j < n.length; j++) {
+        N.push.apply(N, expand(n[j], false));
+      }
+    }
+
+    for (var j = 0; j < N.length; j++) {
+      for (var k = 0; k < post.length; k++) {
+        var expansion = pre + N[j] + post[k];
+        if (!isTop || isSequence || expansion)
+          expansions.push(expansion);
+      }
+    }
+  }
+
+  return expansions;
+}
+
+
+
+/***/ }),
+
+/***/ 4382:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+exports.setopts = setopts
+exports.ownProp = ownProp
+exports.makeAbs = makeAbs
+exports.finish = finish
+exports.mark = mark
+exports.isIgnored = isIgnored
+exports.childrenIgnored = childrenIgnored
+
+function ownProp (obj, field) {
+  return Object.prototype.hasOwnProperty.call(obj, field)
+}
+
+var fs = __nccwpck_require__(9896)
+var path = __nccwpck_require__(6928)
+var minimatch = __nccwpck_require__(1787)
+var isAbsolute = (__nccwpck_require__(6928).isAbsolute)
+var Minimatch = minimatch.Minimatch
+
+function alphasort (a, b) {
+  return a.localeCompare(b, 'en')
+}
+
+function setupIgnores (self, options) {
+  self.ignore = options.ignore || []
+
+  if (!Array.isArray(self.ignore))
+    self.ignore = [self.ignore]
+
+  if (self.ignore.length) {
+    self.ignore = self.ignore.map(ignoreMap)
+  }
+}
+
+// ignore patterns are always in dot:true mode.
+function ignoreMap (pattern) {
+  var gmatcher = null
+  if (pattern.slice(-3) === '/**') {
+    var gpattern = pattern.replace(/(\/\*\*)+$/, '')
+    gmatcher = new Minimatch(gpattern, { dot: true })
+  }
+
+  return {
+    matcher: new Minimatch(pattern, { dot: true }),
+    gmatcher: gmatcher
+  }
+}
+
+function setopts (self, pattern, options) {
+  if (!options)
+    options = {}
+
+  // base-matching: just use globstar for that.
+  if (options.matchBase && -1 === pattern.indexOf("/")) {
+    if (options.noglobstar) {
+      throw new Error("base matching requires globstar")
+    }
+    pattern = "**/" + pattern
+  }
+
+  self.windowsPathsNoEscape = !!options.windowsPathsNoEscape ||
+    options.allowWindowsEscape === false
+  if (self.windowsPathsNoEscape) {
+    pattern = pattern.replace(/\\/g, '/')
+  }
+
+  self.silent = !!options.silent
+  self.pattern = pattern
+  self.strict = options.strict !== false
+  self.realpath = !!options.realpath
+  self.realpathCache = options.realpathCache || Object.create(null)
+  self.follow = !!options.follow
+  self.dot = !!options.dot
+  self.mark = !!options.mark
+  self.nodir = !!options.nodir
+  if (self.nodir)
+    self.mark = true
+  self.sync = !!options.sync
+  self.nounique = !!options.nounique
+  self.nonull = !!options.nonull
+  self.nosort = !!options.nosort
+  self.nocase = !!options.nocase
+  self.stat = !!options.stat
+  self.noprocess = !!options.noprocess
+  self.absolute = !!options.absolute
+  self.fs = options.fs || fs
+
+  self.maxLength = options.maxLength || Infinity
+  self.cache = options.cache || Object.create(null)
+  self.statCache = options.statCache || Object.create(null)
+  self.symlinks = options.symlinks || Object.create(null)
+
+  setupIgnores(self, options)
+
+  self.changedCwd = false
+  var cwd = process.cwd()
+  if (!ownProp(options, "cwd"))
+    self.cwd = path.resolve(cwd)
+  else {
+    self.cwd = path.resolve(options.cwd)
+    self.changedCwd = self.cwd !== cwd
+  }
+
+  self.root = options.root || path.resolve(self.cwd, "/")
+  self.root = path.resolve(self.root)
+
+  // TODO: is an absolute `cwd` supposed to be resolved against `root`?
+  // e.g. { cwd: '/test', root: __dirname } === path.join(__dirname, '/test')
+  self.cwdAbs = isAbsolute(self.cwd) ? self.cwd : makeAbs(self, self.cwd)
+  self.nomount = !!options.nomount
+
+  if (process.platform === "win32") {
+    self.root = self.root.replace(/\\/g, "/")
+    self.cwd = self.cwd.replace(/\\/g, "/")
+    self.cwdAbs = self.cwdAbs.replace(/\\/g, "/")
+  }
+
+  // disable comments and negation in Minimatch.
+  // Note that they are not supported in Glob itself anyway.
+  options.nonegate = true
+  options.nocomment = true
+
+  self.minimatch = new Minimatch(pattern, options)
+  self.options = self.minimatch.options
+}
+
+function finish (self) {
+  var nou = self.nounique
+  var all = nou ? [] : Object.create(null)
+
+  for (var i = 0, l = self.matches.length; i < l; i ++) {
+    var matches = self.matches[i]
+    if (!matches || Object.keys(matches).length === 0) {
+      if (self.nonull) {
+        // do like the shell, and spit out the literal glob
+        var literal = self.minimatch.globSet[i]
+        if (nou)
+          all.push(literal)
+        else
+          all[literal] = true
+      }
+    } else {
+      // had matches
+      var m = Object.keys(matches)
+      if (nou)
+        all.push.apply(all, m)
+      else
+        m.forEach(function (m) {
+          all[m] = true
+        })
+    }
+  }
+
+  if (!nou)
+    all = Object.keys(all)
+
+  if (!self.nosort)
+    all = all.sort(alphasort)
+
+  // at *some* point we statted all of these
+  if (self.mark) {
+    for (var i = 0; i < all.length; i++) {
+      all[i] = self._mark(all[i])
+    }
+    if (self.nodir) {
+      all = all.filter(function (e) {
+        var notDir = !(/\/$/.test(e))
+        var c = self.cache[e] || self.cache[makeAbs(self, e)]
+        if (notDir && c)
+          notDir = c !== 'DIR' && !Array.isArray(c)
+        return notDir
+      })
+    }
+  }
+
+  if (self.ignore.length)
+    all = all.filter(function(m) {
+      return !isIgnored(self, m)
+    })
+
+  self.found = all
+}
+
+function mark (self, p) {
+  var abs = makeAbs(self, p)
+  var c = self.cache[abs]
+  var m = p
+  if (c) {
+    var isDir = c === 'DIR' || Array.isArray(c)
+    var slash = p.slice(-1) === '/'
+
+    if (isDir && !slash)
+      m += '/'
+    else if (!isDir && slash)
+      m = m.slice(0, -1)
+
+    if (m !== p) {
+      var mabs = makeAbs(self, m)
+      self.statCache[mabs] = self.statCache[abs]
+      self.cache[mabs] = self.cache[abs]
+    }
+  }
+
+  return m
+}
+
+// lotta situps...
+function makeAbs (self, f) {
+  var abs = f
+  if (f.charAt(0) === '/') {
+    abs = path.join(self.root, f)
+  } else if (isAbsolute(f) || f === '') {
+    abs = f
+  } else if (self.changedCwd) {
+    abs = path.resolve(self.cwd, f)
+  } else {
+    abs = path.resolve(f)
+  }
+
+  if (process.platform === 'win32')
+    abs = abs.replace(/\\/g, '/')
+
+  return abs
+}
+
+
+// Return true, if pattern ends with globstar '**', for the accompanying parent directory.
+// Ex:- If node_modules/** is the pattern, add 'node_modules' to ignore list along with it's contents
+function isIgnored (self, path) {
+  if (!self.ignore.length)
+    return false
+
+  return self.ignore.some(function(item) {
+    return item.matcher.match(path) || !!(item.gmatcher && item.gmatcher.match(path))
+  })
+}
+
+function childrenIgnored (self, path) {
+  if (!self.ignore.length)
+    return false
+
+  return self.ignore.some(function(item) {
+    return !!(item.gmatcher && item.gmatcher.match(path))
+  })
+}
+
+
+/***/ }),
+
+/***/ 6569:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+// Approach:
+//
+// 1. Get the minimatch set
+// 2. For each pattern in the set, PROCESS(pattern, false)
+// 3. Store matches per-set, then uniq them
+//
+// PROCESS(pattern, inGlobStar)
+// Get the first [n] items from pattern that are all strings
+// Join these together.  This is PREFIX.
+//   If there is no more remaining, then stat(PREFIX) and
+//   add to matches if it succeeds.  END.
+//
+// If inGlobStar and PREFIX is symlink and points to dir
+//   set ENTRIES = []
+// else readdir(PREFIX) as ENTRIES
+//   If fail, END
+//
+// with ENTRIES
+//   If pattern[n] is GLOBSTAR
+//     // handle the case where the globstar match is empty
+//     // by pruning it out, and testing the resulting pattern
+//     PROCESS(pattern[0..n] + pattern[n+1 .. $], false)
+//     // handle other cases.
+//     for ENTRY in ENTRIES (not dotfiles)
+//       // attach globstar + tail onto the entry
+//       // Mark that this entry is a globstar match
+//       PROCESS(pattern[0..n] + ENTRY + pattern[n .. $], true)
+//
+//   else // not globstar
+//     for ENTRY in ENTRIES (not dotfiles, unless pattern[n] is dot)
+//       Test ENTRY against pattern[n]
+//       If fails, continue
+//       If passes, PROCESS(pattern[0..n] + item + pattern[n+1 .. $])
+//
+// Caveat:
+//   Cache all stats and readdirs results to minimize syscall.  Since all
+//   we ever care about is existence and directory-ness, we can just keep
+//   `true` for files, and [children,...] for directories, or `false` for
+//   things that don't exist.
+
+module.exports = glob
+
+var rp = __nccwpck_require__(1667)
+var minimatch = __nccwpck_require__(1787)
+var Minimatch = minimatch.Minimatch
+var inherits = __nccwpck_require__(7285)
+var EE = (__nccwpck_require__(4434).EventEmitter)
+var path = __nccwpck_require__(6928)
+var assert = __nccwpck_require__(2613)
+var isAbsolute = (__nccwpck_require__(6928).isAbsolute)
+var globSync = __nccwpck_require__(2252)
+var common = __nccwpck_require__(4382)
+var setopts = common.setopts
+var ownProp = common.ownProp
+var inflight = __nccwpck_require__(387)
+var util = __nccwpck_require__(9023)
+var childrenIgnored = common.childrenIgnored
+var isIgnored = common.isIgnored
+
+var once = __nccwpck_require__(835)
+
+function glob (pattern, options, cb) {
+  if (typeof options === 'function') cb = options, options = {}
+  if (!options) options = {}
+
+  if (options.sync) {
+    if (cb)
+      throw new TypeError('callback provided to sync glob')
+    return globSync(pattern, options)
+  }
+
+  return new Glob(pattern, options, cb)
+}
+
+glob.sync = globSync
+var GlobSync = glob.GlobSync = globSync.GlobSync
+
+// old api surface
+glob.glob = glob
+
+function extend (origin, add) {
+  if (add === null || typeof add !== 'object') {
+    return origin
+  }
+
+  var keys = Object.keys(add)
+  var i = keys.length
+  while (i--) {
+    origin[keys[i]] = add[keys[i]]
+  }
+  return origin
+}
+
+glob.hasMagic = function (pattern, options_) {
+  var options = extend({}, options_)
+  options.noprocess = true
+
+  var g = new Glob(pattern, options)
+  var set = g.minimatch.set
+
+  if (!pattern)
+    return false
+
+  if (set.length > 1)
+    return true
+
+  for (var j = 0; j < set[0].length; j++) {
+    if (typeof set[0][j] !== 'string')
+      return true
+  }
+
+  return false
+}
+
+glob.Glob = Glob
+inherits(Glob, EE)
+function Glob (pattern, options, cb) {
+  if (typeof options === 'function') {
+    cb = options
+    options = null
+  }
+
+  if (options && options.sync) {
+    if (cb)
+      throw new TypeError('callback provided to sync glob')
+    return new GlobSync(pattern, options)
+  }
+
+  if (!(this instanceof Glob))
+    return new Glob(pattern, options, cb)
+
+  setopts(this, pattern, options)
+  this._didRealPath = false
+
+  // process each pattern in the minimatch set
+  var n = this.minimatch.set.length
+
+  // The matches are stored as {<filename>: true,...} so that
+  // duplicates are automagically pruned.
+  // Later, we do an Object.keys() on these.
+  // Keep them as a list so we can fill in when nonull is set.
+  this.matches = new Array(n)
+
+  if (typeof cb === 'function') {
+    cb = once(cb)
+    this.on('error', cb)
+    this.on('end', function (matches) {
+      cb(null, matches)
+    })
+  }
+
+  var self = this
+  this._processing = 0
+
+  this._emitQueue = []
+  this._processQueue = []
+  this.paused = false
+
+  if (this.noprocess)
+    return this
+
+  if (n === 0)
+    return done()
+
+  var sync = true
+  for (var i = 0; i < n; i ++) {
+    this._process(this.minimatch.set[i], i, false, done)
+  }
+  sync = false
+
+  function done () {
+    --self._processing
+    if (self._processing <= 0) {
+      if (sync) {
+        process.nextTick(function () {
+          self._finish()
+        })
+      } else {
+        self._finish()
+      }
+    }
+  }
+}
+
+Glob.prototype._finish = function () {
+  assert(this instanceof Glob)
+  if (this.aborted)
+    return
+
+  if (this.realpath && !this._didRealpath)
+    return this._realpath()
+
+  common.finish(this)
+  this.emit('end', this.found)
+}
+
+Glob.prototype._realpath = function () {
+  if (this._didRealpath)
+    return
+
+  this._didRealpath = true
+
+  var n = this.matches.length
+  if (n === 0)
+    return this._finish()
+
+  var self = this
+  for (var i = 0; i < this.matches.length; i++)
+    this._realpathSet(i, next)
+
+  function next () {
+    if (--n === 0)
+      self._finish()
+  }
+}
+
+Glob.prototype._realpathSet = function (index, cb) {
+  var matchset = this.matches[index]
+  if (!matchset)
+    return cb()
+
+  var found = Object.keys(matchset)
+  var self = this
+  var n = found.length
+
+  if (n === 0)
+    return cb()
+
+  var set = this.matches[index] = Object.create(null)
+  found.forEach(function (p, i) {
+    // If there's a problem with the stat, then it means that
+    // one or more of the links in the realpath couldn't be
+    // resolved.  just return the abs value in that case.
+    p = self._makeAbs(p)
+    rp.realpath(p, self.realpathCache, function (er, real) {
+      if (!er)
+        set[real] = true
+      else if (er.syscall === 'stat')
+        set[p] = true
+      else
+        self.emit('error', er) // srsly wtf right here
+
+      if (--n === 0) {
+        self.matches[index] = set
+        cb()
+      }
+    })
+  })
+}
+
+Glob.prototype._mark = function (p) {
+  return common.mark(this, p)
+}
+
+Glob.prototype._makeAbs = function (f) {
+  return common.makeAbs(this, f)
+}
+
+Glob.prototype.abort = function () {
+  this.aborted = true
+  this.emit('abort')
+}
+
+Glob.prototype.pause = function () {
+  if (!this.paused) {
+    this.paused = true
+    this.emit('pause')
+  }
+}
+
+Glob.prototype.resume = function () {
+  if (this.paused) {
+    this.emit('resume')
+    this.paused = false
+    if (this._emitQueue.length) {
+      var eq = this._emitQueue.slice(0)
+      this._emitQueue.length = 0
+      for (var i = 0; i < eq.length; i ++) {
+        var e = eq[i]
+        this._emitMatch(e[0], e[1])
+      }
+    }
+    if (this._processQueue.length) {
+      var pq = this._processQueue.slice(0)
+      this._processQueue.length = 0
+      for (var i = 0; i < pq.length; i ++) {
+        var p = pq[i]
+        this._processing--
+        this._process(p[0], p[1], p[2], p[3])
+      }
+    }
+  }
+}
+
+Glob.prototype._process = function (pattern, index, inGlobStar, cb) {
+  assert(this instanceof Glob)
+  assert(typeof cb === 'function')
+
+  if (this.aborted)
+    return
+
+  this._processing++
+  if (this.paused) {
+    this._processQueue.push([pattern, index, inGlobStar, cb])
+    return
+  }
+
+  //console.error('PROCESS %d', this._processing, pattern)
+
+  // Get the first [n] parts of pattern that are all strings.
+  var n = 0
+  while (typeof pattern[n] === 'string') {
+    n ++
+  }
+  // now n is the index of the first one that is *not* a string.
+
+  // see if there's anything else
+  var prefix
+  switch (n) {
+    // if not, then this is rather simple
+    case pattern.length:
+      this._processSimple(pattern.join('/'), index, cb)
+      return
+
+    case 0:
+      // pattern *starts* with some non-trivial item.
+      // going to readdir(cwd), but not include the prefix in matches.
+      prefix = null
+      break
+
+    default:
+      // pattern has some string bits in the front.
+      // whatever it starts with, whether that's 'absolute' like /foo/bar,
+      // or 'relative' like '../baz'
+      prefix = pattern.slice(0, n).join('/')
+      break
+  }
+
+  var remain = pattern.slice(n)
+
+  // get the list of entries.
+  var read
+  if (prefix === null)
+    read = '.'
+  else if (isAbsolute(prefix) ||
+      isAbsolute(pattern.map(function (p) {
+        return typeof p === 'string' ? p : '[*]'
+      }).join('/'))) {
+    if (!prefix || !isAbsolute(prefix))
+      prefix = '/' + prefix
+    read = prefix
+  } else
+    read = prefix
+
+  var abs = this._makeAbs(read)
+
+  //if ignored, skip _processing
+  if (childrenIgnored(this, read))
+    return cb()
+
+  var isGlobStar = remain[0] === minimatch.GLOBSTAR
+  if (isGlobStar)
+    this._processGlobStar(prefix, read, abs, remain, index, inGlobStar, cb)
+  else
+    this._processReaddir(prefix, read, abs, remain, index, inGlobStar, cb)
+}
+
+Glob.prototype._processReaddir = function (prefix, read, abs, remain, index, inGlobStar, cb) {
+  var self = this
+  this._readdir(abs, inGlobStar, function (er, entries) {
+    return self._processReaddir2(prefix, read, abs, remain, index, inGlobStar, entries, cb)
+  })
+}
+
+Glob.prototype._processReaddir2 = function (prefix, read, abs, remain, index, inGlobStar, entries, cb) {
+
+  // if the abs isn't a dir, then nothing can match!
+  if (!entries)
+    return cb()
+
+  // It will only match dot entries if it starts with a dot, or if
+  // dot is set.  Stuff like @(.foo|.bar) isn't allowed.
+  var pn = remain[0]
+  var negate = !!this.minimatch.negate
+  var rawGlob = pn._glob
+  var dotOk = this.dot || rawGlob.charAt(0) === '.'
+
+  var matchedEntries = []
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i]
+    if (e.charAt(0) !== '.' || dotOk) {
+      var m
+      if (negate && !prefix) {
+        m = !e.match(pn)
+      } else {
+        m = e.match(pn)
+      }
+      if (m)
+        matchedEntries.push(e)
+    }
+  }
+
+  //console.error('prd2', prefix, entries, remain[0]._glob, matchedEntries)
+
+  var len = matchedEntries.length
+  // If there are no matched entries, then nothing matches.
+  if (len === 0)
+    return cb()
+
+  // if this is the last remaining pattern bit, then no need for
+  // an additional stat *unless* the user has specified mark or
+  // stat explicitly.  We know they exist, since readdir returned
+  // them.
+
+  if (remain.length === 1 && !this.mark && !this.stat) {
+    if (!this.matches[index])
+      this.matches[index] = Object.create(null)
+
+    for (var i = 0; i < len; i ++) {
+      var e = matchedEntries[i]
+      if (prefix) {
+        if (prefix !== '/')
+          e = prefix + '/' + e
+        else
+          e = prefix + e
+      }
+
+      if (e.charAt(0) === '/' && !this.nomount) {
+        e = path.join(this.root, e)
+      }
+      this._emitMatch(index, e)
+    }
+    // This was the last one, and no stats were needed
+    return cb()
+  }
+
+  // now test all matched entries as stand-ins for that part
+  // of the pattern.
+  remain.shift()
+  for (var i = 0; i < len; i ++) {
+    var e = matchedEntries[i]
+    var newPattern
+    if (prefix) {
+      if (prefix !== '/')
+        e = prefix + '/' + e
+      else
+        e = prefix + e
+    }
+    this._process([e].concat(remain), index, inGlobStar, cb)
+  }
+  cb()
+}
+
+Glob.prototype._emitMatch = function (index, e) {
+  if (this.aborted)
+    return
+
+  if (isIgnored(this, e))
+    return
+
+  if (this.paused) {
+    this._emitQueue.push([index, e])
+    return
+  }
+
+  var abs = isAbsolute(e) ? e : this._makeAbs(e)
+
+  if (this.mark)
+    e = this._mark(e)
+
+  if (this.absolute)
+    e = abs
+
+  if (this.matches[index][e])
+    return
+
+  if (this.nodir) {
+    var c = this.cache[abs]
+    if (c === 'DIR' || Array.isArray(c))
+      return
+  }
+
+  this.matches[index][e] = true
+
+  var st = this.statCache[abs]
+  if (st)
+    this.emit('stat', e, st)
+
+  this.emit('match', e)
+}
+
+Glob.prototype._readdirInGlobStar = function (abs, cb) {
+  if (this.aborted)
+    return
+
+  // follow all symlinked directories forever
+  // just proceed as if this is a non-globstar situation
+  if (this.follow)
+    return this._readdir(abs, false, cb)
+
+  var lstatkey = 'lstat\0' + abs
+  var self = this
+  var lstatcb = inflight(lstatkey, lstatcb_)
+
+  if (lstatcb)
+    self.fs.lstat(abs, lstatcb)
+
+  function lstatcb_ (er, lstat) {
+    if (er && er.code === 'ENOENT')
+      return cb()
+
+    var isSym = lstat && lstat.isSymbolicLink()
+    self.symlinks[abs] = isSym
+
+    // If it's not a symlink or a dir, then it's definitely a regular file.
+    // don't bother doing a readdir in that case.
+    if (!isSym && lstat && !lstat.isDirectory()) {
+      self.cache[abs] = 'FILE'
+      cb()
+    } else
+      self._readdir(abs, false, cb)
+  }
+}
+
+Glob.prototype._readdir = function (abs, inGlobStar, cb) {
+  if (this.aborted)
+    return
+
+  cb = inflight('readdir\0'+abs+'\0'+inGlobStar, cb)
+  if (!cb)
+    return
+
+  //console.error('RD %j %j', +inGlobStar, abs)
+  if (inGlobStar && !ownProp(this.symlinks, abs))
+    return this._readdirInGlobStar(abs, cb)
+
+  if (ownProp(this.cache, abs)) {
+    var c = this.cache[abs]
+    if (!c || c === 'FILE')
+      return cb()
+
+    if (Array.isArray(c))
+      return cb(null, c)
+  }
+
+  var self = this
+  self.fs.readdir(abs, readdirCb(this, abs, cb))
+}
+
+function readdirCb (self, abs, cb) {
+  return function (er, entries) {
+    if (er)
+      self._readdirError(abs, er, cb)
+    else
+      self._readdirEntries(abs, entries, cb)
+  }
+}
+
+Glob.prototype._readdirEntries = function (abs, entries, cb) {
+  if (this.aborted)
+    return
+
+  // if we haven't asked to stat everything, then just
+  // assume that everything in there exists, so we can avoid
+  // having to stat it a second time.
+  if (!this.mark && !this.stat) {
+    for (var i = 0; i < entries.length; i ++) {
+      var e = entries[i]
+      if (abs === '/')
+        e = abs + e
+      else
+        e = abs + '/' + e
+      this.cache[e] = true
+    }
+  }
+
+  this.cache[abs] = entries
+  return cb(null, entries)
+}
+
+Glob.prototype._readdirError = function (f, er, cb) {
+  if (this.aborted)
+    return
+
+  // handle errors, and cache the information
+  switch (er.code) {
+    case 'ENOTSUP': // https://github.com/isaacs/node-glob/issues/205
+    case 'ENOTDIR': // totally normal. means it *does* exist.
+      var abs = this._makeAbs(f)
+      this.cache[abs] = 'FILE'
+      if (abs === this.cwdAbs) {
+        var error = new Error(er.code + ' invalid cwd ' + this.cwd)
+        error.path = this.cwd
+        error.code = er.code
+        this.emit('error', error)
+        this.abort()
+      }
+      break
+
+    case 'ENOENT': // not terribly unusual
+    case 'ELOOP':
+    case 'ENAMETOOLONG':
+    case 'UNKNOWN':
+      this.cache[this._makeAbs(f)] = false
+      break
+
+    default: // some unusual error.  Treat as failure.
+      this.cache[this._makeAbs(f)] = false
+      if (this.strict) {
+        this.emit('error', er)
+        // If the error is handled, then we abort
+        // if not, we threw out of here
+        this.abort()
+      }
+      if (!this.silent)
+        console.error('glob error', er)
+      break
+  }
+
+  return cb()
+}
+
+Glob.prototype._processGlobStar = function (prefix, read, abs, remain, index, inGlobStar, cb) {
+  var self = this
+  this._readdir(abs, inGlobStar, function (er, entries) {
+    self._processGlobStar2(prefix, read, abs, remain, index, inGlobStar, entries, cb)
+  })
+}
+
+
+Glob.prototype._processGlobStar2 = function (prefix, read, abs, remain, index, inGlobStar, entries, cb) {
+  //console.error('pgs2', prefix, remain[0], entries)
+
+  // no entries means not a dir, so it can never have matches
+  // foo.txt/** doesn't match foo.txt
+  if (!entries)
+    return cb()
+
+  // test without the globstar, and with every child both below
+  // and replacing the globstar.
+  var remainWithoutGlobStar = remain.slice(1)
+  var gspref = prefix ? [ prefix ] : []
+  var noGlobStar = gspref.concat(remainWithoutGlobStar)
+
+  // the noGlobStar pattern exits the inGlobStar state
+  this._process(noGlobStar, index, false, cb)
+
+  var isSym = this.symlinks[abs]
+  var len = entries.length
+
+  // If it's a symlink, and we're in a globstar, then stop
+  if (isSym && inGlobStar)
+    return cb()
+
+  for (var i = 0; i < len; i++) {
+    var e = entries[i]
+    if (e.charAt(0) === '.' && !this.dot)
+      continue
+
+    // these two cases enter the inGlobStar state
+    var instead = gspref.concat(entries[i], remainWithoutGlobStar)
+    this._process(instead, index, true, cb)
+
+    var below = gspref.concat(entries[i], remain)
+    this._process(below, index, true, cb)
+  }
+
+  cb()
+}
+
+Glob.prototype._processSimple = function (prefix, index, cb) {
+  // XXX review this.  Shouldn't it be doing the mounting etc
+  // before doing stat?  kinda weird?
+  var self = this
+  this._stat(prefix, function (er, exists) {
+    self._processSimple2(prefix, index, er, exists, cb)
+  })
+}
+Glob.prototype._processSimple2 = function (prefix, index, er, exists, cb) {
+
+  //console.error('ps2', prefix, exists)
+
+  if (!this.matches[index])
+    this.matches[index] = Object.create(null)
+
+  // If it doesn't exist, then just mark the lack of results
+  if (!exists)
+    return cb()
+
+  if (prefix && isAbsolute(prefix) && !this.nomount) {
+    var trail = /[\/\\]$/.test(prefix)
+    if (prefix.charAt(0) === '/') {
+      prefix = path.join(this.root, prefix)
+    } else {
+      prefix = path.resolve(this.root, prefix)
+      if (trail)
+        prefix += '/'
+    }
+  }
+
+  if (process.platform === 'win32')
+    prefix = prefix.replace(/\\/g, '/')
+
+  // Mark this as a match
+  this._emitMatch(index, prefix)
+  cb()
+}
+
+// Returns either 'DIR', 'FILE', or false
+Glob.prototype._stat = function (f, cb) {
+  var abs = this._makeAbs(f)
+  var needDir = f.slice(-1) === '/'
+
+  if (f.length > this.maxLength)
+    return cb()
+
+  if (!this.stat && ownProp(this.cache, abs)) {
+    var c = this.cache[abs]
+
+    if (Array.isArray(c))
+      c = 'DIR'
+
+    // It exists, but maybe not how we need it
+    if (!needDir || c === 'DIR')
+      return cb(null, c)
+
+    if (needDir && c === 'FILE')
+      return cb()
+
+    // otherwise we have to stat, because maybe c=true
+    // if we know it exists, but not what it is.
+  }
+
+  var exists
+  var stat = this.statCache[abs]
+  if (stat !== undefined) {
+    if (stat === false)
+      return cb(null, stat)
+    else {
+      var type = stat.isDirectory() ? 'DIR' : 'FILE'
+      if (needDir && type === 'FILE')
+        return cb()
+      else
+        return cb(null, type, stat)
+    }
+  }
+
+  var self = this
+  var statcb = inflight('stat\0' + abs, lstatcb_)
+  if (statcb)
+    self.fs.lstat(abs, statcb)
+
+  function lstatcb_ (er, lstat) {
+    if (lstat && lstat.isSymbolicLink()) {
+      // If it's a symlink, then treat it as the target, unless
+      // the target does not exist, then treat it as a file.
+      return self.fs.stat(abs, function (er, stat) {
+        if (er)
+          self._stat2(f, abs, null, lstat, cb)
+        else
+          self._stat2(f, abs, er, stat, cb)
+      })
+    } else {
+      self._stat2(f, abs, er, lstat, cb)
+    }
+  }
+}
+
+Glob.prototype._stat2 = function (f, abs, er, stat, cb) {
+  if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR')) {
+    this.statCache[abs] = false
+    return cb()
+  }
+
+  var needDir = f.slice(-1) === '/'
+  this.statCache[abs] = stat
+
+  if (abs.slice(-1) === '/' && stat && !stat.isDirectory())
+    return cb(null, false, stat)
+
+  var c = true
+  if (stat)
+    c = stat.isDirectory() ? 'DIR' : 'FILE'
+  this.cache[abs] = this.cache[abs] || c
+
+  if (needDir && c === 'FILE')
+    return cb()
+
+  return cb(null, c, stat)
+}
+
+
+/***/ }),
+
+/***/ 2252:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = globSync
+globSync.GlobSync = GlobSync
+
+var rp = __nccwpck_require__(1667)
+var minimatch = __nccwpck_require__(1787)
+var Minimatch = minimatch.Minimatch
+var Glob = (__nccwpck_require__(6569).Glob)
+var util = __nccwpck_require__(9023)
+var path = __nccwpck_require__(6928)
+var assert = __nccwpck_require__(2613)
+var isAbsolute = (__nccwpck_require__(6928).isAbsolute)
+var common = __nccwpck_require__(4382)
+var setopts = common.setopts
+var ownProp = common.ownProp
+var childrenIgnored = common.childrenIgnored
+var isIgnored = common.isIgnored
+
+function globSync (pattern, options) {
+  if (typeof options === 'function' || arguments.length === 3)
+    throw new TypeError('callback provided to sync glob\n'+
+                        'See: https://github.com/isaacs/node-glob/issues/167')
+
+  return new GlobSync(pattern, options).found
+}
+
+function GlobSync (pattern, options) {
+  if (!pattern)
+    throw new Error('must provide pattern')
+
+  if (typeof options === 'function' || arguments.length === 3)
+    throw new TypeError('callback provided to sync glob\n'+
+                        'See: https://github.com/isaacs/node-glob/issues/167')
+
+  if (!(this instanceof GlobSync))
+    return new GlobSync(pattern, options)
+
+  setopts(this, pattern, options)
+
+  if (this.noprocess)
+    return this
+
+  var n = this.minimatch.set.length
+  this.matches = new Array(n)
+  for (var i = 0; i < n; i ++) {
+    this._process(this.minimatch.set[i], i, false)
+  }
+  this._finish()
+}
+
+GlobSync.prototype._finish = function () {
+  assert.ok(this instanceof GlobSync)
+  if (this.realpath) {
+    var self = this
+    this.matches.forEach(function (matchset, index) {
+      var set = self.matches[index] = Object.create(null)
+      for (var p in matchset) {
+        try {
+          p = self._makeAbs(p)
+          var real = rp.realpathSync(p, self.realpathCache)
+          set[real] = true
+        } catch (er) {
+          if (er.syscall === 'stat')
+            set[self._makeAbs(p)] = true
+          else
+            throw er
+        }
+      }
+    })
+  }
+  common.finish(this)
+}
+
+
+GlobSync.prototype._process = function (pattern, index, inGlobStar) {
+  assert.ok(this instanceof GlobSync)
+
+  // Get the first [n] parts of pattern that are all strings.
+  var n = 0
+  while (typeof pattern[n] === 'string') {
+    n ++
+  }
+  // now n is the index of the first one that is *not* a string.
+
+  // See if there's anything else
+  var prefix
+  switch (n) {
+    // if not, then this is rather simple
+    case pattern.length:
+      this._processSimple(pattern.join('/'), index)
+      return
+
+    case 0:
+      // pattern *starts* with some non-trivial item.
+      // going to readdir(cwd), but not include the prefix in matches.
+      prefix = null
+      break
+
+    default:
+      // pattern has some string bits in the front.
+      // whatever it starts with, whether that's 'absolute' like /foo/bar,
+      // or 'relative' like '../baz'
+      prefix = pattern.slice(0, n).join('/')
+      break
+  }
+
+  var remain = pattern.slice(n)
+
+  // get the list of entries.
+  var read
+  if (prefix === null)
+    read = '.'
+  else if (isAbsolute(prefix) ||
+      isAbsolute(pattern.map(function (p) {
+        return typeof p === 'string' ? p : '[*]'
+      }).join('/'))) {
+    if (!prefix || !isAbsolute(prefix))
+      prefix = '/' + prefix
+    read = prefix
+  } else
+    read = prefix
+
+  var abs = this._makeAbs(read)
+
+  //if ignored, skip processing
+  if (childrenIgnored(this, read))
+    return
+
+  var isGlobStar = remain[0] === minimatch.GLOBSTAR
+  if (isGlobStar)
+    this._processGlobStar(prefix, read, abs, remain, index, inGlobStar)
+  else
+    this._processReaddir(prefix, read, abs, remain, index, inGlobStar)
+}
+
+
+GlobSync.prototype._processReaddir = function (prefix, read, abs, remain, index, inGlobStar) {
+  var entries = this._readdir(abs, inGlobStar)
+
+  // if the abs isn't a dir, then nothing can match!
+  if (!entries)
+    return
+
+  // It will only match dot entries if it starts with a dot, or if
+  // dot is set.  Stuff like @(.foo|.bar) isn't allowed.
+  var pn = remain[0]
+  var negate = !!this.minimatch.negate
+  var rawGlob = pn._glob
+  var dotOk = this.dot || rawGlob.charAt(0) === '.'
+
+  var matchedEntries = []
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i]
+    if (e.charAt(0) !== '.' || dotOk) {
+      var m
+      if (negate && !prefix) {
+        m = !e.match(pn)
+      } else {
+        m = e.match(pn)
+      }
+      if (m)
+        matchedEntries.push(e)
+    }
+  }
+
+  var len = matchedEntries.length
+  // If there are no matched entries, then nothing matches.
+  if (len === 0)
+    return
+
+  // if this is the last remaining pattern bit, then no need for
+  // an additional stat *unless* the user has specified mark or
+  // stat explicitly.  We know they exist, since readdir returned
+  // them.
+
+  if (remain.length === 1 && !this.mark && !this.stat) {
+    if (!this.matches[index])
+      this.matches[index] = Object.create(null)
+
+    for (var i = 0; i < len; i ++) {
+      var e = matchedEntries[i]
+      if (prefix) {
+        if (prefix.slice(-1) !== '/')
+          e = prefix + '/' + e
+        else
+          e = prefix + e
+      }
+
+      if (e.charAt(0) === '/' && !this.nomount) {
+        e = path.join(this.root, e)
+      }
+      this._emitMatch(index, e)
+    }
+    // This was the last one, and no stats were needed
+    return
+  }
+
+  // now test all matched entries as stand-ins for that part
+  // of the pattern.
+  remain.shift()
+  for (var i = 0; i < len; i ++) {
+    var e = matchedEntries[i]
+    var newPattern
+    if (prefix)
+      newPattern = [prefix, e]
+    else
+      newPattern = [e]
+    this._process(newPattern.concat(remain), index, inGlobStar)
+  }
+}
+
+
+GlobSync.prototype._emitMatch = function (index, e) {
+  if (isIgnored(this, e))
+    return
+
+  var abs = this._makeAbs(e)
+
+  if (this.mark)
+    e = this._mark(e)
+
+  if (this.absolute) {
+    e = abs
+  }
+
+  if (this.matches[index][e])
+    return
+
+  if (this.nodir) {
+    var c = this.cache[abs]
+    if (c === 'DIR' || Array.isArray(c))
+      return
+  }
+
+  this.matches[index][e] = true
+
+  if (this.stat)
+    this._stat(e)
+}
+
+
+GlobSync.prototype._readdirInGlobStar = function (abs) {
+  // follow all symlinked directories forever
+  // just proceed as if this is a non-globstar situation
+  if (this.follow)
+    return this._readdir(abs, false)
+
+  var entries
+  var lstat
+  var stat
+  try {
+    lstat = this.fs.lstatSync(abs)
+  } catch (er) {
+    if (er.code === 'ENOENT') {
+      // lstat failed, doesn't exist
+      return null
+    }
+  }
+
+  var isSym = lstat && lstat.isSymbolicLink()
+  this.symlinks[abs] = isSym
+
+  // If it's not a symlink or a dir, then it's definitely a regular file.
+  // don't bother doing a readdir in that case.
+  if (!isSym && lstat && !lstat.isDirectory())
+    this.cache[abs] = 'FILE'
+  else
+    entries = this._readdir(abs, false)
+
+  return entries
+}
+
+GlobSync.prototype._readdir = function (abs, inGlobStar) {
+  var entries
+
+  if (inGlobStar && !ownProp(this.symlinks, abs))
+    return this._readdirInGlobStar(abs)
+
+  if (ownProp(this.cache, abs)) {
+    var c = this.cache[abs]
+    if (!c || c === 'FILE')
+      return null
+
+    if (Array.isArray(c))
+      return c
+  }
+
+  try {
+    return this._readdirEntries(abs, this.fs.readdirSync(abs))
+  } catch (er) {
+    this._readdirError(abs, er)
+    return null
+  }
+}
+
+GlobSync.prototype._readdirEntries = function (abs, entries) {
+  // if we haven't asked to stat everything, then just
+  // assume that everything in there exists, so we can avoid
+  // having to stat it a second time.
+  if (!this.mark && !this.stat) {
+    for (var i = 0; i < entries.length; i ++) {
+      var e = entries[i]
+      if (abs === '/')
+        e = abs + e
+      else
+        e = abs + '/' + e
+      this.cache[e] = true
+    }
+  }
+
+  this.cache[abs] = entries
+
+  // mark and cache dir-ness
+  return entries
+}
+
+GlobSync.prototype._readdirError = function (f, er) {
+  // handle errors, and cache the information
+  switch (er.code) {
+    case 'ENOTSUP': // https://github.com/isaacs/node-glob/issues/205
+    case 'ENOTDIR': // totally normal. means it *does* exist.
+      var abs = this._makeAbs(f)
+      this.cache[abs] = 'FILE'
+      if (abs === this.cwdAbs) {
+        var error = new Error(er.code + ' invalid cwd ' + this.cwd)
+        error.path = this.cwd
+        error.code = er.code
+        throw error
+      }
+      break
+
+    case 'ENOENT': // not terribly unusual
+    case 'ELOOP':
+    case 'ENAMETOOLONG':
+    case 'UNKNOWN':
+      this.cache[this._makeAbs(f)] = false
+      break
+
+    default: // some unusual error.  Treat as failure.
+      this.cache[this._makeAbs(f)] = false
+      if (this.strict)
+        throw er
+      if (!this.silent)
+        console.error('glob error', er)
+      break
+  }
+}
+
+GlobSync.prototype._processGlobStar = function (prefix, read, abs, remain, index, inGlobStar) {
+
+  var entries = this._readdir(abs, inGlobStar)
+
+  // no entries means not a dir, so it can never have matches
+  // foo.txt/** doesn't match foo.txt
+  if (!entries)
+    return
+
+  // test without the globstar, and with every child both below
+  // and replacing the globstar.
+  var remainWithoutGlobStar = remain.slice(1)
+  var gspref = prefix ? [ prefix ] : []
+  var noGlobStar = gspref.concat(remainWithoutGlobStar)
+
+  // the noGlobStar pattern exits the inGlobStar state
+  this._process(noGlobStar, index, false)
+
+  var len = entries.length
+  var isSym = this.symlinks[abs]
+
+  // If it's a symlink, and we're in a globstar, then stop
+  if (isSym && inGlobStar)
+    return
+
+  for (var i = 0; i < len; i++) {
+    var e = entries[i]
+    if (e.charAt(0) === '.' && !this.dot)
+      continue
+
+    // these two cases enter the inGlobStar state
+    var instead = gspref.concat(entries[i], remainWithoutGlobStar)
+    this._process(instead, index, true)
+
+    var below = gspref.concat(entries[i], remain)
+    this._process(below, index, true)
+  }
+}
+
+GlobSync.prototype._processSimple = function (prefix, index) {
+  // XXX review this.  Shouldn't it be doing the mounting etc
+  // before doing stat?  kinda weird?
+  var exists = this._stat(prefix)
+
+  if (!this.matches[index])
+    this.matches[index] = Object.create(null)
+
+  // If it doesn't exist, then just mark the lack of results
+  if (!exists)
+    return
+
+  if (prefix && isAbsolute(prefix) && !this.nomount) {
+    var trail = /[\/\\]$/.test(prefix)
+    if (prefix.charAt(0) === '/') {
+      prefix = path.join(this.root, prefix)
+    } else {
+      prefix = path.resolve(this.root, prefix)
+      if (trail)
+        prefix += '/'
+    }
+  }
+
+  if (process.platform === 'win32')
+    prefix = prefix.replace(/\\/g, '/')
+
+  // Mark this as a match
+  this._emitMatch(index, prefix)
+}
+
+// Returns either 'DIR', 'FILE', or false
+GlobSync.prototype._stat = function (f) {
+  var abs = this._makeAbs(f)
+  var needDir = f.slice(-1) === '/'
+
+  if (f.length > this.maxLength)
+    return false
+
+  if (!this.stat && ownProp(this.cache, abs)) {
+    var c = this.cache[abs]
+
+    if (Array.isArray(c))
+      c = 'DIR'
+
+    // It exists, but maybe not how we need it
+    if (!needDir || c === 'DIR')
+      return c
+
+    if (needDir && c === 'FILE')
+      return false
+
+    // otherwise we have to stat, because maybe c=true
+    // if we know it exists, but not what it is.
+  }
+
+  var exists
+  var stat = this.statCache[abs]
+  if (!stat) {
+    var lstat
+    try {
+      lstat = this.fs.lstatSync(abs)
+    } catch (er) {
+      if (er && (er.code === 'ENOENT' || er.code === 'ENOTDIR')) {
+        this.statCache[abs] = false
+        return false
+      }
+    }
+
+    if (lstat && lstat.isSymbolicLink()) {
+      try {
+        stat = this.fs.statSync(abs)
+      } catch (er) {
+        stat = lstat
+      }
+    } else {
+      stat = lstat
+    }
+  }
+
+  this.statCache[abs] = stat
+
+  var c = true
+  if (stat)
+    c = stat.isDirectory() ? 'DIR' : 'FILE'
+
+  this.cache[abs] = this.cache[abs] || c
+
+  if (needDir && c === 'FILE')
+    return false
+
+  return c
+}
+
+GlobSync.prototype._mark = function (p) {
+  return common.mark(this, p)
+}
+
+GlobSync.prototype._makeAbs = function (f) {
+  return common.makeAbs(this, f)
+}
+
+
+/***/ }),
+
+/***/ 3512:
+/***/ ((module) => {
+
+const isWindows = typeof process === 'object' &&
+  process &&
+  process.platform === 'win32'
+module.exports = isWindows ? { sep: '\\' } : { sep: '/' }
+
+
+/***/ }),
+
+/***/ 1787:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const minimatch = module.exports = (p, pattern, options = {}) => {
+  assertValidPattern(pattern)
+
+  // shortcut: comments match nothing.
+  if (!options.nocomment && pattern.charAt(0) === '#') {
+    return false
+  }
+
+  return new Minimatch(pattern, options).match(p)
+}
+
+module.exports = minimatch
+
+const path = __nccwpck_require__(3512)
+minimatch.sep = path.sep
+
+const GLOBSTAR = Symbol('globstar **')
+minimatch.GLOBSTAR = GLOBSTAR
+const expand = __nccwpck_require__(2624)
+
+const plTypes = {
+  '!': { open: '(?:(?!(?:', close: '))[^/]*?)'},
+  '?': { open: '(?:', close: ')?' },
+  '+': { open: '(?:', close: ')+' },
+  '*': { open: '(?:', close: ')*' },
+  '@': { open: '(?:', close: ')' }
+}
+
+// any single thing other than /
+// don't need to escape / when using new RegExp()
+const qmark = '[^/]'
+
+// * => any number of characters
+const star = qmark + '*?'
+
+// ** when dots are allowed.  Anything goes, except .. and .
+// not (^ or / followed by one or two dots followed by $ or /),
+// followed by anything, any number of times.
+const twoStarDot = '(?:(?!(?:\\\/|^)(?:\\.{1,2})($|\\\/)).)*?'
+
+// not a ^ or / followed by a dot,
+// followed by anything, any number of times.
+const twoStarNoDot = '(?:(?!(?:\\\/|^)\\.).)*?'
+
+// "abc" -> { a:true, b:true, c:true }
+const charSet = s => s.split('').reduce((set, c) => {
+  set[c] = true
+  return set
+}, {})
+
+// characters that need to be escaped in RegExp.
+const reSpecials = charSet('().*{}+?[]^$\\!')
+
+// characters that indicate we have to add the pattern start
+const addPatternStartSet = charSet('[.(')
+
+// normalizes slashes.
+const slashSplit = /\/+/
+
+minimatch.filter = (pattern, options = {}) =>
+  (p, i, list) => minimatch(p, pattern, options)
+
+const ext = (a, b = {}) => {
+  const t = {}
+  Object.keys(a).forEach(k => t[k] = a[k])
+  Object.keys(b).forEach(k => t[k] = b[k])
+  return t
+}
+
+minimatch.defaults = def => {
+  if (!def || typeof def !== 'object' || !Object.keys(def).length) {
+    return minimatch
+  }
+
+  const orig = minimatch
+
+  const m = (p, pattern, options) => orig(p, pattern, ext(def, options))
+  m.Minimatch = class Minimatch extends orig.Minimatch {
+    constructor (pattern, options) {
+      super(pattern, ext(def, options))
+    }
+  }
+  m.Minimatch.defaults = options => orig.defaults(ext(def, options)).Minimatch
+  m.filter = (pattern, options) => orig.filter(pattern, ext(def, options))
+  m.defaults = options => orig.defaults(ext(def, options))
+  m.makeRe = (pattern, options) => orig.makeRe(pattern, ext(def, options))
+  m.braceExpand = (pattern, options) => orig.braceExpand(pattern, ext(def, options))
+  m.match = (list, pattern, options) => orig.match(list, pattern, ext(def, options))
+
+  return m
+}
+
+
+
+
+
+// Brace expansion:
+// a{b,c}d -> abd acd
+// a{b,}c -> abc ac
+// a{0..3}d -> a0d a1d a2d a3d
+// a{b,c{d,e}f}g -> abg acdfg acefg
+// a{b,c}d{e,f}g -> abdeg acdeg abdeg abdfg
+//
+// Invalid sets are not expanded.
+// a{2..}b -> a{2..}b
+// a{b}c -> a{b}c
+minimatch.braceExpand = (pattern, options) => braceExpand(pattern, options)
+
+const braceExpand = (pattern, options = {}) => {
+  assertValidPattern(pattern)
+
+  // Thanks to Yeting Li <https://github.com/yetingli> for
+  // improving this regexp to avoid a ReDOS vulnerability.
+  if (options.nobrace || !/\{(?:(?!\{).)*\}/.test(pattern)) {
+    // shortcut. no need to expand.
+    return [pattern]
+  }
+
+  return expand(pattern)
+}
+
+const MAX_PATTERN_LENGTH = 1024 * 64
+const assertValidPattern = pattern => {
+  if (typeof pattern !== 'string') {
+    throw new TypeError('invalid pattern')
+  }
+
+  if (pattern.length > MAX_PATTERN_LENGTH) {
+    throw new TypeError('pattern is too long')
+  }
+}
+
+// parse a component of the expanded set.
+// At this point, no pattern may contain "/" in it
+// so we're going to return a 2d array, where each entry is the full
+// pattern, split on '/', and then turned into a regular expression.
+// A regexp is made at the end which joins each array with an
+// escaped /, and another full one which joins each regexp with |.
+//
+// Following the lead of Bash 4.1, note that "**" only has special meaning
+// when it is the *only* thing in a path portion.  Otherwise, any series
+// of * is equivalent to a single *.  Globstar behavior is enabled by
+// default, and can be disabled by setting options.noglobstar.
+const SUBPARSE = Symbol('subparse')
+
+minimatch.makeRe = (pattern, options) =>
+  new Minimatch(pattern, options || {}).makeRe()
+
+minimatch.match = (list, pattern, options = {}) => {
+  const mm = new Minimatch(pattern, options)
+  list = list.filter(f => mm.match(f))
+  if (mm.options.nonull && !list.length) {
+    list.push(pattern)
+  }
+  return list
+}
+
+// replace stuff like \* with *
+const globUnescape = s => s.replace(/\\(.)/g, '$1')
+const charUnescape = s => s.replace(/\\([^-\]])/g, '$1')
+const regExpEscape = s => s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+const braExpEscape = s => s.replace(/[[\]\\]/g, '\\$&')
+
+class Minimatch {
+  constructor (pattern, options) {
+    assertValidPattern(pattern)
+
+    if (!options) options = {}
+
+    this.options = options
+    this.set = []
+    this.pattern = pattern
+    this.windowsPathsNoEscape = !!options.windowsPathsNoEscape ||
+      options.allowWindowsEscape === false
+    if (this.windowsPathsNoEscape) {
+      this.pattern = this.pattern.replace(/\\/g, '/')
+    }
+    this.regexp = null
+    this.negate = false
+    this.comment = false
+    this.empty = false
+    this.partial = !!options.partial
+
+    // make the set of regexps etc.
+    this.make()
+  }
+
+  debug () {}
+
+  make () {
+    const pattern = this.pattern
+    const options = this.options
+
+    // empty patterns and comments match nothing.
+    if (!options.nocomment && pattern.charAt(0) === '#') {
+      this.comment = true
+      return
+    }
+    if (!pattern) {
+      this.empty = true
+      return
+    }
+
+    // step 1: figure out negation, etc.
+    this.parseNegate()
+
+    // step 2: expand braces
+    let set = this.globSet = this.braceExpand()
+
+    if (options.debug) this.debug = (...args) => console.error(...args)
+
+    this.debug(this.pattern, set)
+
+    // step 3: now we have a set, so turn each one into a series of path-portion
+    // matching patterns.
+    // These will be regexps, except in the case of "**", which is
+    // set to the GLOBSTAR object for globstar behavior,
+    // and will not contain any / characters
+    set = this.globParts = set.map(s => s.split(slashSplit))
+
+    this.debug(this.pattern, set)
+
+    // glob --> regexps
+    set = set.map((s, si, set) => s.map(this.parse, this))
+
+    this.debug(this.pattern, set)
+
+    // filter out everything that didn't compile properly.
+    set = set.filter(s => s.indexOf(false) === -1)
+
+    this.debug(this.pattern, set)
+
+    this.set = set
+  }
+
+  parseNegate () {
+    if (this.options.nonegate) return
+
+    const pattern = this.pattern
+    let negate = false
+    let negateOffset = 0
+
+    for (let i = 0; i < pattern.length && pattern.charAt(i) === '!'; i++) {
+      negate = !negate
+      negateOffset++
+    }
+
+    if (negateOffset) this.pattern = pattern.slice(negateOffset)
+    this.negate = negate
+  }
+
+  // set partial to true to test if, for example,
+  // "/a/b" matches the start of "/*/b/*/d"
+  // Partial means, if you run out of file before you run
+  // out of pattern, then that's fine, as long as all
+  // the parts match.
+  matchOne (file, pattern, partial) {
+    var options = this.options
+
+    this.debug('matchOne',
+      { 'this': this, file: file, pattern: pattern })
+
+    this.debug('matchOne', file.length, pattern.length)
+
+    for (var fi = 0,
+        pi = 0,
+        fl = file.length,
+        pl = pattern.length
+        ; (fi < fl) && (pi < pl)
+        ; fi++, pi++) {
+      this.debug('matchOne loop')
+      var p = pattern[pi]
+      var f = file[fi]
+
+      this.debug(pattern, p, f)
+
+      // should be impossible.
+      // some invalid regexp stuff in the set.
+      /* istanbul ignore if */
+      if (p === false) return false
+
+      if (p === GLOBSTAR) {
+        this.debug('GLOBSTAR', [pattern, p, f])
+
+        // "**"
+        // a/**/b/**/c would match the following:
+        // a/b/x/y/z/c
+        // a/x/y/z/b/c
+        // a/b/x/b/x/c
+        // a/b/c
+        // To do this, take the rest of the pattern after
+        // the **, and see if it would match the file remainder.
+        // If so, return success.
+        // If not, the ** "swallows" a segment, and try again.
+        // This is recursively awful.
+        //
+        // a/**/b/**/c matching a/b/x/y/z/c
+        // - a matches a
+        // - doublestar
+        //   - matchOne(b/x/y/z/c, b/**/c)
+        //     - b matches b
+        //     - doublestar
+        //       - matchOne(x/y/z/c, c) -> no
+        //       - matchOne(y/z/c, c) -> no
+        //       - matchOne(z/c, c) -> no
+        //       - matchOne(c, c) yes, hit
+        var fr = fi
+        var pr = pi + 1
+        if (pr === pl) {
+          this.debug('** at the end')
+          // a ** at the end will just swallow the rest.
+          // We have found a match.
+          // however, it will not swallow /.x, unless
+          // options.dot is set.
+          // . and .. are *never* matched by **, for explosively
+          // exponential reasons.
+          for (; fi < fl; fi++) {
+            if (file[fi] === '.' || file[fi] === '..' ||
+              (!options.dot && file[fi].charAt(0) === '.')) return false
+          }
+          return true
+        }
+
+        // ok, let's see if we can swallow whatever we can.
+        while (fr < fl) {
+          var swallowee = file[fr]
+
+          this.debug('\nglobstar while', file, fr, pattern, pr, swallowee)
+
+          // XXX remove this slice.  Just pass the start index.
+          if (this.matchOne(file.slice(fr), pattern.slice(pr), partial)) {
+            this.debug('globstar found match!', fr, fl, swallowee)
+            // found a match.
+            return true
+          } else {
+            // can't swallow "." or ".." ever.
+            // can only swallow ".foo" when explicitly asked.
+            if (swallowee === '.' || swallowee === '..' ||
+              (!options.dot && swallowee.charAt(0) === '.')) {
+              this.debug('dot detected!', file, fr, pattern, pr)
+              break
+            }
+
+            // ** swallows a segment, and continue.
+            this.debug('globstar swallow a segment, and continue')
+            fr++
+          }
+        }
+
+        // no match was found.
+        // However, in partial mode, we can't say this is necessarily over.
+        // If there's more *pattern* left, then
+        /* istanbul ignore if */
+        if (partial) {
+          // ran out of file
+          this.debug('\n>>> no match, partial?', file, fr, pattern, pr)
+          if (fr === fl) return true
+        }
+        return false
+      }
+
+      // something other than **
+      // non-magic patterns just have to match exactly
+      // patterns with magic have been turned into regexps.
+      var hit
+      if (typeof p === 'string') {
+        hit = f === p
+        this.debug('string match', p, f, hit)
+      } else {
+        hit = f.match(p)
+        this.debug('pattern match', p, f, hit)
+      }
+
+      if (!hit) return false
+    }
+
+    // Note: ending in / means that we'll get a final ""
+    // at the end of the pattern.  This can only match a
+    // corresponding "" at the end of the file.
+    // If the file ends in /, then it can only match a
+    // a pattern that ends in /, unless the pattern just
+    // doesn't have any more for it. But, a/b/ should *not*
+    // match "a/b/*", even though "" matches against the
+    // [^/]*? pattern, except in partial mode, where it might
+    // simply not be reached yet.
+    // However, a/b/ should still satisfy a/*
+
+    // now either we fell off the end of the pattern, or we're done.
+    if (fi === fl && pi === pl) {
+      // ran out of pattern and filename at the same time.
+      // an exact hit!
+      return true
+    } else if (fi === fl) {
+      // ran out of file, but still had pattern left.
+      // this is ok if we're doing the match as part of
+      // a glob fs traversal.
+      return partial
+    } else /* istanbul ignore else */ if (pi === pl) {
+      // ran out of pattern, still have file left.
+      // this is only acceptable if we're on the very last
+      // empty segment of a file with a trailing slash.
+      // a/* should match a/b/
+      return (fi === fl - 1) && (file[fi] === '')
+    }
+
+    // should be unreachable.
+    /* istanbul ignore next */
+    throw new Error('wtf?')
+  }
+
+  braceExpand () {
+    return braceExpand(this.pattern, this.options)
+  }
+
+  parse (pattern, isSub) {
+    assertValidPattern(pattern)
+
+    const options = this.options
+
+    // shortcuts
+    if (pattern === '**') {
+      if (!options.noglobstar)
+        return GLOBSTAR
+      else
+        pattern = '*'
+    }
+    if (pattern === '') return ''
+
+    let re = ''
+    let hasMagic = false
+    let escaping = false
+    // ? => one single character
+    const patternListStack = []
+    const negativeLists = []
+    let stateChar
+    let inClass = false
+    let reClassStart = -1
+    let classStart = -1
+    let cs
+    let pl
+    let sp
+    // . and .. never match anything that doesn't start with .,
+    // even when options.dot is set.  However, if the pattern
+    // starts with ., then traversal patterns can match.
+    let dotTravAllowed = pattern.charAt(0) === '.'
+    let dotFileAllowed = options.dot || dotTravAllowed
+    const patternStart = () =>
+      dotTravAllowed
+        ? ''
+        : dotFileAllowed
+        ? '(?!(?:^|\\/)\\.{1,2}(?:$|\\/))'
+        : '(?!\\.)'
+    const subPatternStart = (p) =>
+      p.charAt(0) === '.'
+        ? ''
+        : options.dot
+        ? '(?!(?:^|\\/)\\.{1,2}(?:$|\\/))'
+        : '(?!\\.)'
+
+
+    const clearStateChar = () => {
+      if (stateChar) {
+        // we had some state-tracking character
+        // that wasn't consumed by this pass.
+        switch (stateChar) {
+          case '*':
+            re += star
+            hasMagic = true
+          break
+          case '?':
+            re += qmark
+            hasMagic = true
+          break
+          default:
+            re += '\\' + stateChar
+          break
+        }
+        this.debug('clearStateChar %j %j', stateChar, re)
+        stateChar = false
+      }
+    }
+
+    for (let i = 0, c; (i < pattern.length) && (c = pattern.charAt(i)); i++) {
+      this.debug('%s\t%s %s %j', pattern, i, re, c)
+
+      // skip over any that are escaped.
+      if (escaping) {
+        /* istanbul ignore next - completely not allowed, even escaped. */
+        if (c === '/') {
+          return false
+        }
+
+        if (reSpecials[c]) {
+          re += '\\'
+        }
+        re += c
+        escaping = false
+        continue
+      }
+
+      switch (c) {
+        /* istanbul ignore next */
+        case '/': {
+          // Should already be path-split by now.
+          return false
+        }
+
+        case '\\':
+          if (inClass && pattern.charAt(i + 1) === '-') {
+            re += c
+            continue
+          }
+
+          clearStateChar()
+          escaping = true
+        continue
+
+        // the various stateChar values
+        // for the "extglob" stuff.
+        case '?':
+        case '*':
+        case '+':
+        case '@':
+        case '!':
+          this.debug('%s\t%s %s %j <-- stateChar', pattern, i, re, c)
+
+          // all of those are literals inside a class, except that
+          // the glob [!a] means [^a] in regexp
+          if (inClass) {
+            this.debug('  in class')
+            if (c === '!' && i === classStart + 1) c = '^'
+            re += c
+            continue
+          }
+
+          // if we already have a stateChar, then it means
+          // that there was something like ** or +? in there.
+          // Handle the stateChar, then proceed with this one.
+          this.debug('call clearStateChar %j', stateChar)
+          clearStateChar()
+          stateChar = c
+          // if extglob is disabled, then +(asdf|foo) isn't a thing.
+          // just clear the statechar *now*, rather than even diving into
+          // the patternList stuff.
+          if (options.noext) clearStateChar()
+        continue
+
+        case '(': {
+          if (inClass) {
+            re += '('
+            continue
+          }
+
+          if (!stateChar) {
+            re += '\\('
+            continue
+          }
+
+          const plEntry = {
+            type: stateChar,
+            start: i - 1,
+            reStart: re.length,
+            open: plTypes[stateChar].open,
+            close: plTypes[stateChar].close,
+          }
+          this.debug(this.pattern, '\t', plEntry)
+          patternListStack.push(plEntry)
+          // negation is (?:(?!(?:js)(?:<rest>))[^/]*)
+          re += plEntry.open
+          // next entry starts with a dot maybe?
+          if (plEntry.start === 0 && plEntry.type !== '!') {
+            dotTravAllowed = true
+            re += subPatternStart(pattern.slice(i + 1))
+          }
+          this.debug('plType %j %j', stateChar, re)
+          stateChar = false
+          continue
+        }
+
+        case ')': {
+          const plEntry = patternListStack[patternListStack.length - 1]
+          if (inClass || !plEntry) {
+            re += '\\)'
+            continue
+          }
+          patternListStack.pop()
+
+          // closing an extglob
+          clearStateChar()
+          hasMagic = true
+          pl = plEntry
+          // negation is (?:(?!js)[^/]*)
+          // The others are (?:<pattern>)<type>
+          re += pl.close
+          if (pl.type === '!') {
+            negativeLists.push(Object.assign(pl, { reEnd: re.length }))
+          }
+          continue
+        }
+
+        case '|': {
+          const plEntry = patternListStack[patternListStack.length - 1]
+          if (inClass || !plEntry) {
+            re += '\\|'
+            continue
+          }
+
+          clearStateChar()
+          re += '|'
+          // next subpattern can start with a dot?
+          if (plEntry.start === 0 && plEntry.type !== '!') {
+            dotTravAllowed = true
+            re += subPatternStart(pattern.slice(i + 1))
+          }
+          continue
+        }
+
+        // these are mostly the same in regexp and glob
+        case '[':
+          // swallow any state-tracking char before the [
+          clearStateChar()
+
+          if (inClass) {
+            re += '\\' + c
+            continue
+          }
+
+          inClass = true
+          classStart = i
+          reClassStart = re.length
+          re += c
+        continue
+
+        case ']':
+          //  a right bracket shall lose its special
+          //  meaning and represent itself in
+          //  a bracket expression if it occurs
+          //  first in the list.  -- POSIX.2 2.8.3.2
+          if (i === classStart + 1 || !inClass) {
+            re += '\\' + c
+            continue
+          }
+
+          // split where the last [ was, make sure we don't have
+          // an invalid re. if so, re-walk the contents of the
+          // would-be class to re-translate any characters that
+          // were passed through as-is
+          // TODO: It would probably be faster to determine this
+          // without a try/catch and a new RegExp, but it's tricky
+          // to do safely.  For now, this is safe and works.
+          cs = pattern.substring(classStart + 1, i)
+          try {
+            RegExp('[' + braExpEscape(charUnescape(cs)) + ']')
+            // looks good, finish up the class.
+            re += c
+          } catch (er) {
+            // out of order ranges in JS are errors, but in glob syntax,
+            // they're just a range that matches nothing.
+            re = re.substring(0, reClassStart) + '(?:$.)' // match nothing ever
+          }
+          hasMagic = true
+          inClass = false
+        continue
+
+        default:
+          // swallow any state char that wasn't consumed
+          clearStateChar()
+
+          if (reSpecials[c] && !(c === '^' && inClass)) {
+            re += '\\'
+          }
+
+          re += c
+          break
+
+      } // switch
+    } // for
+
+    // handle the case where we left a class open.
+    // "[abc" is valid, equivalent to "\[abc"
+    if (inClass) {
+      // split where the last [ was, and escape it
+      // this is a huge pita.  We now have to re-walk
+      // the contents of the would-be class to re-translate
+      // any characters that were passed through as-is
+      cs = pattern.slice(classStart + 1)
+      sp = this.parse(cs, SUBPARSE)
+      re = re.substring(0, reClassStart) + '\\[' + sp[0]
+      hasMagic = hasMagic || sp[1]
+    }
+
+    // handle the case where we had a +( thing at the *end*
+    // of the pattern.
+    // each pattern list stack adds 3 chars, and we need to go through
+    // and escape any | chars that were passed through as-is for the regexp.
+    // Go through and escape them, taking care not to double-escape any
+    // | chars that were already escaped.
+    for (pl = patternListStack.pop(); pl; pl = patternListStack.pop()) {
+      let tail
+      tail = re.slice(pl.reStart + pl.open.length)
+      this.debug('setting tail', re, pl)
+      // maybe some even number of \, then maybe 1 \, followed by a |
+      tail = tail.replace(/((?:\\{2}){0,64})(\\?)\|/g, (_, $1, $2) => {
+        /* istanbul ignore else - should already be done */
+        if (!$2) {
+          // the | isn't already escaped, so escape it.
+          $2 = '\\'
+        }
+
+        // need to escape all those slashes *again*, without escaping the
+        // one that we need for escaping the | character.  As it works out,
+        // escaping an even number of slashes can be done by simply repeating
+        // it exactly after itself.  That's why this trick works.
+        //
+        // I am sorry that you have to see this.
+        return $1 + $1 + $2 + '|'
+      })
+
+      this.debug('tail=%j\n   %s', tail, tail, pl, re)
+      const t = pl.type === '*' ? star
+        : pl.type === '?' ? qmark
+        : '\\' + pl.type
+
+      hasMagic = true
+      re = re.slice(0, pl.reStart) + t + '\\(' + tail
+    }
+
+    // handle trailing things that only matter at the very end.
+    clearStateChar()
+    if (escaping) {
+      // trailing \\
+      re += '\\\\'
+    }
+
+    // only need to apply the nodot start if the re starts with
+    // something that could conceivably capture a dot
+    const addPatternStart = addPatternStartSet[re.charAt(0)]
+
+    // Hack to work around lack of negative lookbehind in JS
+    // A pattern like: *.!(x).!(y|z) needs to ensure that a name
+    // like 'a.xyz.yz' doesn't match.  So, the first negative
+    // lookahead, has to look ALL the way ahead, to the end of
+    // the pattern.
+    for (let n = negativeLists.length - 1; n > -1; n--) {
+      const nl = negativeLists[n]
+
+      const nlBefore = re.slice(0, nl.reStart)
+      const nlFirst = re.slice(nl.reStart, nl.reEnd - 8)
+      let nlAfter = re.slice(nl.reEnd)
+      const nlLast = re.slice(nl.reEnd - 8, nl.reEnd) + nlAfter
+
+      // Handle nested stuff like *(*.js|!(*.json)), where open parens
+      // mean that we should *not* include the ) in the bit that is considered
+      // "after" the negated section.
+      const closeParensBefore = nlBefore.split(')').length
+      const openParensBefore = nlBefore.split('(').length - closeParensBefore
+      let cleanAfter = nlAfter
+      for (let i = 0; i < openParensBefore; i++) {
+        cleanAfter = cleanAfter.replace(/\)[+*?]?/, '')
+      }
+      nlAfter = cleanAfter
+
+      const dollar = nlAfter === '' && isSub !== SUBPARSE ? '(?:$|\\/)' : ''
+
+      re = nlBefore + nlFirst + nlAfter + dollar + nlLast
+    }
+
+    // if the re is not "" at this point, then we need to make sure
+    // it doesn't match against an empty path part.
+    // Otherwise a/* will match a/, which it should not.
+    if (re !== '' && hasMagic) {
+      re = '(?=.)' + re
+    }
+
+    if (addPatternStart) {
+      re = patternStart() + re
+    }
+
+    // parsing just a piece of a larger pattern.
+    if (isSub === SUBPARSE) {
+      return [re, hasMagic]
+    }
+
+    // if it's nocase, and the lcase/uppercase don't match, it's magic
+    if (options.nocase && !hasMagic) {
+      hasMagic = pattern.toUpperCase() !== pattern.toLowerCase()
+    }
+
+    // skip the regexp for non-magical patterns
+    // unescape anything in it, though, so that it'll be
+    // an exact match against a file etc.
+    if (!hasMagic) {
+      return globUnescape(pattern)
+    }
+
+    const flags = options.nocase ? 'i' : ''
+    try {
+      return Object.assign(new RegExp('^' + re + '$', flags), {
+        _glob: pattern,
+        _src: re,
+      })
+    } catch (er) /* istanbul ignore next - should be impossible */ {
+      // If it was an invalid regular expression, then it can't match
+      // anything.  This trick looks for a character after the end of
+      // the string, which is of course impossible, except in multi-line
+      // mode, but it's not a /m regex.
+      return new RegExp('$.')
+    }
+  }
+
+  makeRe () {
+    if (this.regexp || this.regexp === false) return this.regexp
+
+    // at this point, this.set is a 2d array of partial
+    // pattern strings, or "**".
+    //
+    // It's better to use .match().  This function shouldn't
+    // be used, really, but it's pretty convenient sometimes,
+    // when you just want to work with a regex.
+    const set = this.set
+
+    if (!set.length) {
+      this.regexp = false
+      return this.regexp
+    }
+    const options = this.options
+
+    const twoStar = options.noglobstar ? star
+      : options.dot ? twoStarDot
+      : twoStarNoDot
+    const flags = options.nocase ? 'i' : ''
+
+    // coalesce globstars and regexpify non-globstar patterns
+    // if it's the only item, then we just do one twoStar
+    // if it's the first, and there are more, prepend (\/|twoStar\/)? to next
+    // if it's the last, append (\/twoStar|) to previous
+    // if it's in the middle, append (\/|\/twoStar\/) to previous
+    // then filter out GLOBSTAR symbols
+    let re = set.map(pattern => {
+      pattern = pattern.map(p =>
+        typeof p === 'string' ? regExpEscape(p)
+        : p === GLOBSTAR ? GLOBSTAR
+        : p._src
+      ).reduce((set, p) => {
+        if (!(set[set.length - 1] === GLOBSTAR && p === GLOBSTAR)) {
+          set.push(p)
+        }
+        return set
+      }, [])
+      pattern.forEach((p, i) => {
+        if (p !== GLOBSTAR || pattern[i-1] === GLOBSTAR) {
+          return
+        }
+        if (i === 0) {
+          if (pattern.length > 1) {
+            pattern[i+1] = '(?:\\\/|' + twoStar + '\\\/)?' + pattern[i+1]
+          } else {
+            pattern[i] = twoStar
+          }
+        } else if (i === pattern.length - 1) {
+          pattern[i-1] += '(?:\\\/|' + twoStar + ')?'
+        } else {
+          pattern[i-1] += '(?:\\\/|\\\/' + twoStar + '\\\/)' + pattern[i+1]
+          pattern[i+1] = GLOBSTAR
+        }
+      })
+      return pattern.filter(p => p !== GLOBSTAR).join('/')
+    }).join('|')
+
+    // must match entire pattern
+    // ending in a * or ** will make it less strict.
+    re = '^(?:' + re + ')$'
+
+    // can match anything, as long as it's not this.
+    if (this.negate) re = '^(?!' + re + ').*$'
+
+    try {
+      this.regexp = new RegExp(re, flags)
+    } catch (ex) /* istanbul ignore next - should be impossible */ {
+      this.regexp = false
+    }
+    return this.regexp
+  }
+
+  match (f, partial = this.partial) {
+    this.debug('match', f, this.pattern)
+    // short-circuit in the case of busted things.
+    // comments, etc.
+    if (this.comment) return false
+    if (this.empty) return f === ''
+
+    if (f === '/' && partial) return true
+
+    const options = this.options
+
+    // windows: need to use /, not \
+    if (path.sep !== '/') {
+      f = f.split(path.sep).join('/')
+    }
+
+    // treat the test path as a set of pathparts.
+    f = f.split(slashSplit)
+    this.debug(this.pattern, 'split', f)
+
+    // just ONE of the pattern sets in this.set needs to match
+    // in order for it to be valid.  If negating, then just one
+    // match means that we have failed.
+    // Either way, return on the first hit.
+
+    const set = this.set
+    this.debug(this.pattern, 'set', set)
+
+    // Find the basename of the path by looking for the last non-empty segment
+    let filename
+    for (let i = f.length - 1; i >= 0; i--) {
+      filename = f[i]
+      if (filename) break
+    }
+
+    for (let i = 0; i < set.length; i++) {
+      const pattern = set[i]
+      let file = f
+      if (options.matchBase && pattern.length === 1) {
+        file = [filename]
+      }
+      const hit = this.matchOne(file, pattern, partial)
+      if (hit) {
+        if (options.flipNegate) return true
+        return !this.negate
+      }
+    }
+
+    // didn't get any hits.  this is success if it's a negative
+    // pattern, failure otherwise.
+    if (options.flipNegate) return false
+    return this.negate
+  }
+
+  static defaults (def) {
+    return minimatch.defaults(def).Minimatch
+  }
+}
+
+minimatch.Minimatch = Minimatch
+
+
+/***/ }),
+
+/***/ 6796:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var Typifier = __nccwpck_require__(8807);
+    __nccwpck_require__(3894); // here we extend array by default object features (each, getSample, ...)
+}
+//<!-- /MODULE -->//
+
+//<!-- DOC -->//
+/**
+ * out of scope function only for jsdoc documentation generation purpose
+ */
+(function () {
+    /**
+     * RubyNice version to add methods directly to the class by monkey patching
+     */
+    class Array {
+
+        /**
+         * Iterates over all elements of the array
+         *
+         * Breaks if returning false
+         *
+         * @example
+         *      ['one','two','three'].eachWithIndex((elem, index) => {
+         *          if(condition) return false;
+         *          console.log(elem);
+         *      })
+         *
+         * @param {eachArrayLoopCallback} loop_function
+         * @returns {Array<any>} returns itself
+         */
+        eachWithIndex(loop_function) {
+        }
+
+        /**
+         * Returns a new array that is a one dimensional flattening of itself.
+         *
+         * Different to Javascript flat(), which only flattens one dimension.
+         *
+         * @returns {Array}
+         */
+        flatten() {
+        }
+
+        /**
+         * Returns the first element of the array
+         *
+         * @example
+         *      ['one','two','three'].getFirst() // => 'one'
+         *
+         * @returns {any}
+         */
+        getFirst() {
+        }
+
+        /**
+         * Returns the last element of the array
+         *
+         * @example
+         *      ['one','two','three'].getLast() // => 'three'
+         *
+         * @returns {any}
+         */
+        getLast() {
+        }
+
+        /**
+         * Returns the max element of the array. All values must be of type number.
+         *
+         * @example
+         *      [3,7,2].getMax() // => 7
+         *
+         * @returns {number|null} returns null if array is empty
+         */
+        getMax() {
+        }
+
+        /**
+         * Returns the min element of the array. All values must be of type number.
+         *
+         * @example
+         *      [3,7,2,9].getMin() // => 2
+         *
+         * @returns {number|null} returns null if array is empty
+         */
+        getMin() {
+        }
+
+        /**
+         * Returns a random element of the array
+         *
+         * @example
+         *      ['one','two','three'].getSample() // => 'two'
+         *
+         * @returns {any}
+         */
+        getSample() {
+        }
+    }
+});
+//<!-- /DOC -->//
+
+/**
+ * @callback eachArrayLoopCallback
+ * @param {any} value
+ * @param {number} index
+ */
+
+Object.assign(Array.prototype, {
+    /**
+     * Returns a new array that is a one dimensional flattening of itself.
+     *
+     * Different to Javascript flat(), which only flattens one dimension.
+     *
+     * @returns {Array}
+     */
+    flatten() {
+        const recursiveFlat = (array) => {
+            if(!array) array = this;
+            const is_including_array = array.filter((el) => { return Typifier.isArray(el); }).length > 0;
+            if(is_including_array) {
+                return recursiveFlat(array.flat());
+            }
+            return array.flat();
+        }
+        return recursiveFlat();
+    }
+});
+
+Object.assign(Array.prototype, {
+    /**
+     * Returns the max element of the array. All values must be of type number.
+     *
+     * @example
+     *      [3,7,2].getMax() // => 7
+     *
+     * @returns {number|null} returns null if array is empty
+     */
+    getMax() {
+        if(this.length === 0) return null;
+        return Math.max(...this);
+    }
+});
+
+Object.assign(Array.prototype, {
+    /**
+     * Returns the min element of the array. All values must be of type number.
+     *
+     * @example
+     *      [3,7,2,9].getMin() // => 2
+     *
+     * @returns {number|null} returns null if array is empty
+     */
+    getMin() {
+        if(this.length === 0) return null;
+        return Math.min(...this);
+    }
+});
+
+//<!-- MODULE -->//
+if( true && module.exports) {
+    module.exports = 'Array';
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 7110:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var RubyNice = __nccwpck_require__(215);
+    var Glob = __nccwpck_require__(6569);
+    __nccwpck_require__(6796);
+    var File = __nccwpck_require__(8895);
+    var Os = __nccwpck_require__(857);
+}
+
+//<!-- /MODULE -->//
+
+/**
+ * Dir class port of ruby.
+ *
+ * As JavaScript does not support bracket methods, we have a getter and setter instead.
+ *
+ * For node js only, does not work inside a browser.
+ *
+ */
+class Dir {
+    /**
+     * Expands pattern, which is a pattern string or an Array of pattern
+     * strings, and returns an array containing the matching filenames.
+     *
+     * @param {string|Array<string>} pattern
+     * @param {object} options of npm package 'glob'
+     * @param {string} base_path shortcut of options.cwd with higher prio
+     * @returns {Array<string>|null}
+     */
+    static glob(pattern, options, base_path) {
+        const is_array = pattern instanceof Array && pattern.constructor.name === 'Array';
+        if (!is_array) {
+            pattern = [pattern];
+        }
+        let results = [];
+        if (!options) options = {};
+        if (base_path) {
+            options.cwd = base_path;
+        }
+        pattern.eachWithIndex((elem) => {
+            let final_path = File.normalizePath(elem);
+            // WORKAROUND for windows platform:
+            // if pattern is absolute with drive letter, set cwd and remove drive letter to work on first level, like C:/*
+            // because node Glob.sync does not work on first level :-(
+            const is_absolute_path = final_path[1] === ":";
+            if(is_absolute_path) {
+                final_path = final_path.substring(2);
+                const drive_letter = File.normalizePath(elem).substring(0,2);
+                options.cwd = drive_letter;
+            }
+            results.push(Glob.sync(final_path, options));
+        });
+        return results.flatten();
+    }
+
+    /**
+     * Returns the path to the current working directory of this process as a string.
+     *
+     * @returns {string}
+     */
+    static pwd() {
+        return process.cwd();
+    }
+
+    /**
+     * Changes the current working directory of the process to the given string.
+     *
+     * When called without an argument, changes the directory to the value of the
+     * environment variable HOME, or LOGDIR or the operating systems home directory by API.
+     *
+     * @param {string} dir
+     * @throws {Error} if directory can not be changed
+     */
+    static chdir(dir) {
+        if (typeof dir === 'undefined') {
+            dir = process.env.HOME || process.env.LOGDIR || Os.homedir();
+        }
+        process.chdir(dir);
+    }
+
+    /**
+     * Deletes the named directory.
+     *
+     * @param {string} file_name
+     * @param {Object} opts
+     * @param {boolean} opts.recursive=false If true, perform a recursive directory removal. In recursive mode, operations are retried on failure
+     * @param {boolean} opts.max_retries=0 If an EBUSY, EMFILE, ENFILE, ENOTEMPTY, or EPERM error is encountered, Node.js retries the operation with a linear backoff wait of retryDelay milliseconds longer on each try. This option represents the number of retries. This option is ignored if the recursive option is not true
+     * @param {boolean} opts.retry_delay=100 The amount of time in milliseconds to wait between retries. This option is ignored if the recursive option is not true
+     */
+    static delete(file_name, opts = {}) {
+        RubyNice.ensureRunningInNodeJs();
+        const final_opts = {
+            recursive: opts.recursive,
+            maxRetries: opts.max_retries,
+            retryDelay: opts.retry_delay
+        }
+        Fs.rmdirSync(file_name, final_opts);
+    }
+
+    /**
+     * Returns true if the named file is a directory, false otherwise.
+     *
+     * @param {string} file_name
+     * @returns {boolean}
+     */
+    static isExisting(file_name) {
+        return File.isDirectory(file_name);
+    }
+
+    static getHome(user) {
+        return File.getHomePath();
+    }
+}
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = Dir;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 6922:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var RubyNice = __nccwpck_require__(215);
+}
+//<!-- /MODULE -->//
+
+/**
+ * ENV class port of ruby.
+ *
+ * As JavaScript does not support bracket methods, we have a getter and setter instead.
+ *
+ * For node js only, does not work inside a browser.
+ *
+ */
+class Env {
+    /**
+     * Get value of given environment variable name
+     *
+     * @param {string} name
+     * @returns {string}
+     */
+    static get(name) {
+        return process.env[name];
+    }
+
+    /**
+     * Set value of given environment variable name
+     *
+     * @param {string} name
+     * @param {string} value
+     * @returns {string}
+     */
+    static set(name, value) {
+        process.env[name] = value;
+    }
+}
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = Env;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 3823:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var Path = __nccwpck_require__(6928);
+    var Fs = __nccwpck_require__(9896);
+    var Mime = __nccwpck_require__(5881);
+    var File = __nccwpck_require__(8895);
+    var RubyNice = __nccwpck_require__(4474);
+    var Typifier = __nccwpck_require__(8807);
+    __nccwpck_require__(6796);
+}
+//<!-- /MODULE -->//
+
+/**
+ * FileUtils class port of ruby
+ *
+ * For node js only, does not work inside a browser.
+ *
+ */
+class FileUtils {
+
+    /**
+     * Copy file
+     *
+     * @param {string|Array<string>} src path(s) to source file(s)
+     * @param {string} dest path to destination
+     * @param {number|fs.constants.COPYFILE_EXCL|fs.constants.COPYFILE_FICLONE|fs.constants.COPYFILE_FICLONE_FORCE} mode specify behaviour of copy operation
+     */
+    static copy(src, dest, mode) {
+        const self = FileUtils;
+        RubyNice.ensureRunningInNodeJs();
+        if(Typifier.isArray(src)) {
+            if(File.isDirectory(dest)) {
+                src.eachWithIndex((file) => {
+                   if(!File.isFile(file)) {
+                       throw new Error(`Given 'src' in array of files is no valid file. File not found: '${file}'`);
+                   }
+                });
+                src.eachWithIndex((file) => {
+                    let final_dest = dest;
+                    if(!final_dest.endsWith("/") && !final_dest.endsWith("\\")) {
+                        final_dest += "/";
+                    }
+                    final_dest = final_dest + File.getBasename(file);
+                    Fs.copyFileSync(file, final_dest, mode);
+                });
+            } else {
+                throw new Error(`Parameter 'src' is a array of files. Then the parameter 'dest' must be a valid directory! Directory not found: '${dest}'`);
+            }
+        } else {
+            if(!File.isFile(src)) {
+                throw new Error(`Given 'src' file not found: '${src}'`);
+            }
+            // Add file name explicitly
+            if(File.isDirectory(dest)) {
+                if(!dest.endsWith("/") && !dest.endsWith("\\")) {
+                    dest += "/";
+                }
+                dest = dest + File.getBasename(src);
+            }
+            Fs.copyFileSync(src, dest, mode);
+        }
+    }
+
+    /**
+     * Alias for FileUtils.copy(...)
+     */
+    static cp(src, dest, mode) {
+        const self = FileUtils;
+        self.copy(src, dest, mode);
+    }
+
+    /**
+     * Copies src to dest. If src is a directory, this method copies all its contents recursively. If dest is a directory, copies src to dest/src.
+     *
+     * src can be a list of files.
+     *
+     * @param {string|Array<string>} src path(s) to source file(s)
+     * @param {string} dest path to destination
+     * @param {number|fs.constants.COPYFILE_EXCL|fs.constants.COPYFILE_FICLONE|fs.constants.COPYFILE_FICLONE_FORCE} mode specify behaviour of copy operation
+     */
+    static cp_r(src, dest, mode) {
+        const self = FileUtils;
+        RubyNice.ensureRunningInNodeJs();
+        if(!mode) {
+            mode = {};
+        }
+        mode.recursive = true;
+        if(Typifier.isArray(src)) {
+            if(File.isDirectory(dest)) {
+                src.eachWithIndex((path) => {
+                    if(!File.isExisting(path)) {
+                        throw new Error(`Given 'src' in array of files is no valid path. Path not found: '${file}'`);
+                    }
+                });
+                src.eachWithIndex((file) => {
+                    let final_dest = dest;
+                    if(!final_dest.endsWith("/") && !final_dest.endsWith("\\")) {
+                        final_dest += "/";
+                    }
+                    final_dest = final_dest + File.getBasename(file);
+                    Fs.cpSync(file, final_dest, mode);
+                });
+            } else {
+                throw new Error(`Parameter 'src' is a array of paths. Then the parameter 'dest' must be a valid directory! Directory not found: '${dest}'`);
+            }
+        } else {
+            if(!File.isExisting(src)) {
+                throw new Error(`Given 'src' path not found: '${src}'`);
+            }
+            // Add file name explicitly
+            if(File.isDirectory(dest)) {
+                if(!dest.endsWith("/") && !dest.endsWith("\\")) {
+                    dest += "/";
+                }
+                dest = dest + File.getBasename(src);
+            }
+            Fs.cpSync(src, dest, mode);
+        }
+    }
+
+    /**
+     * Create directory recursively
+     *
+     * @param {string|Array<string>} file_name path(s) to create
+     */
+    static mkdirP(file_name) {
+        const self = FileUtils;
+        RubyNice.ensureRunningInNodeJs();
+        if(!Typifier.isArray(file_name)) {
+            file_name = [file_name];
+        }
+        file_name.eachWithIndex((path, index) => {
+            Fs.mkdirSync(path, { recursive: true });
+        });
+    }
+
+    /**
+     * Move files from source to dest
+     *
+     * @param {string} source
+     * @param {string}  dest
+     * @param {Object} options
+     * @param {boolean} options.noop=false
+     */
+    static move(source, dest, options = {}) {
+        const self = File;
+        if(options && options.noop) return;
+        File.rename(source, dest);
+    }
+
+    /**
+     * Move files from source to dest
+     *
+     * @param {string} source
+     * @param {string}  dest
+     * @param {Object} options
+     * @param {boolean} options.noop=false
+     */
+    static mv(source, dest, options = {}) {
+        const self = FileUtils;
+        self.move(source, dest, options)
+    }
+
+    /**
+     * Deletes directory recursively including its contents, force=true
+     *
+     * @param {string|Array<string>} file_name path(s) to delete recursively
+     */
+    static rmRf(file_name) {
+        const self = FileUtils;
+        return self.rmR(file_name, { force: true });
+    }
+
+    /**
+     * Deletes directory recursively including its contents
+     *
+     * @param {string|Array<string>} file_name path(s) to delete recursively
+     * @param {{force: boolean}} opt options
+     */
+    static rmR(file_name, opt) {
+        const self = FileUtils;
+        RubyNice.ensureRunningInNodeJs();
+        if(!Typifier.isArray(file_name)) {
+            file_name = [file_name];
+        }
+        file_name.eachWithIndex((path, index) => {
+            Fs.rmSync(path, { recursive: true, force: opt ? opt.force : false });
+        });
+    }
+}
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = FileUtils;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 8895:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var Path = __nccwpck_require__(6928);
+    var Fs = __nccwpck_require__(9896);
+    var Mime = __nccwpck_require__(5881);
+    var RubyNice = __nccwpck_require__(4474);
+    var Os = __nccwpck_require__(857);
+}
+//<!-- /MODULE -->//
+
+/**
+ * File class port of ruby
+ *
+ * For node js only, does not work inside a browser.
+ *
+ */
+class File {
+
+    /**
+     * Delete file synchronously
+     *
+     * @param {string} file_name path to file
+     * @returns {string}
+     */
+    static delete(file_name, opt) {
+        const self = File;
+        RubyNice.ensureRunningInNodeJs();
+        Fs.unlinkSync(file_name);
+    }
+
+    /**
+     * Converts a pathname to an absolute pathname
+     *
+     * '~' are not resolved.
+     *
+     * @param {string} file_name path of the file to expand
+     * @param {string} dir_string optional starting point of the given path
+     * @returns {string} absolute pathname
+     *
+     */
+    static getAbsolutePath(file_name, dir_string) {
+        const self = File;
+        return self.expandPath(file_name, dir_string, { expand_user_dir: false });
+    }
+
+    /**
+     * Returns the last access time for the file as a Date object.
+     *
+     * @param {string} file_name
+     * @returns {Date}
+     */
+    static getAccessTime(file_name) {
+        return Fs.lstatSync(file_name).atime;
+    }
+
+    /**
+     * Get the last component of the given file name
+     *
+     * @example
+     *  File.getBasename('/home/user/documents/letter.txt')
+     *  // => 'letter.txt'
+     *
+     * @example
+     *  File.getBasename('/home/user/documents/letter.txt','.txt')
+     *  // => 'letter'
+     *
+     * @example
+     *  File.getBasename('/home/user/documents/image.jpg','.*')
+     *  // => 'image'
+     *
+     * @param {string} file_name
+     * @param {string} suffix If suffix is given and present at the end of file_name, it is removed. If suffix is '.*', any extension will be removed.
+     */
+    static getBasename(file_name, suffix) {
+        const self = File;
+        file_name = self.normalizePath(file_name);
+        let base_name = file_name.split('/').filter(e=>e !== '').getLast();
+        if (suffix) {
+            if (suffix === '.*' && base_name.includes('.')) {
+                base_name = base_name.substring(0, base_name.lastIndexOf('.'));
+            } else if (base_name.endsWith(suffix)) {
+                base_name = base_name.substring(0, base_name.lastIndexOf(suffix));
+            }
+        }
+        return base_name;
+    }
+
+    /**
+     * Returns the birth time for the file as a Date object.
+     *
+     * @param {string} file_name
+     * @returns {Date}
+     */
+    static getBirthTime(file_name) {
+        return Fs.lstatSync(file_name).birthtime;
+    }
+
+    /**
+     * Get all components of the given file name except of the last one
+     *
+     * @example
+     *  File.getDirname('/home/user/documents/letter.txt')
+     *  // => '/home/user/documents'
+     *
+     * @example
+     *  File.getDirname('/home/user/documents/some_file_without_extension')
+     *  // => '/home/user/documents'
+     *
+     * @example
+     *  File.getDirname('/home/user/documents/')
+     *  // => '/home/user'
+     *
+     * @param {string} file_name
+     * @returns {string}
+     */
+    static getDirname(file_name) {
+        const self = File;
+        file_name = self.normalizePath(file_name);
+        return file_name.substring(0,self.normalizePath(file_name).lastIndexOf('/'));
+    }
+
+    /**
+     * Get the size of the given file in bytes
+     *
+     * @example
+     *  File.getSize('myFile.txt');
+     *  // => 12345
+     *
+     * @param {string} file_name
+     * @returns {number} size in bytes
+     */
+    static getSize(file_name) {
+        const self = File;
+        file_name = self.normalizePath(file_name);
+        return Fs.statSync(file_name).size;
+    }
+
+    /**
+     * Converts a pathname to an absolute pathname
+     *
+     * '~' is resolved to the home directory, '~user' to the given users home directory.
+     *
+     * @param {string} file_name path of the file to expand
+     * @param {string} dir_string optional starting point of the given path
+     * @param {Object} options
+     * @param {boolean} expand_user_dir=true
+     * @returns {string} absolute pathname
+     *
+     */
+    static expandPath(file_name, dir_string = "", options = {}) {
+        const self = File;
+        if(!options) options = {};
+        if(typeof options.expand_user_dir === 'undefined') options.expand_user_dir = true;
+        file_name = self.normalizePath(file_name);
+        dir_string = self.normalizePath(dir_string);
+        if(file_name.startsWith('~') && dir_string && dir_string.startsWith('~')) {
+            return Path.resolve(self._resolveUserDirInPath(file_name));
+        } else {
+            file_name = dir_string ? self._resolveUserDirInPath(dir_string) + '/' + self._resolveUserDirInPath(file_name) : self._resolveUserDirInPath(file_name);
+            return Path.resolve(file_name);
+        }
+    }
+
+    /**
+     * Check if given file name exists and is a directory
+     *
+     * @param {string} file_name path of the file to check
+     * @returns {boolean} true if file exists and is a directory, otherwise false
+     *
+     */
+    static isDirectory(file_name) {
+        const self = File;
+        return self.isExisting(file_name) && Fs.lstatSync(file_name).isDirectory();
+    }
+
+    /**
+     * Check if given file exists but has no content
+     *
+     * @param {string} file_name path of the file to check
+     * @returns {boolean} true if file exists and has zero content, otherwise false
+     *
+     */
+    static isEmpty(file_name) {
+        const self = File;
+        return self.isExisting(file_name) && self.getSize(file_name) === 0;
+    }
+
+    /**
+     * Check if given file name exists
+     *
+     * @param {string} file_name path of the file to check
+     * @returns {boolean} true if file exists, otherwise false
+     *
+     */
+    static isExisting(file_name) {
+        return Fs.existsSync(file_name);
+    }
+
+    /**
+     * Check if given file name exists and is a file
+     *
+     * @param {string} file_name path of the file to check
+     * @returns {boolean} true if file exists and is a file, otherwise false
+     *
+     */
+    static isFile(file_name) {
+        const self = File;
+        return self.isExisting(file_name) && Fs.lstatSync(file_name).isFile();
+    }
+
+    /**
+     * Normalize path and replace all back slashes to slashes
+     * and remove trailing slashes
+     *
+     * @param {string} path
+     * @returns {string} normalized path
+     */
+    static normalizePath(path) {
+        const self = File;
+        return self._cutTrailingSlash(path.replace(/\\/g, '/'));
+    }
+
+    /**
+     * Read file and return its content synchronously
+     *
+     * @param {string} file_name path to file
+     * @param {Object} opt
+     * @param {'utf8' | 'binary' | 'buffer' | 'base64'} opt.encoding='utf8'
+     * @param {Number} opt.length
+     * @param {Number} opt.offset
+     * @returns {string}
+     */
+    static read(file_name, opt) {
+        const self = File;
+        RubyNice.ensureRunningInNodeJs();
+        let encoding = 'utf8';
+        if (opt && ['binary', 'buffer'].includes(opt.encoding)) encoding = null;
+        let content = Fs.readFileSync(file_name, encoding);
+        if (opt && opt.encoding !== 'base64') {
+            if (opt.offset) content = content.slice(opt.offset);
+            if (opt.length) content = content.slice(0, opt.length);
+        }
+        return content;
+    }
+
+    /**
+     * Rename the given file
+     *
+     * @param {string} file_name path to original file
+     * @param {string} new_path path to new file
+     */
+    static rename(file_name, new_path) {
+        const self = File;
+        RubyNice.ensureRunningInNodeJs();
+        Fs.renameSync(file_name, new_path);
+    }
+
+    /**
+     * Read a file and return as data URI that can be embedded on HTML for example
+     *
+     * @param {string} file_name path to file
+     * @returns {string} base64 encoded data URI
+     */
+    static readAsDataUri(file_name) {
+        const mime = Mime.getType(file_name);
+        if(mime) {
+            const data = Fs.readFileSync(file_name, 'base64');
+            return `data:${mime};base64,${data}`;
+        } else {
+            throw `No mime type found for file '${file_name}'`;
+        }
+    }
+
+    /**
+     * Write into file synchronously.
+     *
+     * @param {string} name path to file
+     * @param data {String|Buffer|TypedArray|DataView|Object} - data
+     * @param {Object} opt
+     * @param {'utf8' | 'binary' | 'buffer'} opt.encoding='utf8'
+     * @param {'rs+' | 'ws' | 'as'} opt.flag='ws'
+     * @returns {string}
+     */
+    static write(name, data, opt) {
+        const self = File;
+        RubyNice.ensureRunningInNodeJs();
+        let options = {encoding: 'utf8'};
+        if (opt) {
+            if (opt.flag) options.flag = opt.flag;
+            if (['binary', 'buffer'].includes(opt.encoding)) options.encoding = null;
+        }
+        return Fs.writeFileSync(name, data, options);
+    }
+
+    /**
+     * Get the absolute path of the current users home directory.
+     *
+     * @returns {string}
+     */
+    static getHomePath() {
+        const self = File;
+        RubyNice.ensureRunningInNodeJs();
+        let home_path = null;
+        if(process.env.HOME) {
+            home_path = process.env.HOME;
+        } else if(process.env.HOMEDIR && process.env.HOMEPATH) {
+            home_path = process.env.HOMEDIR + process.env.HOMEPATH;
+        } else if (process.env.USERPROFILE) {
+            home_path = process.env.USERPROFILE;
+        } else if(Os.homedir()) {
+            home_path = Os.homedir();
+        } else {
+            throw new Error(`Could not determine path of your home directory. Your OS may be not supported yet.`);
+        }
+        return self.normalizePath(home_path);
+    }
+
+    /**
+     * Cut a trailing slash at the end of the path
+     *
+     * @param {string} path
+     * @private
+     */
+    static _cutTrailingSlash(path) {
+        if(path.endsWith('/')) {
+            return path.substring(0, path.length-1);
+        } else {
+            return path;
+        }
+    }
+
+    /**
+     * Resolves '~' and '~username' to user dirs inside given path
+     *
+     * @param {string} path
+     * @returns {string}
+     * @private
+     */
+    static _resolveUserDirInPath(path) {
+        const self = File;
+        const user_home_regex = /^~([^\/]*)\//;
+        const user_dir_match = path.match(user_home_regex);
+        if(user_dir_match) {
+            if(user_dir_match[1]) {
+                path = self.getDirname(self.getHomePath()) + '/' + user_dir_match[1] + '/' + path.replace(user_home_regex, '');
+            } else {
+                path = path.replace(user_home_regex, self.getHomePath() + '/');
+            }
+        }
+        return path;
+    }
+}
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = File;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 9968:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var Typifier = __nccwpck_require__(8807);
+}
+//<!-- /MODULE -->//
+
+//<!-- DOC -->//
+/**
+ * out of scope function only for jsdoc documentation generation purpose
+ */
+(function () {
+    /**
+     * RubyNice version to add methods directly to the class by monkey patching
+     */
+    class Number {
+        /**
+         * Loops n times
+         *
+         * Breaks if returning false
+         *
+         * @example
+         *      (5).timesWithIndex((index) => {
+         *          if(condition) return false;
+         *          console.log(index);
+         *      })
+         *
+         * @param {eachIndexLoopCallback} loop_function
+         * @returns {Number} returns itself
+         */
+        timesWithIndex(loop_function) {
+        }
+
+        /**
+         * Wrapper for Math.round()
+         *
+         * @example
+         *      (5.6).round()
+         *      => 6
+         *
+         * @returns {Number}
+         */
+        round() {
+        }
+
+        /**
+         * Wrapper for Math.floor()
+         *
+         * @example
+         *      (5.7).floor()
+         *      => 5
+         *
+         * @returns {Number}
+         */
+        floor() {
+        }
+
+        /**
+         * Wrapper for Math.ceil()
+         *
+         * @example
+         *      (5.1).ceil()
+         *      => 6
+         *
+         * @returns {Number}
+         */
+        ceil() {
+        }
+    }
+});
+//<!-- /DOC -->//
+
+/**
+ * @callback eachIndexLoopCallback
+ * @param {number} index
+ */
+
+Object.defineProperty(Number.prototype, 'timesWithIndex', {
+    /**
+     * Loops n times
+     *
+     * Breaks if returning false
+     *
+     * @example
+     *      (5).timesWithIndex((index) => {
+     *          if(condition) return false;
+     *          console.log(index);
+     *      })
+     *
+     * @param {eachIndexLoopCallback} loop_function
+     * @returns {Number} returns itself
+     */
+    value: function timesWithIndex(loop_function) {
+        if (typeof loop_function === 'function') {
+            if (Typifier.isNumber(this) || Typifier.isNumberClass(this)) {
+                for (let i = 0; i < this; ++i) {
+                    if (loop_function(i) === false) {
+                        break;
+                    }
+                }
+            } else {
+                console.warn(`${Typifier.getType(this)}.timesWithIndex is not a valid function`);
+            }
+        }
+        return this;
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Number.prototype, 'round', {
+    /**
+     * Wrapper for Math.round()
+     *
+     * @example
+     *      (5.6).round()
+     *      => 6
+     *
+     * @returns {Number}
+     */
+    value: function round() {
+            if (Typifier.isNumber(this) || Typifier.isNumberClass(this)) {
+                return Math.round(this);
+            } else {
+                console.warn(`${Typifier.getType(this)}.round is not a valid function`);
+            }
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Number.prototype, 'ceil', {
+    /**
+     * Wrapper for Math.ceil()
+     *
+     * @example
+     *      (5.1).ceil()
+     *      => 6
+     *
+     * @returns {Number}
+     */
+    value: function ceil() {
+            if (Typifier.isNumber(this) || Typifier.isNumberClass(this)) {
+                return Math.ceil(this);
+            } else {
+                console.warn(`${Typifier.getType(this)}.ceil is not a valid function`);
+            }
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Number.prototype, 'floor', {
+    /**
+     * Wrapper for Math.floor()
+     *
+     * @example
+     *      (5.7).floor()
+     *      => 5
+     *
+     * @returns {Number}
+     */
+    value: function floor() {
+            if (Typifier.isNumber(this) || Typifier.isNumberClass(this)) {
+                return Math.floor(this);
+            } else {
+                console.warn(`${Typifier.getType(this)}.floor is not a valid function`);
+            }
+    },
+    enumerable: false
+});
+
+//<!-- MODULE -->//
+if( true && module.exports) {
+    module.exports = 'Number';
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 3894:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var Typifier = __nccwpck_require__(8807);
+}
+//<!-- /MODULE -->//
+
+//<!-- DOC -->//
+/**
+ * out of scope function only for jsdoc documentation generation purpose
+ */
+(function () {
+    /**
+     * RubyNice version to add methods directly to the class by monkey patching
+     */
+    class Object {
+        /**
+         * Iterates over all elements of the object
+         *
+         * Breaks if returning false
+         *
+         * @example
+         *      { a: 'one', b: 'two', c: 'three'}.eachWithIndex((key, value, index) => {
+         *          if(condition) return false;
+         *          console.log(key, value);
+         *      })
+         *
+         * @param {eachObjectLoopCallback|eachArrayLoopCallback} loop_function
+         * @returns {Object<any>} returns itself
+         */
+        eachWithIndex(loop_function) {
+        }
+
+        /**
+         * Maps over all elements of an object
+         *
+         * @example
+         *      { a: 'one', b: 'two', c: 'three'}.mapObject((key, value, index) => {
+         *          return value;
+         *      })
+         *      // => ['one','two','three']
+         *
+         * @param {eachObjectLoopCallback} loop_function
+         * @returns {Object<any>} returns itself
+         */
+        mapObject(loop_function) {
+        }
+
+        /**
+         * Returns the first element of the object
+         *
+         * @example
+         *      { a: 'one', b: 'two', c: 'three'}.getFirst() // => { a: 'one' }
+         *
+         * @returns {Object}
+         */
+        getFirst() {
+        }
+
+        /**
+         * Returns the last element of the object
+         *
+         * @example
+         *      { a: 'one', b: 'two', c: 'three'}.getLast() // => { c: 'three' }
+         *
+         * @returns {Object}
+         */
+        getLast() {
+        }
+
+        /**
+         * Returns a random element of the object
+         *
+         * @example
+         *      { a: 'one', b: 'two', c: 'three'}.getSample() // => { b: 'two' }
+         *
+         * @returns {Object}
+         */
+        getSample() {
+        }
+    }
+});
+//<!-- /DOC -->//
+
+Object.defineProperty(Object.prototype, 'eachWithIndex', {
+    /**
+     * Iterates over all elements of the object
+     *
+     * Breaks if returning false
+     *
+     * @example
+     *      { a: 'one', b: 'two', c: 'three'}.eachWithIndex((key, value, index) => {
+     *          if(condition) return false;
+     *          console.log(key, value);
+     *      })
+     *
+     * @param {eachObjectLoopCallback|eachArrayLoopCallback} loop_function
+     * @returns {Object<any>} returns itself
+     */
+    value: function eachWithIndex(loop_function) {
+        if (typeof loop_function === 'function') {
+            if (Typifier.isArray(this)) {
+                for (let i = 0; i < this.length; ++i) {
+                    const state = {state: false};
+                    if (loop_function(this[i], i, state) === false) {
+                        break;
+                    }
+                }
+            } else if (Typifier.isObject(this)) {
+                let index = 0;
+                const keys = Object.keys(this);
+                const length = keys.length;
+                for (let i = 0; i < length; ++i) {
+                    const key = keys[i];
+                    if (loop_function(key, this[key], index) === false) {
+                        break;
+                    }
+                    ++index;
+                }
+            } else {
+                console.warn(`${Typifier.getType(this)}.eachWithIndex is not a valid function`);
+            }
+        }
+        return this;
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Object.prototype, 'mapObject', {
+    /**
+     * Maps over all elements of an object
+     *
+     * @example
+     *      { a: 'one', b: 'two', c: 'three'}.mapObject((key, value, index) => {
+     *          return value;
+     *      })
+     *      // => ['one','two','three']
+     *
+     * @param {eachObjectLoopCallback} loop_function
+     * @returns {Object<any>} returns itself
+     */
+    value: function mapObject(loop_function) {
+        if (typeof loop_function === 'function') {
+            if (Typifier.isObject(this)) {
+                const object_array = Object.entries(this).map((value, index) => {
+                    a = {};
+                    a[value[0]] = value[1];
+                    return a
+                })
+                let result_array = [];
+                let index = 0;
+                for (const [key, value] of Object.entries(this)) {
+                    const result = loop_function(key, value, index);
+                    result_array.push(result);
+                    ++index;
+                }
+                return result_array;
+            } else {
+                console.warn(`${Typifier.getType(this)}.mapObject is not a valid function`);
+            }
+        }
+    },
+    enumerable: false
+});
+
+/**
+ * @callback eachObjectLoopCallback
+ * @param {any} key
+ * @param {any} value
+ * @param {number} index
+ */
+
+Object.defineProperty(Object.prototype, 'getFirst', {
+    /**
+     * Returns the first element of the object
+     *
+     * @example
+     *      { a: 'one', b: 'two', c: 'three'}.getFirst() // => { a: 'one' }
+     *
+     * @returns {Object}
+     */
+    value: function getFirst() {
+        if (Typifier.is('Column', this)) return; // compatibility workaround for 'table-layout' package
+        if (Typifier.isArray(this)) {
+            return this[0];
+        } else if (Typifier.isObject(this)) {
+            const first = Object.entries(this)[0];
+            let a = {};
+            a[first[0]] = first[1];
+            return a;
+        } else {
+            console.warn(`${Typifier.getType(this)}.getFirst is not a valid function`);
+        }
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Object.prototype, 'getLast', {
+    /**
+     * Returns the last element of the object
+     *
+     * @example
+     *      { a: 'one', b: 'two', c: 'three'}.getLast() // => { c: 'three' }
+     *
+     * @returns {Object}
+     */
+    value: function getLast() {
+        if (Typifier.is('Column', this)) return; // compatibility workaround for 'table-layout' package
+        if (Typifier.isArray(this)) {
+            return this[this.length - 1];
+        } else if (Typifier.isObject(this)) {
+            const last = Object.entries(this)[Object.entries(this).length - 1];
+            let a = {};
+            a[last[0]] = last[1];
+            return a;
+        } else {
+            console.warn(`${Typifier.getType(this)}.getLast is not a valid function`);
+        }
+    },
+    enumerable: false
+});
+
+Object.defineProperty(Object.prototype, 'getSample', {
+    /**
+     * Returns a random element of the object
+     *
+     * @example
+     *      { a: 'one', b: 'two', c: 'three'}.getSample() // => { b: 'two' }
+     *
+     * @returns {Object}
+     */
+    value: function getSample() {
+        if (Typifier.is('Column', this)) return; // compatibility workaround for 'table-layout' package
+        if (Typifier.isArray(this)) {
+            const random_index = Math.floor(Math.random() * this.length);
+            return this[random_index];
+        } else if (Typifier.isObject(this)) {
+            const random_index = Math.floor(Math.random() * Object.entries(this).length);
+            const random_el = Object.entries(this)[random_index];
+            let a = {};
+            a[random_el[0]] = random_el[1];
+            return a;
+        } else {
+            console.warn(`${Typifier.getType(this)}.getSample is not a valid function`);
+        }
+    },
+    enumerable: false
+});
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = 'Object';
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 4474:
+/***/ ((module) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+}
+//<!-- /MODULE -->//
+
+/**
+ * RubyNiceClass
+ *
+ * Rubynize Javascript - add ruby methods and functions to Javascript!
+ *
+ */
+class RubyNiceClass {
+    /**
+     * Prevent using a method inside the browser
+     */
+    static ensureRunningInNodeJs() {
+        const self = RubyNiceClass;
+        if (!self.isRunningInNodeJs()) {
+            throw new Error(`The used method can only be used when running with node js.`);
+        }
+    }
+
+    static getVersion() {
+        const self = RubyNiceClass;
+        return self._version;
+    }
+
+    /**
+     * Check if this javascript is running in node js
+     *
+     * @returns {boolean} true if running inside node js (not browser)
+     */
+    static isRunningInNodeJs() {
+        return !!( true && module.exports);
+    }
+
+    /**
+     * Check if this javascript is running in a browser
+     *
+     * @returns {boolean} true if running inside browser
+     */
+    static isRunningInBrowser() {
+        const self = RubyNiceClass;
+        return !self.isRunningInNodeJs();
+    }
+}
+
+/**
+ * @type {string}
+ * @private
+ */
+RubyNiceClass._version = "0.1.12";
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = RubyNiceClass;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 215:
+/***/ ((module, exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var RubyNice = __nccwpck_require__(4474);
+    // include all monkey patches
+    __nccwpck_require__(6796);
+    __nccwpck_require__(3894);
+    __nccwpck_require__(484);
+    __nccwpck_require__(9968);
+    module.exports = RubyNice;
+    // reassign workaround for default require (backward compatibility)
+    exports = module.exports;
+    exports.RubyNice = RubyNice;
+    exports.Dir = __nccwpck_require__(7110);
+    exports.Env = __nccwpck_require__(6922);
+    exports.File = __nccwpck_require__(8895);
+    exports.FileUtils = __nccwpck_require__(3823);
+    exports.System = __nccwpck_require__(3556);
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 484:
+/***/ ((module) => {
+
+//<!-- DOC -->//
+/**
+ * out of scope function only for jsdoc documentation generation purpose
+ */
+(function () {
+    /**
+     * RubyNice version to add methods directly to the class by monkey patching
+     */
+    class String {
+        /**
+         * Convert all characters inside the string
+         * into lower case
+         *
+         * @example
+         *      'this-isAnExample_string'.downcase()
+         *      // => 'this-isanexample_string'
+         *
+         * @returns {string}
+         */
+        toDownCase() {
+        }
+
+        /**
+         * Convert all characters inside the string
+         * into upper case
+         *
+         * @example
+         *  'this-isAnExample_string'.upcase()
+         *  // => 'THIS-ISANEXAMPLE_STRING'
+         *
+         * @returns {string}
+         */
+        toUpCase() {
+        }
+
+        /**
+         * Get first character of the current string
+         *
+         * @example
+         *  'Happy'.getFirst()
+         *  // => 'H'
+         *
+         * @returns {string}
+         */
+        getFirst() {
+        }
+
+        /**
+         * Get last character of the current string
+         *
+         * @example
+         *  'Happy'.getLast()
+         *  // => 'y'
+         *
+         * @returns {string}
+         */
+        getLast() {
+        }
+
+        /**
+         * Returns a random element of the string
+         *
+         * @example
+         *      'Happy'.getSample()
+         *      // => 'H' | 'a' | 'p' | 'y'
+         *
+         * @returns {Object}
+         */
+        getSample() {
+        }
+    }
+});
+//<!-- /DOC -->//
+
+Object.assign(String.prototype, {
+    /**
+     * Convert all characters inside the string
+     * into lower case
+     *
+     * @example
+     *  'this-isAnExample_string'
+     *  // => 'this-isanexample_string'
+     *
+     * @returns {string}
+     */
+    toDownCase() {
+        return this.toLocaleLowerCase();
+    }
+});
+
+Object.assign(String.prototype, {
+    /**
+     * Convert all characters inside the string
+     * into upper case
+     *
+     * @example conversion
+     *      'this-isAnExample_string' => 'THIS-ISANEXAMPLE_STRING'
+     *
+     * @returns {string}
+     */
+    toUpCase() {
+        return this.toLocaleUpperCase();
+    }
+});
+
+Object.defineProperty(String.prototype, 'getFirst', {
+    /**
+     * Get first character of the current string
+     *
+     * @example
+     *  'Happy'.getFirst()
+     *  // => 'H'
+     *
+     * @returns {string}
+     */
+    value: function getFirst() {
+        return this[0];
+    }
+});
+
+Object.defineProperty(String.prototype, 'getLast', {
+    /**
+     * Get last character of the current string
+     *
+     * @example
+     *  'Happy'.getLast()
+     *  // => 'y'
+     *
+     * @returns {string}
+     */
+    value: function getLast() {
+        return this[this.length - 1];
+    }
+});
+
+Object.defineProperty(String.prototype, 'getSample', {
+    /**
+     * Returns a random element of the string
+     *
+     * @example
+     *      'Happy'.getSample()
+     *      // => 'H' | 'a' | 'p' | 'y'
+     *
+     * @returns {Object}
+     */
+    value: function getSample() {
+        const random_index = Math.floor(Math.random() * this.length);
+        return this[random_index];
+    }
+});
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = 'String';
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 3556:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var RubyNice = __nccwpck_require__(215);
+    var execSync = (__nccwpck_require__(5317).execSync);
+    var File = __nccwpck_require__(8895);
+    var spawnSync = (__nccwpck_require__(5317).spawnSync);
+    var spawn = (__nccwpck_require__(5317).spawn);
+    var Os = __nccwpck_require__(857);
+}
+//<!-- /MODULE -->//
+
+/**
+ * 'system' and `execute` port of ruby.
+ *
+ * As JavaScript does not support back tick run, we have a method for that.
+ *
+ * For node js only, does not work inside a browser.
+ *
+ */
+class System {
+    /**
+     * Run a system command synchronously and return the output (stdout/stderr).
+     *
+     * @param {string} command
+     * @returns {string}
+     */
+    static run(command) {
+        let result = spawnSync(command, null, {
+            shell: true
+        });
+        try {
+            return result.stdout.toString() + result.stderr.toString();
+        } catch (e) {
+            return e.message;
+        }
+    }
+
+    /**
+     * Run a system command synchronously and return the return code.
+     *
+     * @param {string} command
+     * @returns {number}
+     */
+    static system(command) {
+        return spawnSync(command, null, { shell: true }).status || 0;
+    }
+
+    /**
+     * Run a system command synchronously and return the child process Object.
+     *
+     * @param {string} command
+     * @returns {{pid: number, output: Array, stdout: Buffer|string, stderr: Buffer|string, status: number|null, signal: string|null, error: Error}} child process object
+     */
+    static exec(command) {
+        const options = {
+          shell: true
+        };
+        return spawnSync(command, null, options);
+    }
+
+    /**
+     * Start a system command asynchronously and detach the process from the main process and return the child process Object.
+     *
+     * @param {string} command
+     * @returns {{pid: number, output: Array, stdout: Buffer|string, stderr: Buffer|string, status: number|null, signal: string|null, error: Error}} child process object
+     */
+    static execDetached(command) {
+        const options = {
+          shell: true,
+          detached: true,
+          stdio: 'ignore'
+        };
+        return spawn(command, null, options);
+    }
+
+    /**
+     * Get the current user name.
+     *
+     * Fist checks for USER or USERNAME environment variable, after using operating system API.
+     *
+     * @returns {string}
+     */
+    static getUserName() {
+        const self = System;
+        RubyNice.ensureRunningInNodeJs();
+        let user_name = null;
+        if(process.env.USER) {
+            user_name = process.env.USER;
+        } else if(process.env.USERNAME) {
+            user_name = process.env.USERNAME;
+        } else if(Os.userInfo().username) {
+            user_name = Os.userInfo().username;
+        } else {
+            throw new Error(`Could not determine user name. Your OS may be not supported yet.`);
+        }
+        return user_name;
+    }
+}
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = System;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 5571:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const ansiRegex = __nccwpck_require__(724);
+
+const stripAnsi = string => typeof string === 'string' ? string.replace(ansiRegex(), '') : string;
+
+module.exports = stripAnsi;
+module.exports["default"] = stripAnsi;
+
+
+/***/ }),
+
+/***/ 8675:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const os = __nccwpck_require__(857);
+const tty = __nccwpck_require__(2018);
+const hasFlag = __nccwpck_require__(1136);
+
+const {env} = process;
+
+let forceColor;
+if (hasFlag('no-color') ||
+	hasFlag('no-colors') ||
+	hasFlag('color=false') ||
+	hasFlag('color=never')) {
+	forceColor = 0;
+} else if (hasFlag('color') ||
+	hasFlag('colors') ||
+	hasFlag('color=true') ||
+	hasFlag('color=always')) {
+	forceColor = 1;
+}
+
+if ('FORCE_COLOR' in env) {
+	if (env.FORCE_COLOR === 'true') {
+		forceColor = 1;
+	} else if (env.FORCE_COLOR === 'false') {
+		forceColor = 0;
+	} else {
+		forceColor = env.FORCE_COLOR.length === 0 ? 1 : Math.min(parseInt(env.FORCE_COLOR, 10), 3);
+	}
+}
+
+function translateLevel(level) {
+	if (level === 0) {
+		return false;
+	}
+
+	return {
+		level,
+		hasBasic: true,
+		has256: level >= 2,
+		has16m: level >= 3
+	};
+}
+
+function supportsColor(haveStream, streamIsTTY) {
+	if (forceColor === 0) {
+		return 0;
+	}
+
+	if (hasFlag('color=16m') ||
+		hasFlag('color=full') ||
+		hasFlag('color=truecolor')) {
+		return 3;
+	}
+
+	if (hasFlag('color=256')) {
+		return 2;
+	}
+
+	if (haveStream && !streamIsTTY && forceColor === undefined) {
+		return 0;
+	}
+
+	const min = forceColor || 0;
+
+	if (env.TERM === 'dumb') {
+		return min;
+	}
+
+	if (process.platform === 'win32') {
+		// Windows 10 build 10586 is the first Windows release that supports 256 colors.
+		// Windows 10 build 14931 is the first release that supports 16m/TrueColor.
+		const osRelease = os.release().split('.');
+		if (
+			Number(osRelease[0]) >= 10 &&
+			Number(osRelease[2]) >= 10586
+		) {
+			return Number(osRelease[2]) >= 14931 ? 3 : 2;
+		}
+
+		return 1;
+	}
+
+	if ('CI' in env) {
+		if (['TRAVIS', 'CIRCLECI', 'APPVEYOR', 'GITLAB_CI', 'GITHUB_ACTIONS', 'BUILDKITE'].some(sign => sign in env) || env.CI_NAME === 'codeship') {
+			return 1;
+		}
+
+		return min;
+	}
+
+	if ('TEAMCITY_VERSION' in env) {
+		return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+	}
+
+	if (env.COLORTERM === 'truecolor') {
+		return 3;
+	}
+
+	if ('TERM_PROGRAM' in env) {
+		const version = parseInt((env.TERM_PROGRAM_VERSION || '').split('.')[0], 10);
+
+		switch (env.TERM_PROGRAM) {
+			case 'iTerm.app':
+				return version >= 3 ? 3 : 2;
+			case 'Apple_Terminal':
+				return 2;
+			// No default
+		}
+	}
+
+	if (/-256(color)?$/i.test(env.TERM)) {
+		return 2;
+	}
+
+	if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+		return 1;
+	}
+
+	if ('COLORTERM' in env) {
+		return 1;
+	}
+
+	return min;
+}
+
+function getSupportLevel(stream) {
+	const level = supportsColor(stream, stream && stream.isTTY);
+	return translateLevel(level);
+}
+
+module.exports = {
+	supportsColor: getSupportLevel,
+	stdout: translateLevel(supportsColor(true, tty.isatty(1))),
+	stderr: translateLevel(supportsColor(true, tty.isatty(2)))
+};
+
+
+/***/ }),
+
+/***/ 8807:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    var LuckyCase = __nccwpck_require__(5552);
+}
+//<!-- /MODULE -->//
+
+/**
+ * Typifier
+ *
+ * The javascript library to get or check the type of a given variable.
+ *
+ */
+class Typifier {
+    /**
+     * Get the version of the used library
+     * @returns {string}
+     */
+    static getVersion() {
+        const self = Typifier;
+        return self._version;
+    }
+
+    /**
+     * Check if given variable is of type Array
+     *
+     * @param {any} value
+     * @returns {boolean} true if Array, otherwise false
+     */
+    static isArray(value) {
+        return value instanceof Array && value.constructor.name === 'Array';
+    }
+
+    /**
+     * Check if given variable is of type Object
+     *
+     * @param {any} value
+     * @returns {boolean} true if Object, otherwise false
+     */
+    static isObject(value) {
+        return value instanceof Object && value.constructor.name === 'Object';
+    }
+
+    /**
+     * Check if given variable is of type string (primitive)
+     *
+     * @param {any} value
+     * @returns {boolean} true if 'string', otherwise false
+     */
+    static isString(value) {
+        return typeof value === 'string';
+    }
+
+    /**
+     * Check if given variable is of type String (class instance)
+     *
+     * @param {any} value
+     * @returns {boolean} true if instance of class 'String', otherwise false
+     */
+    static isStringClass(value) {
+        return value instanceof Object && value.constructor.name === 'String';
+    }
+
+    /**
+     * Check if given variable is of type number (primitive)
+     *
+     * @param {any} value
+     * @returns {boolean} true if 'number', otherwise false
+     */
+    static isNumber(value) {
+        const self = Typifier;
+        return typeof value === 'number' && !self.isNaN(value) && !self.isInfinity(value);
+    }
+
+    /**
+     * Check if given variable is of type Number (class instance)
+     *
+     * @param {any} value
+     * @returns {boolean} true if instance of class 'Number', otherwise false
+     */
+    static isNumberClass(value) {
+        return value instanceof Object && value.constructor.name === 'Number';
+    }
+
+    /**
+     * Check if given variable is a valid number inside a string that evaluates to a number in Javascript.
+     *
+     * @example
+     *      // valid number strings
+     *      '200'
+     *      '25.75'
+     *      '10.'
+     *      '.5'
+     *      '500_000'
+     *      '0x12F'
+     *
+     * @param {any} value
+     * @returns {boolean} true if valid JavaScript number inside string
+     */
+    static isNumberString(value) {
+        const self = Typifier;
+        if(!(self.isString(value) || self.isStringClass(value))) return false;
+        const number_regex = /^[0-9._]+$/g;
+        const hex_regex = /^0[xX][0-9A-Fa-f]+$/g;
+        if(value.match(number_regex) || value.match(hex_regex)) {
+            try {
+                eval(value);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if given variable is of type Date
+     *
+     * @param {any} value
+     * @returns {boolean} true if Date, otherwise false
+     */
+    static isDate(value) {
+        return value instanceof Date;
+    }
+
+    /**
+     * Check if given variable is of type RegExp
+     *
+     * @param {any} value
+     * @returns {boolean} true if RegExp, otherwise false
+     */
+    static isRegExp(value) {
+        return value instanceof RegExp;
+    }
+
+    /**
+     * Check if given variable is of type NaN
+     *
+     * @param {any} value
+     * @returns {boolean} true if NaN, otherwise false
+     */
+    static isNaN(value) {
+        return typeof value === 'number' && (value).toString() === 'NaN';
+    }
+
+    /**
+     * Check if given variable is of type Infinity
+     *
+     * @param {any} value
+     * @returns {boolean} true if Infinity, otherwise false
+     */
+    static isInfinity(value) {
+        return value === Infinity;
+    }
+
+    /**
+     * Check if given variable is of type undefined
+     *
+     * @param {any} value
+     * @returns {boolean} true if undefined, otherwise false
+     */
+    static isUndefined(value) {
+        return typeof value === 'undefined';
+    }
+
+    /**
+     * Check if given variable is of type null
+     *
+     * @param {any} value
+     * @returns {boolean} true if null, otherwise false
+     */
+    static isNull(value) {
+        return typeof value === 'object' && value === null;
+    }
+
+    /**
+     * Check if given variable is of type boolean (primitive)
+     *
+     * @param {any} value
+     * @returns {boolean} true if 'boolean' or instance of class 'Boolean', otherwise false
+     */
+    static isBoolean(value) {
+        return typeof value === 'boolean' || (value instanceof Object && value.constructor.name === 'Boolean');
+    }
+
+    /**
+     * Check if given variable is of type Boolean (class instance)
+     *
+     * @param {any} value
+     * @returns {boolean} true if instance of class 'Boolean', otherwise false
+     */
+    static isBooleanClass(value) {
+        return value instanceof Object && value.constructor.name === 'Boolean';
+    }
+
+    /**
+     * Check if given variable is of type function
+     *
+     * @param {any} value
+     * @returns {boolean} true if function, otherwise false
+     */
+    static isFunction(value) {
+        return typeof value === 'function' && value.constructor.name === 'Function' && (typeof value.prototype === 'undefined' || value.prototype && value.prototype.constructor && ! value.prototype.constructor.name);
+    }
+
+    /**
+     * Check if given variable is of type class
+     *
+     * @param {any} value
+     * @returns {boolean} true if class, otherwise false
+     */
+    static isClass(value) {
+        return typeof value === 'function' && value.constructor.name === 'Function' && (value.prototype && value.prototype.constructor && value.prototype.constructor.name);
+    }
+
+    /**
+     * Check if the given value is of the given type.
+     *
+     * @example
+     *  Typifier.is('Array',[1,2,3]) // => true
+     *
+     * @param {string} type
+     * @param {any} value
+     * @returns {boolean} true if the value is of the given type
+     */
+    static is(type, value) {
+        const self = Typifier;
+        return self.getType(value) === type;
+    }
+
+    /**
+     * Check if the given variable is set (is not 'undefined' or 'null').
+     * Valid values like 'false', a empty string or '0' return true.
+     *
+     * @example
+     *  let a;
+     *  let b = 0;
+     *  Typifier.isSet(a) // => false
+     *  Typifier.isSet(b) // => true
+     *
+     * @param {any} variable
+     * @returns {boolean} true if the value is set
+     */
+    static isSet(variable) {
+        const self = Typifier;
+        return !self.isUndefined(variable) && !self.isNull(variable);
+    }
+
+    /**
+     * Get the type of the given value.
+     * Primitive types are lower case.
+     *
+     * @example
+     *  'Object'
+     * @example
+     *  'string'
+     *
+     * @param {any} value
+     * @returns {string} type in pascal case format
+     */
+    static getType(value) {
+        const self = Typifier;
+        if (self.isArray(value)) {
+            return 'Array';
+        } else if (self.isObject(value)) {
+            return 'Object';
+        } else if (self.isString(value)) {
+            return 'string';
+        } else if (self.isStringClass(value)) {
+            return 'String';
+        } else if (self.isNumber(value)) {
+            return 'number';
+        } else if (self.isNumberClass(value)) {
+            return 'Number';
+        } else if (self.isDate(value)) {
+            return 'Date';
+        } else if (self.isRegExp(value)) {
+            return 'RegExp';
+        } else if (self.isNaN(value)) {
+            return 'NaN';
+        } else if (self.isInfinity(value)) {
+            return 'Infinity';
+        } else if (self.isUndefined(value)) {
+            return 'undefined';
+        } else if (self.isNull(value)) {
+            return 'null';
+        } else if (self.isBoolean(value)) {
+            return 'boolean';
+        } else if (self.isBooleanClass(value)) {
+            return 'Boolean';
+        } else if (self.isFunction(value)) {
+            return 'function';
+        } else if (self.isClass(value)) {
+            return 'class';
+        } else {
+            let type = 'Unknown';
+            if (value && value.constructor) {
+                type = value.constructor.name;
+            } else if (value && value.prop && value.prop.constructor) {
+                type = value.prop.constructor;
+            } else if (value && value.prototype && value.prototype.constructor && value.prototype.constructor.name) {
+                type = value.prototype.constructor.name;
+            } else {
+                type = typeof value;
+            }
+            return LuckyCase.toPascalCase(type);
+        }
+    }
+}
+
+/**
+ * @type {string}
+ * @private
+ */
+Typifier._version = "0.1.2";
+
+//<!-- MODULE -->//
+if ( true && module.exports) {
+    module.exports = Typifier;
+}
+//<!-- /MODULE -->//
+
+/***/ }),
+
+/***/ 1768:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+exports.fromCallback = function (fn) {
+  return Object.defineProperty(function (...args) {
+    if (typeof args[args.length - 1] === 'function') fn.apply(this, args)
+    else {
+      return new Promise((resolve, reject) => {
+        args.push((err, res) => (err != null) ? reject(err) : resolve(res))
+        fn.apply(this, args)
+      })
+    }
+  }, 'name', { value: fn.name })
+}
+
+exports.fromPromise = function (fn) {
+  return Object.defineProperty(function (...args) {
+    const cb = args[args.length - 1]
+    if (typeof cb !== 'function') return fn.apply(this, args)
+    else {
+      args.pop()
+      fn.apply(this, args).then(r => cb(null, r), cb)
+    }
+  }, 'name', { value: fn.name })
+}
+
+
+/***/ }),
+
+/***/ 9375:
+/***/ ((module) => {
+
+// Returns a wrapper function that returns a wrapped callback
+// The wrapper function should do some stuff, and return a
+// presumably different callback function.
+// This makes sure that own properties are retained, so that
+// decorations and such are not lost along the way.
+module.exports = wrappy
+function wrappy (fn, cb) {
+  if (fn && cb) return wrappy(fn)(cb)
+
+  if (typeof fn !== 'function')
+    throw new TypeError('need wrapper function')
+
+  Object.keys(fn).forEach(function (k) {
+    wrapper[k] = fn[k]
+  })
+
+  return wrapper
+
+  function wrapper() {
+    var args = new Array(arguments.length)
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i]
+    }
+    var ret = fn.apply(this, args)
+    var cb = args[args.length-1]
+    if (typeof ret === 'function' && ret !== cb) {
+      Object.keys(cb).forEach(function (k) {
+        ret[k] = cb[k]
+      })
+    }
+    return ret
+  }
+}
+
+
+/***/ }),
+
+/***/ 2217:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+
+
+const Chalk = __nccwpck_require__(3548);
+const { execSync } = __nccwpck_require__(5317);
+const Prompt = __nccwpck_require__(189)();
+const Path = __nccwpck_require__(6928);
+const Fs = __nccwpck_require__(9896);
+const Fse = __nccwpck_require__(1881);
+const RvmCliVersion = __nccwpck_require__(7129);
+const File = __nccwpck_require__(8895);
+const Typifier = __nccwpck_require__(8807);
+// const {fetch, ProxyAgent} = require("undici");
+
+class RvmCliTools {
+
+    static logo() {
+        const version_label = Chalk.reset.green(`  ${RvmCliVersion.getVersion()}  `);
+        // ASCII-Font: Calvin S
+        // Sub title font: Source Code Pro Bold
+        return Chalk.redBright.bold("\n    \n" +
+            "      ██████╗  ██╗   ██╗ ███╗   ███╗     \n" +
+            "      ██╔══██╗ ██║   ██║ ████╗ ████║     \n" +
+            "      ██████╔╝ ██║   ██║ ██╔████╔██║     \n" +
+            "      ██╔══██╗ ╚██╗ ██╔╝ ██║╚██╔╝██║     \n" +
+            "      ██║  ██║  ╚████╔╝  ██║ ╚═╝ ██║     \n" +
+            "      ╚═╝  ╚═╝   ╚═══╝   ╚═╝     ╚═╝     \n" +
+            "                                       \n" + Chalk.bold.white(
+            "      Ruby Version Manager 4 Windows    \n") +
+            `              ` + ` ${version_label}      ` +
+            "                                         "
+        );
+    }
+
+    /**
+     * Colorize specified key values inside Object with chalk
+     *
+     * @param {Object} hash
+     * @param {string|Array<string>} keys or key
+     * @param {string} color
+     * @returns {Object}
+     * @private
+     */
+    static colorizeValues(hash, keys, color) {
+        const self = RvmCliTools;
+        if (typeof keys === 'string') {
+            keys = [keys];
+        }
+        Object.keys(hash).forEach(h_key => {
+            if (keys.includes(h_key)) {
+                hash[h_key] = Chalk[color](hash[h_key]);
+            }
+            if (typeof hash[h_key] === 'object') {
+                self.colorizeValues(hash[h_key], keys, color);
+            }
+        });
+        return hash;
+    }
+
+    /**
+     * Prompt user for input
+     *
+     * @param {string} question to ask the user for
+     * @param {Array<string>} options set only valid options (optional)
+     * @param {string} preselected_option preselected option
+     * @param {boolean} mandatory if true, option can not be asked with empty string
+     * @returns {string} input
+     */
+    static cliQuestion(question, options, preselected_option, mandatory = false) {
+        const self = RvmCliTools;
+        if(self.first_question) {
+            if(preselected_option) {
+                console.log('  Preselection in [' + Chalk.green('brackets') + '] can be confirmed with ENTER.\n');
+            }
+            self.first_question = false;
+        }
+        let default_string = null;
+        if(preselected_option) {
+            default_string = ' [' + Chalk.green(preselected_option) + ']';
+        } else {
+            default_string = '';
+        }
+        let input = preselected_option;
+        while(true) {
+            input = Prompt('  ' + question + default_string + ': ');
+            if(input === '') {
+                input = preselected_option !== null ? preselected_option : input;
+            }
+            if(options) {
+                if(options && typeof options[0] !== "undefined") {
+                    if(options.includes(input)) {
+                        break;
+                    } else {
+                        // CTRL+C
+                        if(input === null) {
+                            process.exit(1);
+                        }
+                        // invalid input value
+                        self.printLine(Chalk.red(`\n  Invalid input '${input}'.`) + `\n  Valid options are: ${options.map((e) => { return Chalk.green(e); }).join(' | ')}\n`);
+                    }
+                } else {
+                    break;
+                }
+            } else if(mandatory && !input) {
+                // CTRL+C
+                if(input === null) {
+                    process.exit(1);
+                }
+                self.printLine(Chalk.red('Mandatory option, please enter a valid text.' + JSON.stringify(input)));
+            } else {
+                // CTRL+C
+                if(input === null) {
+                    process.exit(1);
+                }
+                break;
+            }
+        }
+        return input || '';
+    }
+
+    static getRvmDataDir() {
+        const self = RvmCliTools;
+        let dir = self.config().rvm_data_dir || self.getDefaultRvmDataDir();
+        // cut slash or backslash at the end
+        if(dir.endsWith("/") || dir.endsWith("\\")) {
+            dir = dir.substring(0, dir.length-1);
+        }
+        return dir;
+    }
+
+    static getDefaultRvmDataDir() {
+        return File.expandPath("C:/ProgramData/rvm");
+    }
+
+    static startsWithNumber(content) {
+        if(content) {
+            return `${parseInt(content[0])}` === content[0];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Return  matching version from given versions or installed environments.
+     *
+     * Given version can be incomplete. Then it will return the highest matching version.
+     *
+     * @example
+     *
+     * matchingVersion("ruby-3")
+     * // => "ruby-3.2.2"
+     *
+     * @param {string} version
+     * @param {Array<string>} versions
+     * @returns {*}
+     */
+    static matchingVersion(version, versions) {
+        const self = RvmCliTools;
+        let match = null;
+        versions = versions ?? RvmCliTools.versions();
+        // direct match
+        if(versions.includes(version)) {
+            return version;
+        } else {
+            let split = version.split(".");
+            // minor match
+            if(split.length === 2) {
+                const minor_version = split[0] + "." + split[1];
+                let version_match = null;
+                versions.sort(RvmCliTools.versionSort).reverse().eachWithIndex((v) => {
+                    if(v.startsWith(`${minor_version}.`)) {
+                        version_match = v;
+                        return false; // break
+                    }
+                });
+                if(version_match) {
+                    return version_match;
+                }
+            } else if(split.length === 1) {
+                let version_match = null;
+                versions.sort(RvmCliTools.versionSort).reverse().eachWithIndex((v) => {
+                    if(v.startsWith(`${split[0]}.`)) {
+                        version_match = v;
+                        return false;
+                    }
+                });
+                if(version_match) {
+                    return version_match;
+                }
+            }
+        }
+    }
+
+    static versions() {
+        const self = RvmCliTools;
+        return Object.keys(self.config().envs).sort(self.versionSort);
+    }
+
+    static rawVersions() {
+        const self = RvmCliTools;
+        return self.versions().map(e => e.replace("ruby-", ""));
+    }
+
+    static setCurrentVersion(version) {
+        const self = RvmCliTools;
+        if(version && process.env.RVM_SESSION) {
+            const file_name = File.expandPath(RvmCliTools.rvmSessionsDir() + '/' + process.env.RVM_SESSION);
+            File.write(file_name, version);
+        }
+    }
+
+    static killRunningMsysProcesses() {
+        console.log(`Kill running msys processes ...`);
+        const commands = [
+            `taskkill /f /im "msys2.exe"`,
+            `taskkill /f /im "ucrt64.exe"`,
+            `taskkill /f /im "mingw64.exe"`,
+            `taskkill /f /im "mingw32.exe"`,
+            `taskkill /f /im "clang64.exe"`,
+            `taskkill /f /im "clang32.exe"`,
+            `taskkill /f /im "msys2_shell.cmd"`,
+            `taskkill /f /im "autorebase.cmd"`,
+            `taskkill /f /fi "MODULES eq msys-2.0.dll"`,
+        ];
+        commands.eachWithIndex((cmd) => {
+           try {
+               execSync(cmd, {stdio: 'ignore'});
+           } catch (e) {
+               // we catch it, if command could not be stopped or found
+           }
+        });
+    }
+
+    static getCurrentVersion() {
+        let rvm_session = process.env.RVM_SESSION;
+        if(rvm_session) {
+            const session_file = File.expandPath(RvmCliTools.rvmSessionsDir() + '/' + process.env.RVM_SESSION);
+            if(File.isExisting(session_file)) {
+                return File.read(session_file);
+            }
+        }
+        return RvmCliTools.getDefaultVersion();
+    }
+
+    /**
+     * Get current version without ruby- prefix
+     */
+    static getCurrentRawVersion() {
+        const self = RvmCliTools;
+        return self.getCurrentVersion().replace("ruby-","");
+    }
+
+
+
+    static setDefaultVersion(version) {
+        const self = RvmCliTools;
+        if(!version) {
+            console.error(`${Chalk.red("No version given.")} Run ${Chalk.green('rvm default <version>')}, for example: ${Chalk.green('rvm default ruby-3.2.2')}`);
+            process.exit(1);
+        }
+        // prefix ruby- if it starts with number
+        if(RvmCliTools.startsWithNumber(version)) {
+            version = "ruby-" + version;
+        }
+        let match = RvmCliTools.matchingVersion(version);
+        if(match) {
+            let config = RvmCliTools.config();
+            config.default = match;
+            RvmCliTools.writeRvmConfig(config);
+            console.log(`Set default ${Chalk.green(match)} from ${Chalk.green(RvmCliTools.config().envs[match])} ...`);
+        } else {
+            console.error(`No version for ${Chalk.red(version)} available! Run ${Chalk.green('rvm list')} to show available versions.`);
+        }
+    }
+
+    static getDefaultVersion() {
+        return RvmCliTools.config().default;
+    }
+
+    /**
+     * Print line with trailing new line
+     *
+     * @param {string} text
+     */
+    static printLine(text) {
+        if(!text) {
+            text = '';
+        }
+        console.log('  ' + text);
+    }
+
+    /**
+     * Print line without trailing new line
+     *
+     * @param {string} text
+     */
+    static print(text) {
+        if(!text) {
+            text = '';
+        }
+        process.stdout.write('  ' + text);
+    }
+
+    static uniqArray(array) {
+        return [...new Set(array)];
+    }
+
+    /**
+     * Get only the deepest dirs, without dirs between
+     * @param {Array<String>} dirs to filter
+     */
+    static filterDeepDirsOnly(dirs) {
+        let filtered = [];
+        dirs.forEach((dir, i) => {
+            if(dirs.filter((e) => { return e.includes(dir); }).length === 1) {
+                filtered.push(dir);
+            }
+        });
+        return filtered;
+    }
+
+    static rvmRootPath() {
+        const self = RvmCliTools;
+        return File.expandPath(Path.resolve(__dirname + '/../../'));
+    }
+
+    static projectRootPath() {
+        const self = RvmCliTools;
+        return File.expandPath(process.cwd());
+    }
+
+    static readRvmConfig() {
+        const self = RvmCliTools;
+        return File.read(self.rvmConfigPath());
+    }
+
+    static config() {
+        const self = RvmCliTools;
+        return JSON.parse(self.readRvmConfig());
+    }
+
+    /**
+     * @param {string, Object} content as String or parsed JSON object
+     */
+    static writeRvmConfig(content) {
+        const self = RvmCliTools;
+        if(Typifier.isObject(content)) {
+            content = JSON.stringify(content, null, 2);
+        }
+        File.write(self.rvmConfigPath(), content, { encoding: "utf8" });
+    }
+
+    static rvmConfigPath() {
+        const self = RvmCliTools;
+        return File.expandPath(`${File.getHomePath()}/.rvm.json`);
+    }
+
+    static rvmSessionsDir() {
+        const self = RvmCliTools;
+        return File.expandPath(`${File.getHomePath()}/.rvm/sessions`);
+    }
+
+    static rvmConfigTemplatePath() {
+        const self = RvmCliTools;
+        return self.rvmRootPath() + '/src/templates/.rvm.json';
+    }
+
+    static rvmBatchTemplatePath() {
+        const self = RvmCliTools;
+        return self.rvmRootPath() + '/src/templates/wrapper_template.bat';
+    }
+
+    static makeDir(dir) {
+        Fs.mkdirSync(dir, { recursive: true });
+    }
+
+    static makeDirOfFile(file) {
+        const self = RvmCliTools;
+        let final_dir = File.expandPath(Path.dirname(file));
+        Fs.mkdirSync(final_dir, { recursive: true });
+    }
+
+    static readFile(path, encoding = 'utf8') {
+        if(!encoding) {
+            encoding = undefined;
+        }
+        return Fs.readFileSync(path, encoding).toString();
+    }
+
+    static writeFile(path, content) {
+        const self = RvmCliTools;
+        self.makeDirOfFile(path);
+        return Fs.writeFileSync(path, content);
+    }
+
+    static copyFile(src, dest) {
+        const self = RvmCliTools;
+        self.makeDirOfFile(dest);
+        Fs.copyFileSync(src, dest);
+    }
+
+    static copy(src, dest) {
+        const self = RvmCliTools;
+        Fse.copySync(src, dest);
+    }
+
+    static isDir(path) {
+        const self = RvmCliTools;
+        try {
+            const stat = Fs.lstatSync(path);
+            return stat.isDirectory();
+        } catch (e) {
+            return false;
+        }
+    }
+
+    static isFile(path) {
+        const self = RvmCliTools;
+        try {
+            const stat = Fs.lstatSync(path);
+            return stat.isFile();
+        } catch (e) {
+            return false;
+        }
+    }
+
+    static pathExists(path) {
+        const self = RvmCliTools;
+        try {
+            const stat = Fs.lstatSync(path);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    /**
+     * Ensure path is divided by slashes / and not back slashes \
+     * to ensure compatibility with MS Windows
+     *
+     * @param {String} path
+     */
+    static normalizePath(path) {
+        return path.replace(/\\/g,'/');
+    }
+
+    /**
+     * Delete file or directory
+     *
+     * @param {String} path
+     */
+    static removePath(path) {
+        Fs.rmSync(path, { recursive: true, force: true });
+    }
+
+    static escapeRegExp(string) {
+        return string.replace(/[$+.*?^(){}|[\]\\]/g, '\\$&');
+    }
+
+    // static fetchWithProxy(url, opts) {
+    //     const self = RvmCliTools;
+    //     let final_opts = {};
+    //     if(RvmCliTools.config().proxy?.enabled && RvmCliTools.config().proxy?.hostname) {
+    //         final_opts = {
+    //             ...opts,
+    //             dispatcher: new ProxyAgent({
+    //                 uri: process.env.HTTPS_PROXY || self.config().proxy.hostname,
+    //                 keepAliveTimeout: 10,
+    //                 keepAliveMaxTimeout: 10,
+    //             }),
+    //         };
+    //     } else {
+    //         final_opts = opts;
+    //     }
+    //     return fetch(url, final_opts);
+    // }
+
+    /**
+     * Sorting string version in format 1.2.3
+     *
+     * @example
+     *      ["1.10.3","2.1.3","1.2.3"].sort(.versionSort)
+     *      // => ["1.2.3","1.10.3","2.1.3"]
+     *
+     * @param {string} a
+     * @param {string} b
+     * @returns {number}
+     */
+    static versionSort(a, b) {
+        a = a.replace("ruby-","");
+        b = b.replace("ruby-","");
+        if(parseInt(a.split(".")[0]) > parseInt(b.split(".")[0])) {
+            return 1;
+        } else if(parseInt(a.split(".")[0]) < parseInt(b.split(".")[0])) {
+            return -1
+        } else { // same, level 2
+            if(parseInt(a.split(".")[1] || 0) > parseInt(b.split(".")[1] || 0)) {
+                return 1;
+            } else if(parseInt(a.split(".")[1] || 0) < parseInt(b.split(".")[1] || 0)) {
+                return -1
+            } else { // same level 3
+                if(parseInt(a.split(".")[2] || 0) > parseInt(b.split(".")[2] || 0)) {
+                    return 1;
+                } else if(parseInt(a.split(".")[2] || 0) < parseInt(b.split(".")[2] || 0)) {
+                    return -1
+                } else {
+                    return 0;
+                }
+            }
+        }
+    }
+}
+
+RvmCliTools.PACKAGE_JSON_FILE_PATH = RvmCliTools.projectRootPath() + '/package.json';
+
+RvmCliTools.first_question = true;
+RvmCliTools.cached_config = null;
+
+RvmCliTools.SECTIONS = {};
+RvmCliTools.SECTIONS.not_inside_valid_project = [
+    {
+        header: 'Invalid project directory',
+        content: [
+            '{red You can run this command at the root directory of a project with rvm configuration only.}',
+            '',
+            `Current directory:\n {green ${RvmCliTools.projectRootPath()}}`
+        ]
+    }
+];
+
+//
+// pre patch, until new ruby-nice is imported
+//
+
+Object.defineProperty(String.prototype, 'scan', {
+    /**
+     * Matching the pattern (which may be a Regexp or a String).
+     *
+     * For each match, a result is generated and either added to the result array. If the pattern contains no groups, each individual result consists of the matched string.
+     * If the pattern contains groups, each individual result is itself an array containing one entry per group.
+     *
+     * @example
+     *      let a = "cruel world";
+     *
+     *      a.scan(/\w+/)
+     *      // => ["cruel", "world"]
+     *
+     *      a.scan(/.../)
+     *      // => ["cru", "el ", "wor"]
+     *
+     *      a.scan(/(...)/)
+     *      // => [["cru"], ["el "], ["wor"]]
+     *
+     *      a.scan(/(..)(..)/)
+     *      // => [["cr", "ue"], ["l ", "wo"]]
+     *
+     * @param {string|RegExp} pattern
+     *
+     */
+    value: function scan(pattern) {
+        if(typeof pattern === "undefined") {
+            throw new Error(`ArgumentError (wrong number of arguments (given 0, expected 1))`);
+        }
+        const escapeRegExp = (string) => {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        };
+        if(Typifier.isString(pattern)) {
+            pattern = new RegExp(escapeRegExp(pattern),'gm');
+        } else {
+            // add mandatory global option
+            let new_flags = pattern.flags;
+            if(!new_flags.includes("g")) new_flags += "g";
+            pattern = new RegExp(pattern.source, new_flags);
+        }
+        const contains_groups = !!(pattern.source.match(/(^\(|[^\\]\()/));
+        if(!contains_groups) {
+            return [...this.matchAll(pattern)].map(e => e[0]);
+        }
+        const original_index = pattern.lastIndex;
+        pattern.lastIndex = 0;
+        let results = [];
+        let res = null;
+        while(res = pattern.exec(this)) {
+            results.push(res.slice(1));
+            if(pattern.lastIndex === 0) {
+                break;
+            }
+        }
+        pattern.lastIndex = original_index;
+        return results;
+    }
+});
+
+
+
+
+module.exports = RvmCliTools;
+
+
+/***/ }),
+
+/***/ 3105:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const File = __nccwpck_require__(8895);
+
+const RvmCliTools = __nccwpck_require__(2217);
+
+class Wrapper {
+    /**
+     * Search for .ruby-version or ruby in Gemfile in the current folder or parent folders.
+     *
+     * If found, return its version, otherwise return current ruby.
+     *
+     * @param {string} path to check for ruby version
+     */
+    static getRubyVersionForPath(path) {
+        const self = Wrapper;
+        let version = RvmCliTools.getCurrentVersion();
+        while (true) {
+            let gem_file_version = null;
+            if (File.isExisting(path + '/.ruby-version')) {
+                version = File.read(path + '/.ruby-version');
+                break;
+            } else if (File.isExisting(path + '/Gemfile') && File.read(path + '/Gemfile').match(/ruby\s*["']([0-9\.]+)['"]/gm)) {
+                const gem_file_content = File.read(path + '/Gemfile');
+                const ruby_version_regex = /ruby\s*["']([0-9\.]+)['"]/gm;
+                const gem_version = ruby_version_regex.exec(gem_file_content)[1].trim()
+                version = gem_version;
+                break;
+            } else {
+                path = File.getDirname(path);
+                if (path === "") {
+                    break;
+                }
+            }
+        }
+        version = version.trim();
+        if (RvmCliTools.startsWithNumber(version)) {
+            version = `ruby-${version}`;
+        }
+        return version.trim();
+    }
+
+    static hasRubyEnvCommand(version, command) {
+        const self = Wrapper;
+        if (RvmCliTools.versions().includes(version)) {
+            const bin_path = RvmCliTools.config().envs[version] + '/bin';
+            return File.isExisting(`${bin_path}/${command}.bat`) ||
+                File.isExisting(`${bin_path}/${command}.cmd`) ||
+                File.isExisting(`${bin_path}/${command}.exe`)
+        } else if (RvmCliTools.matchingVersion(version, RvmCliTools.versions())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static getRubyEnvCommandPath(version, command) {
+        const self = Wrapper;
+        if (RvmCliTools.versions().includes(version) || RvmCliTools.matchingVersion(version, RvmCliTools.versions())) {
+            let final_version = version;
+            if (!RvmCliTools.versions().includes(version) && RvmCliTools.matchingVersion(version, RvmCliTools.versions())) {
+                final_version = RvmCliTools.matchingVersion(version, RvmCliTools.versions());
+            }
+            const bin_path = RvmCliTools.config().envs[final_version] + '/bin';
+            let final_command = null;
+            ['exe', 'bat', 'cmd'].eachWithIndex((ext) => {
+                let path = `${bin_path}/${command}.${ext}`;
+                if (File.isExisting(path)) {
+                    final_command = path;
+                    return false;
+                }
+            });
+            return final_command;
+        } else {
+            throw new Error(`Ruby version ${version} not found!`);
+        }
+    }
+
+    static getPathOfMatchingRubyVersion(version) {
+        const matching_version = RvmCliTools.matchingVersion(version, RvmCliTools.versions());
+        if(matching_version) {
+            return RvmCliTools.config().envs[matching_version];
+        }
+    }
+}
+
+module.exports = Wrapper;
+
+/***/ }),
+
+/***/ 958:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+
+const {execSync} = __nccwpck_require__(5317);
+const File = __nccwpck_require__(8895);
+const Dir = __nccwpck_require__(7110);
+const Chalk = __nccwpck_require__(3548);
+__nccwpck_require__(3894);
+const FileUtils = __nccwpck_require__(3823);
+
+var RvmCliTools = __nccwpck_require__(2217);
+
+class RvmCliFix {
+    static runFix() {
+        const self = RvmCliFix;
+        console.log(`Fix several issues that could have happened ...`);
+        RvmCliTools.killRunningMsysProcesses();
+        console.log(`Fix config ...`);
+        self.fixConfig();
+        console.log(`Fix existing environment paths ...`);
+        self.fixExistingEnvironmentPaths();
+        console.log(`Fix environment versions ...`);
+        self.fixEnvironmentVersions();
+        console.log(`Fix wrapper files ...`);
+        self.fixWrapperFiles();
+        console.log(`Fixing finished!\n`);
+        console.log(`If you still have trouble, you might try to run ${Chalk.green("rvm init")} to reinit rvm-windows itself!`);
+    }
+
+    static fixConfig() {
+        const self = RvmCliFix;
+        // create config if not available
+        if(!File.isExisting(RvmCliTools.rvmConfigPath())) {
+            FileUtils.mkdirP(File.getDirname(RvmCliTools.rvmConfigPath()));
+            FileUtils.copy(RvmCliTools.rvmConfigTemplatePath(), RvmCliTools.rvmConfigPath());
+        } else {
+            try {
+                JSON.parse(File.read(RvmCliTools.rvmConfigPath()));
+            } catch (e) {
+                // recreate config if broken
+                FileUtils.rmRf(RvmCliTools.rvmConfigPath());
+                FileUtils.copy(RvmCliTools.rvmConfigTemplatePath(), RvmCliTools.rvmConfigPath());
+            }
+        }
+    }
+
+    /**
+     * Check and fix environment paths in .rvm.json
+     */
+    static fixExistingEnvironmentPaths() {
+        let new_config = RvmCliTools.config();
+        RvmCliTools.config().envs.eachWithIndex((version, path) => {
+            const final_path = `${path}/bin/ruby.exe`;
+            if(!File.isExisting(final_path)) {
+                delete new_config.envs[version];
+            } else {
+                new_config.envs[version] = File.normalizePath(path);
+            }
+        });
+        RvmCliTools.writeRvmConfig(new_config);
+    }
+
+    /**
+     * Check and fix environment versions in .rvm.json
+     */
+    static fixEnvironmentVersions() {
+        const self = RvmCliFix;
+        let new_config = RvmCliTools.config();
+        RvmCliTools.config().envs.eachWithIndex((version, path) => {
+            const final_path = `${path}/bin/ruby.exe`;
+            if(!File.isExisting(final_path)) {
+                delete new_config.envs[version];
+            } else {
+                const result = execSync(`"${final_path}" --version`, {encoding: 'utf-8'});
+                const pure_version = self.getRubyVersionFromRubyPath(path);
+                if(pure_version) {
+                    const old_path = new_config.envs[version];
+                    delete new_config.envs[version];
+                    new_config.envs[`ruby-${pure_version}`] = File.normalizePath(old_path);
+                } else {
+                    throw new Error(`Could not detect version from: ${result}`);
+                }
+            }
+        });
+        RvmCliTools.writeRvmConfig(new_config);
+    }
+
+    static getRubyVersionFromRubyPath(ruby_path) {
+        const self = RvmCliFix;
+        let final_path = `${ruby_path}/bin/ruby.exe`;
+        const result = execSync(`"${final_path}" --version`, {encoding: 'utf-8'});
+        const pure_version = result.toString().match(/ruby\s+([0-9\.]+)/gm)[0].split(" ")[1];
+        return pure_version;
+    }
+
+    static getRubyPlatformFromRubyPath(ruby_path) {
+        const self = RvmCliFix;
+        let final_path = `${ruby_path}/bin/ruby.exe`;
+        const result = execSync(`"${final_path}" --version`, {encoding: 'utf-8'});
+        let pure_platform = result.toString().match(/ruby\s+[0-9\.]+[^\[]+\[([^\[]+)\]/gm)[0].trim().split(" ").getLast();
+        // remove brackets
+        pure_platform = pure_platform.substring(1,pure_platform.length-1);
+        return pure_platform;
+    }
+
+    /**
+     * Remove and recreate all wrapper files based on the available ruby environments
+     */
+    static fixWrapperFiles() {
+        const self = RvmCliFix;
+        let node_path = process.argv[0];
+        if(!node_path.endsWith('node.exe')) {
+            throw new Error(`Can not determine node js runtime!`);
+        }
+        // escape spaces in path segments
+        // @example
+        // C:\Program Files\node\node.exe => C:\"Program Files"\node\node.exe
+        //
+        node_path = node_path.split("\\").map((el) => {
+            if(el.includes(" ")) {
+                return `"${el}"`;
+            } else {
+                return el;
+            }
+        }).join("\\");
+        const rvm_root_dir = RvmCliTools.rvmRootPath();
+        const wrapper_path = RvmCliTools.getRvmDataDir() + '/wrapper';
+        FileUtils.rmRf(wrapper_path);
+        FileUtils.mkdirP(wrapper_path);
+        RvmCliTools.config().envs.eachWithIndex((version, path) => {
+            const env_bin_files = Dir.glob(path + '/bin/*.*');
+            let parsed_template = File.read(RvmCliTools.rvmBatchTemplatePath()).replace('{{node_js_runtime_path}}', node_path).replace('{{rvm_root_dir}}', rvm_root_dir);
+            env_bin_files.eachWithIndex((file) => {
+                const file_name = File.getBasename(file);
+                if(file_name.endsWith('.bat')) {
+                    if(!File.isExisting(wrapper_path + '/' + file_name)) {
+                        File.write( wrapper_path + '/' + file_name, parsed_template);
+                    }
+                } else if(file_name.endsWith('.exe')) {
+                    if(!File.isExisting(wrapper_path + '/' + file_name)) {
+                        File.write( wrapper_path + '/' + file_name + '.bat', parsed_template);
+                        File.write( wrapper_path + '/' + File.getBasename(file_name,'.exe') + '.bat', parsed_template);
+                    }
+                } else if(file_name.endsWith('.cmd')) {
+                    if(!File.isExisting(wrapper_path + '/' + file_name)) {
+                        File.write( wrapper_path + '/' + file_name + '.bat', parsed_template);
+                        File.write( wrapper_path + '/' + File.getBasename(file_name,'.cmd') + '.bat', parsed_template);
+                    }
+                }
+            });
+        });
+    }
+}
+
+module.exports = RvmCliFix;
+
+
+/***/ }),
+
+/***/ 7129:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+
+
+const File = __nccwpck_require__(8895);
+
+
+class RvmCliVersion {
+    static runVersion() {
+        const self = RvmCliVersion;
+        console.log(self.getFullVersion());
+    }
+
+    static getVersion() {
+        const self = RvmCliVersion;
+        const package_json = self.getPackageJson();
+        return `${package_json.version}`;
+    }
+
+    static getFullVersion() {
+        const self = RvmCliVersion;
+        const package_json = self.getPackageJson();
+        return `${package_json.name} ${package_json.version}`;
+    }
+
+    static getPackageJson() {
+        return JSON.parse(File.read(__nccwpck_require__.ab + "package.json"));
+    }
+}
+
+module.exports = RvmCliVersion;
+
+
+/***/ }),
+
+/***/ 2613:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("assert");
+
+/***/ }),
+
+/***/ 5317:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
+
+/***/ }),
+
+/***/ 9140:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("constants");
+
+/***/ }),
+
+/***/ 4434:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 9896:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 857:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 6928:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 2203:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("stream");
+
+/***/ }),
+
+/***/ 2018:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("tty");
+
+/***/ }),
+
+/***/ 9023:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("util");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __nccwpck_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			__webpack_modules__[moduleId](module, module.exports, __nccwpck_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete __webpack_module_cache__[moduleId];
+/******/ 		}
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat */
+/******/ 	
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+
+
+const RvmCliTools = __nccwpck_require__(2217);
+const RvmCliFix = __nccwpck_require__(958);
+const {execFileSync} = __nccwpck_require__(5317);
+const Wrapper = __nccwpck_require__(3105);
+
+const cwd = process.argv[2];
+const command = process.argv[3].split(".")[0];
+
+const wrapper_path = RvmCliTools.getRvmDataDir() + '/wrapper';
+
+// add path temporary to not pollute the original PATH env
+if(RvmCliTools.getCurrentVersion() !== "system") {
+    process.env.PATH = `${wrapper_path}/bin;` + process.env.PATH;
+}
+
+let version = Wrapper.getRubyVersionForPath(cwd);
+
+// add path to ensure "ruby -S" is working
+if(Wrapper.getPathOfMatchingRubyVersion(version)) {
+    process.env.RUBYPATH = `${Wrapper.getPathOfMatchingRubyVersion(version)}/bin`;
+}
+
+let final_command = "";
+if(Wrapper.hasRubyEnvCommand(version, command)) {
+    final_command = `${Wrapper.getRubyEnvCommandPath(version, command)}`;
+} else if(Wrapper.hasRubyEnvCommand(RvmCliTools.getCurrentVersion(), command)) {
+    const current_version = RvmCliTools.getCurrentVersion();
+    final_command = `${Wrapper.getRubyEnvCommandPath(current_version, command)}`;
+} else {
+    console.log(`${command} is not recognized as an internal or external command, operable program or batch file.`);
+    process.exit(9009);
+}
+
+try {
+    let stdout = execFileSync(final_command, process.argv.slice(4), {
+        stdio: 'pipe',
+        encoding: 'utf8',
+    })
+    console.log(stdout.trim());
+} catch (err) {
+    console.log(err.stderr.trim());
+    process.exit(err.status);
+}
+
+// Refresh wrapper files after installing gems, to ensure new commands are available
+if(command === "gem" || command === "bundle") {
+    RvmCliFix.fixWrapperFiles();
+}
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
